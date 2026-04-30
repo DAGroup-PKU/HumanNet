@@ -1,3 +1,4 @@
+import { AnimatedNumber } from "./AnimatedNumber";
 import { Section } from "./Section";
 import { SCALE_METRICS } from "../data/scale";
 
@@ -30,7 +31,7 @@ export function DataScale() {
             </div>
             <div className="mt-6 flex items-baseline gap-2">
               <span className="font-display text-4xl font-medium text-nebula-on tabular-nums sm:text-5xl">
-                {m.value}
+                <AnimatedNumber value={m.value} duration={1600} />
               </span>
               <span className="font-mono text-xs uppercase tracking-[0.18em] text-nebula-on-dim">
                 {m.unit}

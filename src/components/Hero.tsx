@@ -1,4 +1,5 @@
 import { Chip } from "@heroui/react";
+import { AnimatedNumber } from "./AnimatedNumber";
 import { LinkButton } from "./LinkButton";
 import { VideoFrame } from "./VideoFrame";
 import { useConfig } from "../lib/useConfig";
@@ -98,7 +99,7 @@ export function Hero() {
                   {m.key}
                 </dt>
                 <dd className="mt-1 font-display text-2xl text-nebula-on tabular-nums sm:text-3xl">
-                  {m.value}
+                  <AnimatedNumber value={m.value} />
                 </dd>
               </div>
             ))}
