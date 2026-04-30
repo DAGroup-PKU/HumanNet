@@ -1,45 +1,21 @@
-import { useState, type FormEvent } from "react";
-import {
-  Button,
-  Card,
-  Form,
-  Input,
-  Label,
-  ListBox,
-  Select,
-  TextField,
-} from "@heroui/react";
+import { Card } from "@heroui/react";
 import { Section } from "./Section";
+import { LinkButton } from "./LinkButton";
 
-const ROLES = [
-  { id: "researcher", label: "Academic researcher" },
-  { id: "industry", label: "Industry / startup" },
-  { id: "student", label: "Student" },
-  { id: "ops", label: "Robotics operator" },
-  { id: "other", label: "Other" },
+// Public waitlist form. Hosted externally (Tally) so we don't have to run
+// our own backend / spam protection / GDPR pipeline. Replace this URL with
+// the real form when it's provisioned — keep the host on a service that
+// works without an account so a researcher can sign up in 30 seconds.
+const WAITLIST_FORM_URL = "https://tally.so/r/project-nebula-waitlist";
+
+const BENEFITS = [
+  "Early access to Nebula-2 long-horizon clips before public release.",
+  "Monthly summary of capture rigs deployed, with reproducibility seeds.",
+  "Direct line into the maintainers' triage channel (best-effort).",
+  "No ads. No partner offers. We don't share or sell your address.",
 ];
 
-type Status =
-  | { kind: "idle" }
-  | { kind: "success"; email: string }
-  | { kind: "error"; message: string };
-
 export function Waitlist() {
-  const [status, setStatus] = useState<Status>({ kind: "idle" });
-
-  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const email = String(data.get("email") || "").trim();
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setStatus({ kind: "error", message: "Enter a valid email so we can reach you." });
-      return;
-    }
-    // Simulated handshake — wire to real backend / Form provider when shipping.
-    await new Promise((r) => setTimeout(r, 600));
-    setStatus({ kind: "success", email });
-  };
-
   return (
     <Section
       id="waitlist"
@@ -55,12 +31,7 @@ export function Waitlist() {
       <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
         <div className="lg:col-span-5">
           <ul className="space-y-5 text-sm leading-relaxed text-nebula-on-muted">
-            {[
-              "Early access to Nebula-2 long-horizon clips before public release.",
-              "Monthly summary of capture rigs deployed, with reproducibility seeds.",
-              "Direct line into the maintainers' triage channel (best-effort).",
-              "No ads. No partner offers. We don't share or sell your address.",
-            ].map((b) => (
+            {BENEFITS.map((b) => (
               <li key={b} className="flex items-start gap-3">
                 <span
                   aria-hidden="true"
@@ -85,75 +56,46 @@ export function Waitlist() {
             </Card.Description>
           </Card.Header>
 
-          <Form onSubmit={onSubmit}>
-            <Card.Content>
-              <div className="flex flex-col gap-5">
-                <TextField name="email" type="email" isRequired>
-                  <Label className="font-mono text-[10px] uppercase tracking-[0.22em] text-nebula-on-muted">
-                    Email
-                  </Label>
-                  <Input placeholder="you@lab.example" variant="secondary" />
-                </TextField>
-
-                <TextField name="org">
-                  <Label className="font-mono text-[10px] uppercase tracking-[0.22em] text-nebula-on-muted">
-                    Affiliation (optional)
-                  </Label>
-                  <Input
-                    placeholder="University · company · independent"
-                    variant="secondary"
-                  />
-                </TextField>
-
-                <Select
-                  name="role"
-                  defaultSelectedKey="researcher"
-                  placeholder="Select one"
-                >
-                  <Label className="font-mono text-[10px] uppercase tracking-[0.22em] text-nebula-on-muted">
-                    What best describes you?
-                  </Label>
-                  <Select.Trigger className="w-full">
-                    <Select.Value />
-                    <Select.Indicator />
-                  </Select.Trigger>
-                  <Select.Popover>
-                    <ListBox>
-                      {ROLES.map((r) => (
-                        <ListBox.Item key={r.id} id={r.id} textValue={r.label}>
-                          {r.label}
-                          <ListBox.ItemIndicator />
-                        </ListBox.Item>
-                      ))}
-                    </ListBox>
-                  </Select.Popover>
-                </Select>
-              </div>
-            </Card.Content>
-
-            <Card.Footer className="mt-2 flex flex-col items-stretch gap-3 sm:mt-4">
-              <Button type="submit" className="w-full font-mono text-xs uppercase tracking-[0.18em]">
-                Subscribe
-              </Button>
-              <p
-                role="status"
-                aria-live="polite"
-                className={`min-h-[1.25rem] font-mono text-[11px] uppercase tracking-[0.18em] ${
-                  status.kind === "success"
-                    ? "text-nebula-success"
-                    : status.kind === "error"
-                      ? "text-nebula-danger"
-                      : "text-nebula-on-dim"
-                }`}
-              >
-                {status.kind === "success"
-                  ? `→ Handshake OK · ${status.email} on the list.`
-                  : status.kind === "error"
-                    ? `! ${status.message}`
-                    : "→ Awaiting input · stdin"}
+          <Card.Content>
+            <div className="flex flex-col gap-6">
+              <p className="text-sm leading-relaxed text-nebula-on-muted">
+                The waitlist is hosted on{" "}
+                <span className="font-mono text-nebula-on">Tally</span> so
+                signing up takes about 30 seconds and doesn&apos;t require an
+                account. We collect email + affiliation + role, and reply from
+                a real human inbox — never an autoresponder.
               </p>
-            </Card.Footer>
-          </Form>
+
+              <dl className="grid grid-cols-1 gap-3 font-mono text-[10px] uppercase tracking-[0.22em] text-nebula-on-dim sm:grid-cols-3">
+                <div className="rounded-sm border border-nebula-line bg-nebula-bg px-3 py-2.5">
+                  <dt>Form host</dt>
+                  <dd className="mt-1 text-nebula-on">Tally</dd>
+                </div>
+                <div className="rounded-sm border border-nebula-line bg-nebula-bg px-3 py-2.5">
+                  <dt>Time</dt>
+                  <dd className="mt-1 text-nebula-on">~30 sec</dd>
+                </div>
+                <div className="rounded-sm border border-nebula-line bg-nebula-bg px-3 py-2.5">
+                  <dt>Account</dt>
+                  <dd className="mt-1 text-nebula-on">Not required</dd>
+                </div>
+              </dl>
+            </div>
+          </Card.Content>
+
+          <Card.Footer className="mt-2 flex flex-col items-stretch gap-3 sm:mt-4">
+            <LinkButton
+              href={WAITLIST_FORM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full"
+            >
+              Open the waitlist form →
+            </LinkButton>
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-nebula-on-dim">
+              → Opens {new URL(WAITLIST_FORM_URL).host} in a new tab
+            </p>
+          </Card.Footer>
         </Card>
       </div>
     </Section>

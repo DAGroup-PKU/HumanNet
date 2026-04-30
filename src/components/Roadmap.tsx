@@ -32,16 +32,22 @@ export function Roadmap() {
       }
       description="Where we shipped, where we are, and where we're heading. Each milestone is anchored to artefacts you can already (or will eventually) inspect on GitHub."
     >
-      <ol className="relative space-y-10 pl-8 sm:pl-10" role="list">
+      {/* Timeline geometry (kept as fixed pixels so the rail and the dots
+          share a single source of truth):
+            - Vertical rail centre  → 12px from the <ol>'s left edge
+            - Dot (12px) centre     → 12px from the <ol>'s left edge
+            - Item content padding  → 36px so the rail clears all text
+       */}
+      <ol className="relative space-y-12 pl-9" role="list">
         <span
           aria-hidden="true"
-          className="absolute left-2 top-2 bottom-2 w-px bg-gradient-to-b from-transparent via-nebula-line-strong to-transparent sm:left-3"
+          className="pointer-events-none absolute left-[11px] top-3 bottom-3 w-px bg-gradient-to-b from-transparent via-nebula-line-strong to-transparent"
         />
         {ROADMAP.map((m) => (
           <li key={m.title} className="relative">
             <span
               aria-hidden="true"
-              className={`absolute -left-[3px] top-1.5 h-2.5 w-2.5 rounded-full ring-4 ${STATUS_RING[m.status]} ${STATUS_DOT[m.status]} sm:-left-[1px]`}
+              className={`pointer-events-none absolute -left-[30px] top-[10px] h-3 w-3 rounded-full ring-4 ${STATUS_RING[m.status]} ${STATUS_DOT[m.status]}`}
             />
             <div className="flex flex-col gap-3 sm:flex-row sm:items-baseline sm:gap-6">
               <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-nebula-on-dim sm:w-32 sm:shrink-0">

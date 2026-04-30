@@ -93,6 +93,12 @@ body {
   min-height: 100dvh;
 }
 
+/* Smooth in-page anchor scrolling (nav links, CTAs). Honour reduced-motion
+   in the @media block at the bottom of this file. */
+html {
+  scroll-behavior: smooth;
+}
+
 ::selection {
   background-color: color-mix(in oklab, var(--color-nebula-primary) 60%, transparent);
   color: var(--color-nebula-base);
@@ -151,6 +157,9 @@ pre {
    Reduced motion respect
    ========================================================================= */
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
   *,
   *::before,
   *::after {

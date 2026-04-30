@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { LinkButton } from "./LinkButton";
 
+// Keep this short. Anything beyond ~5 starts to feel like a sitemap, not
+// a navigation. Data scale + Gallery are reachable from the Perspectives
+// flow; Waitlist is the right-hand CTA, so it's intentionally absent here.
 const NAV_LINKS = [
   { id: "intro", label: "Project" },
-  { id: "scale", label: "Data scale" },
-  { id: "perspectives", label: "Perspectives" },
-  { id: "gallery", label: "Gallery" },
+  { id: "perspectives", label: "Data" },
   { id: "roadmap", label: "Roadmap" },
   { id: "members", label: "Team" },
-  { id: "waitlist", label: "Waitlist" },
 ];
 
 export function Navbar() {
