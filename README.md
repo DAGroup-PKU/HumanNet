@@ -28,7 +28,7 @@ npm install                       # install web deps
 npm install --prefix server       # install api deps
 npm --prefix server run seed      # create SQLite + admin user
 
-npm run dev                       # boots vite (5174) + api (5175) together
+npm run dev                       # boots vite (5173) + api (5175) together
 npm run dev:web                   # vite only
 npm run dev:api                   # api only
 npm run build                     # tsc -b + vite build → dist/

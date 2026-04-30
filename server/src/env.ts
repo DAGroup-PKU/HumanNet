@@ -55,7 +55,7 @@ export const ENV = {
   // ADMIN_PASSWORD is consumed by `npm run seed` to (re)set the admin
   // password. Not used at runtime — only the bcrypt hash in the DB is.
   ADMIN_PASSWORD: process.env.ADMIN_PASSWORD ?? "nebula-admin",
-  CORS_ORIGIN: process.env.CORS_ORIGIN ?? "http://localhost:5174",
+  CORS_ORIGIN: process.env.CORS_ORIGIN ?? "http://localhost:5173",
 
   // ─── Aliyun OSS ───────────────────────────────────────────────────
   // Leave any of these unset to disable OSS signing. Stored videos with
