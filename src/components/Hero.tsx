@@ -1,8 +1,42 @@
 import { Chip } from "@heroui/react";
 import { LinkButton } from "./LinkButton";
 import { VideoFrame } from "./VideoFrame";
+import { useConfig } from "../lib/useConfig";
+import { ACCENT_CLOSE, ACCENT_OPEN } from "../lib/config-types";
+
+/**
+ * Splits the config-driven hero title into segments so the fragment
+ * wrapped in ⟦…⟧ is rendered in the brand orange. Anything between the
+ * markers becomes the accented span; everything else is plain text.
+ *
+ * Example title:
+ *   "The data substrate for ⟦embodied intelligence⟧ that survives …"
+ * → ["The data substrate for ", { accent: "embodied intelligence" }, " that survives …"]
+ */
+function renderAccentTitle(raw: string) {
+  const segments: Array<{ text: string; accent: boolean }> = [];
+  let i = 0;
+  while (i < raw.length) {
+    const open = raw.indexOf(ACCENT_OPEN, i);
+    if (open === -1) {
+      segments.push({ text: raw.slice(i), accent: false });
+      break;
+    }
+    if (open > i) segments.push({ text: raw.slice(i, open), accent: false });
+    const close = raw.indexOf(ACCENT_CLOSE, open + 1);
+    if (close === -1) {
+      segments.push({ text: raw.slice(open + 1), accent: true });
+      break;
+    }
+    segments.push({ text: raw.slice(open + 1, close), accent: true });
+    i = close + 1;
+  }
+  return segments;
+}
 
 export function Hero() {
+  const { hero } = useConfig();
+  const titleSegments = renderAccentTitle(hero.title);
   return (
     <section
       id="top"
@@ -27,7 +61,7 @@ export function Hero() {
             className="mb-6 border border-nebula-line bg-nebula-surface text-nebula-on-muted"
           >
             <span className="font-mono text-[10px] tracking-[0.22em] uppercase">
-              Open Source · Embodied AI Dataset · v0.9 preview
+              {hero.eyebrow}
             </span>
           </Chip>
 
@@ -35,16 +69,19 @@ export function Hero() {
             id="hero-title"
             className="text-balance font-display text-[clamp(2.4rem,5.6vw,4.5rem)] font-medium leading-[1.02] tracking-[-0.025em] text-nebula-on"
           >
-            The data substrate for{" "}
-            <span className="text-nebula-primary">embodied intelligence</span>{" "}
-            that survives contact with the real world.
+            {titleSegments.map((seg, idx) =>
+              seg.accent ? (
+                <span key={idx} className="text-nebula-primary">
+                  {seg.text}
+                </span>
+              ) : (
+                <span key={idx}>{seg.text}</span>
+              ),
+            )}
           </h1>
 
           <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-nebula-on-muted sm:text-lg">
-            Project Nebula publishes a fully open, multi-modal capture of how
-            humans and robots actually move, manipulate, and assemble — with
-            synchronised exocentric and egocentric streams, raw enough to train
-            on, structured enough to evaluate against.
+            {hero.description}
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-3">
@@ -55,17 +92,13 @@ export function Hero() {
           </div>
 
           <dl className="mt-12 grid grid-cols-2 gap-x-10 gap-y-6 sm:max-w-xl sm:grid-cols-3">
-            {[
-              { k: "Hours", v: "12.8k" },
-              { k: "Tasks", v: "230" },
-              { k: "Robots", v: "37" },
-            ].map((m) => (
-              <div key={m.k}>
+            {hero.metrics.map((m) => (
+              <div key={m.key}>
                 <dt className="font-mono text-[10px] uppercase tracking-[0.22em] text-nebula-on-dim">
-                  {m.k}
+                  {m.key}
                 </dt>
                 <dd className="mt-1 font-display text-2xl text-nebula-on tabular-nums sm:text-3xl">
-                  {m.v}
+                  {m.value}
                 </dd>
               </div>
             ))}
@@ -85,8 +118,8 @@ export function Hero() {
               </span>
             </div>
             <VideoFrame
-              src="/videos/exo/QSuxYRr3n7o_85.mp4"
-              aspectRatio={2134 / 1280}
+              src={hero.primaryVideo}
+              aspectRatio={hero.primaryVideoAspect}
               ariaLabel="Exocentric raw capture preview"
               className="shadow-[0_30px_80px_-30px_rgba(238,159,50,0.35)]"
             />

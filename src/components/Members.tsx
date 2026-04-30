@@ -1,7 +1,8 @@
 import { Section } from "./Section";
-import { MEMBERS } from "../data/members";
+import { useConfig } from "../lib/useConfig";
 
 export function Members() {
+  const { team, links } = useConfig();
   return (
     <Section
       id="members"
@@ -20,7 +21,7 @@ export function Members() {
         className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
         role="list"
       >
-        {MEMBERS.map((m) => (
+        {team.map((m) => (
           <li
             key={m.id}
             className="group flex items-start gap-4 rounded-lg border border-nebula-line bg-nebula-surface p-5 transition-colors hover:border-nebula-line-strong sm:p-6"
@@ -57,7 +58,9 @@ export function Members() {
           </p>
         </div>
         <a
-          href="https://github.com"
+          href={`${links.github}/issues`}
+          target="_blank"
+          rel="noopener noreferrer"
           className="rounded-sm border border-nebula-primary/40 bg-nebula-primary/10 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-nebula-primary transition-colors hover:bg-nebula-primary/20"
         >
           View open issues →

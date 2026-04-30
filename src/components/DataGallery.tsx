@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Section } from "./Section";
 import { VideoFrame } from "./VideoFrame";
-import { GALLERY } from "../data/gallery";
+import { useConfig } from "../lib/useConfig";
 import type { PerspectiveId } from "../data/perspectives";
 
 type Filter = "all" | PerspectiveId;
@@ -13,11 +13,13 @@ const FILTERS: { id: Filter; label: string }[] = [
 ];
 
 export function DataGallery() {
+  const { gallery } = useConfig();
   const [filter, setFilter] = useState<Filter>("all");
 
   const clips = useMemo(
-    () => (filter === "all" ? GALLERY : GALLERY.filter((c) => c.perspective === filter)),
-    [filter],
+    () =>
+      filter === "all" ? gallery : gallery.filter((c) => c.perspective === filter),
+    [filter, gallery],
   );
 
   return (

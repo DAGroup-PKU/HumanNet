@@ -1,12 +1,7 @@
 import { Card } from "@heroui/react";
 import { Section } from "./Section";
 import { LinkButton } from "./LinkButton";
-
-// Public waitlist form. Hosted externally (Tally) so we don't have to run
-// our own backend / spam protection / GDPR pipeline. Replace this URL with
-// the real form when it's provisioned — keep the host on a service that
-// works without an account so a researcher can sign up in 30 seconds.
-const WAITLIST_FORM_URL = "https://tally.so/r/project-nebula-waitlist";
+import { useConfig } from "../lib/useConfig";
 
 const BENEFITS = [
   "Early access to Nebula-2 long-horizon clips before public release.",
@@ -16,6 +11,15 @@ const BENEFITS = [
 ];
 
 export function Waitlist() {
+  const { links } = useConfig();
+  const formUrl = links.waitlist;
+  const formHost = (() => {
+    try {
+      return new URL(formUrl).host;
+    } catch {
+      return formUrl;
+    }
+  })();
   return (
     <Section
       id="waitlist"
@@ -85,7 +89,7 @@ export function Waitlist() {
 
           <Card.Footer className="mt-2 flex flex-col items-stretch gap-3 sm:mt-4">
             <LinkButton
-              href={WAITLIST_FORM_URL}
+              href={formUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full"
@@ -93,7 +97,7 @@ export function Waitlist() {
               Open the waitlist form →
             </LinkButton>
             <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-nebula-on-dim">
-              → Opens {new URL(WAITLIST_FORM_URL).host} in a new tab
+              → Opens {formHost} in a new tab
             </p>
           </Card.Footer>
         </Card>

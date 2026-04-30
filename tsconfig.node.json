@@ -12,7 +12,8 @@
     "allowSyntheticDefaultImports": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "useDefineForClassFields": true
+    "useDefineForClassFields": true,
+    "types": ["node"]
   },
   "include": ["vite.config.ts"]
 }
