@@ -168,6 +168,50 @@ export const DEFAULT_CONFIG_PAYLOAD = {
       caption: "GoPro-mounted egocentric workshop capture.",
       aspectRatio: 16 / 9,
     },
+    {
+      id: "exo-mobile",
+      src: {
+        kind: "local" as const,
+        path: "/videos/exo/GQaByBr_QO0_64.mp4",
+      },
+      perspective: "exo" as const,
+      task: "Mobile rig",
+      caption: "Hand-held gimbal capture under mixed indoor lighting.",
+      aspectRatio: 2134 / 1216,
+    },
+    {
+      id: "ego-archive",
+      src: {
+        kind: "local" as const,
+        path: "/videos/ego/0001_0.4390_fbe0a401-9bf3-4725-bddb-b2c44472cda0__4312_4473_162_six_panel.mp4",
+      },
+      perspective: "ego" as const,
+      task: "Archival run",
+      caption: "Helmet-rig archival sequence with multi-camera sync.",
+      aspectRatio: 16 / 9,
+    },
+    {
+      id: "ego-bench",
+      src: {
+        kind: "local" as const,
+        path: "/videos/ego/0001_0.5579_93414__33_191_159_six_panel.mp4",
+      },
+      perspective: "ego" as const,
+      task: "Bench take",
+      caption: "Numbered ego take from the open-bench capture set.",
+      aspectRatio: 16 / 9,
+    },
+    {
+      id: "ego-workshop",
+      src: {
+        kind: "local" as const,
+        path: "/videos/ego/0008_0.4179_25123__47_129_83_six_panel.mp4",
+      },
+      perspective: "ego" as const,
+      task: "Workshop sweep",
+      caption: "Workshop ego sweep with tool-set close-ups.",
+      aspectRatio: 16 / 9,
+    },
   ],
   footer: {
     brandTagline:

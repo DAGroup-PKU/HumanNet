@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { LinkButton } from "./LinkButton";
 import { useConfig } from "../lib/useConfig";
+import logoUrl from "../assets/logo.png";
 
 // Keep this short. Anything beyond ~5 starts to feel like a sitemap, not
 // a navigation. Data scale + Gallery are reachable from the Perspectives
@@ -36,12 +37,14 @@ export function Navbar() {
     >
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center gap-4 px-6 sm:px-10 lg:h-20 lg:px-16">
         <a href="#top" className="flex items-center gap-3 font-medium text-nebula-on">
-          <span
-            aria-hidden="true"
-            className="grid h-8 w-8 place-items-center rounded-sm bg-nebula-primary/10 ring-1 ring-nebula-primary/40"
-          >
-            <span className="block h-2.5 w-2.5 rounded-full bg-nebula-primary shadow-[0_0_12px_rgba(238,159,50,0.55)]" />
-          </span>
+          {/* DAGroup · Peking University brand mark. The asset has a
+              white background, so we render it as a small white card on
+              the dark nav — looks intentional rather than alpha-cut. */}
+          <img
+            src={logoUrl}
+            alt="DAGroup · Peking University"
+            className="h-9 w-9 rounded-sm bg-white object-contain p-0.5 ring-1 ring-nebula-line"
+          />
           <span className="font-display text-base tracking-tight">
             Project <span className="text-nebula-primary">Nebula</span>
           </span>
