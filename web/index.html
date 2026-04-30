@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Project Nebula — bridging the sim-to-real gap with the most comprehensive multimodal embodied dataset ever compiled for robotic intelligence." />
+  <meta name="theme-color" content="#111113" />
+  <title>Project Nebula — Embodied AI &amp; Robotics Dataset</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,200..700,0..1,-50..200&display=block" />
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+<body>
+
+  <!-- Background grid (matte industrial blueprint) -->
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <!-- =================== TOP NAV =================== -->
+  <nav class="nav-bar" aria-label="Primary">
+    <div class="nav-bar__inner">
+      <a href="#top" class="brand-mark" aria-label="Project Nebula home">
+        <span class="brand-mark__sigil" aria-hidden="true">
+          <span class="brand-mark__dot"></span>
+        </span>
+        <span class="brand-mark__name">PROJECT&nbsp;NEBULA</span>
+      </a>
+
+      <div class="nav-links" role="navigation">
+        <a href="#datasets" class="nav-link">Datasets</a>
+        <a href="#benchmarks" class="nav-link">Benchmarks</a>
+        <a href="#docs" class="nav-link">Docs</a>
+        <a href="#cli" class="nav-link">CLI</a>
+      </div>
+
+      <a href="#waitlist" class="btn btn--ghost-amber">
+        <span>Access Gateway</span>
+        <span class="material-symbols-outlined text-[18px]" aria-hidden="true">arrow_outward</span>
+      </a>
+    </div>
+    <div class="nav-bar__signal" aria-hidden="true">
+      <span class="nav-bar__signal-dot"></span>
+      <span class="nav-bar__signal-text">UPLINK • 37.7749°N 122.4194°W • SYNC OK</span>
+    </div>
+  </nav>
+
+  <main id="top" class="page-shell">
+
+    <!-- =================== HERO =================== -->
+    <section class="section section--hero" aria-labelledby="hero-title">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="kicker">
+            <span class="kicker__index">001</span>
+            <span class="kicker__label">EMBODIED&nbsp;AI&nbsp;/&nbsp;DATASET&nbsp;CORPUS</span>
+            <span class="kicker__rev">REV&nbsp;2.4</span>
+          </div>
+
+          <h1 id="hero-title" class="font-display text-display-lg text-on-surface">
+            Project&nbsp;Nebula:<br />
+            <span class="text-primary">Embodied&nbsp;AI</span>&nbsp;Dataset
+          </h1>
+
+          <p class="lede">
+            Bridging the sim-to-real gap with the most comprehensive, multimodal
+            embodied dataset ever compiled for robotic intelligence.
+          </p>
+
+          <div class="hero-cta">
+            <a href="#waitlist" class="btn btn--primary">
+              <span>Get Started</span>
+              <span class="material-symbols-outlined text-[18px]" aria-hidden="true">arrow_forward</span>
+            </a>
+            <a href="#docs" class="btn btn--secondary">
+              <span>View Documentation</span>
+            </a>
+          </div>
+
+          <dl class="metric-strip">
+            <div class="metric">
+              <dt class="metric__label">Episodes</dt>
+              <dd class="metric__value font-mono">10M+</dd>
+            </div>
+            <div class="metric">
+              <dt class="metric__label">Hours</dt>
+              <dd class="metric__value font-mono">50K+</dd>
+            </div>
+            <div class="metric">
+              <dt class="metric__label">Data Volume</dt>
+              <dd class="metric__value font-mono">1PB+</dd>
+            </div>
+          </dl>
+        </div>
+
+        <figure class="hero-stage" aria-label="Live telemetry preview">
+          <video
+            class="hero-stage__media"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            poster=""
+          >
+            <source src="../assets/videos/exo/QSuxYRr3n7o_85.mp4" type="video/mp4" />
+          </video>
+          <div class="hero-stage__scrim" aria-hidden="true"></div>
+
+          <!-- Telemetry overlay -->
+          <div class="hero-stage__hud">
+            <div class="hud-row hud-row--top">
+              <span class="chip chip--live">
+                <span class="chip__pulse" aria-hidden="true"></span>
+                LIVE&nbsp;TELEMETRY
+              </span>
+              <span class="hud-coord font-mono">SIM_ENV_04_ALPHA</span>
+            </div>
+
+            <div class="hud-row hud-row--bottom">
+              <div class="hud-readout">
+                <span class="hud-readout__label">FRAME</span>
+                <span class="hud-readout__value font-mono" data-counter="frame">000128</span>
+              </div>
+              <div class="hud-readout">
+                <span class="hud-readout__label">DELTA</span>
+                <span class="hud-readout__value font-mono" data-counter="delta">12.04ms</span>
+              </div>
+              <div class="hud-readout">
+                <span class="hud-readout__label">JOINT&nbsp;Σ</span>
+                <span class="hud-readout__value font-mono" data-counter="joint">7</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Crosshair -->
+          <div class="hero-stage__crosshair" aria-hidden="true">
+            <span class="crosshair__corner crosshair__corner--tl"></span>
+            <span class="crosshair__corner crosshair__corner--tr"></span>
+            <span class="crosshair__corner crosshair__corner--bl"></span>
+            <span class="crosshair__corner crosshair__corner--br"></span>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- =================== PERSPECTIVE EXPLORER =================== -->
+    <section id="datasets" class="section" aria-labelledby="explorer-title">
+      <header class="section__header">
+        <h2 id="explorer-title" class="font-display text-headline-md">Perspective Explorer</h2>
+        <span class="section__index font-mono">§02</span>
+      </header>
+
+      <div class="tablist" role="tablist" aria-label="Camera perspective">
+        <button role="tab" aria-selected="true" id="tab-exo" aria-controls="panel-exo" class="tab is-active" data-target="exo">
+          Exocentric
+        </button>
+        <button role="tab" aria-selected="false" id="tab-ego" aria-controls="panel-ego" tabindex="-1" class="tab" data-target="ego">
+          Egocentric
+        </button>
+      </div>
+
+      <div class="explorer-panel">
+        <div class="explorer-stage">
+          <video
+            id="panel-exo"
+            class="explorer-video is-active"
+            role="tabpanel"
+            aria-labelledby="tab-exo"
+            autoplay muted loop playsinline preload="metadata"
+          >
+            <source src="../assets/videos/exo/HnjaKDRnmFM_64.mp4" type="video/mp4" />
+          </video>
+          <video
+            id="panel-ego"
+            class="explorer-video"
+            role="tabpanel"
+            aria-labelledby="tab-ego"
+            hidden
+            muted loop playsinline preload="metadata"
+          >
+            <source src="../assets/videos/ego/0006_0.3873_63009__44_122_79_six_panel.mp4" type="video/mp4" />
+          </video>
+
+          <div class="explorer-stage__overlay" aria-hidden="true">
+            <span class="crosshair__corner crosshair__corner--tl"></span>
+            <span class="crosshair__corner crosshair__corner--tr"></span>
+            <span class="crosshair__corner crosshair__corner--bl"></span>
+            <span class="crosshair__corner crosshair__corner--br"></span>
+          </div>
+
+          <div class="explorer-stage__tag">
+            <span class="font-mono">CAM_FRAME</span>
+            <span class="font-mono" data-frame-count>00:14.318</span>
+          </div>
+        </div>
+
+        <aside class="explorer-meta">
+          <h3 class="meta-title">Camera&nbsp;Parameters</h3>
+          <dl class="param-list">
+            <div class="param">
+              <dt class="param__key">Focal&nbsp;Length</dt>
+              <dd class="param__val font-mono">35&nbsp;mm</dd>
+            </div>
+            <div class="param">
+              <dt class="param__key">Latency</dt>
+              <dd class="param__val font-mono text-primary">12&nbsp;ms</dd>
+            </div>
+            <div class="param">
+              <dt class="param__key">Resolution</dt>
+              <dd class="param__val font-mono">4096 × 2160</dd>
+            </div>
+            <div class="param">
+              <dt class="param__key">Framerate</dt>
+              <dd class="param__val font-mono">60&nbsp;fps</dd>
+            </div>
+            <div class="param">
+              <dt class="param__key">Color&nbsp;Space</dt>
+              <dd class="param__val font-mono">Rec.&nbsp;2020 HDR10</dd>
+            </div>
+            <div class="param">
+              <dt class="param__key">Sensor&nbsp;Pose</dt>
+              <dd class="param__val font-mono">SE(3) · Stable</dd>
+            </div>
+          </dl>
+
+          <button class="btn btn--ghost-amber btn--block">
+            <span>Download Sample Array</span>
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">download</span>
+          </button>
+        </aside>
+      </div>
+    </section>
+
+    <!-- =================== ROADMAP =================== -->
+    <section id="benchmarks" class="section" aria-labelledby="roadmap-title">
+      <header class="section__header">
+        <h2 id="roadmap-title" class="font-display text-headline-md">Deployment Roadmap</h2>
+        <span class="section__index font-mono">§03</span>
+      </header>
+
+      <ol class="roadmap" aria-label="Deployment milestones">
+        <li class="milestone milestone--done">
+          <div class="milestone__node" aria-hidden="true"></div>
+          <div class="milestone__body">
+            <p class="milestone__quarter font-mono">Q4 · 2024</p>
+            <p class="milestone__title">Data Genesis</p>
+            <p class="milestone__copy">Initial 10M-episode capture across 12 lab partners; multi-modal IMU+RGB-D pipeline online.</p>
+          </div>
+        </li>
+        <li class="milestone milestone--active">
+          <div class="milestone__node" aria-hidden="true"></div>
+          <div class="milestone__body">
+            <p class="milestone__quarter font-mono">Q1 · 2025</p>
+            <p class="milestone__title">Hardware Alpha</p>
+            <p class="milestone__copy">Reference rig deployed to alpha cohort; embodied actuation logs streamed at 1kHz.</p>
+          </div>
+        </li>
+        <li class="milestone">
+          <div class="milestone__node" aria-hidden="true"></div>
+          <div class="milestone__body">
+            <p class="milestone__quarter font-mono">Q2 · 2025</p>
+            <p class="milestone__title">Massive Sim Expansion</p>
+            <p class="milestone__copy">10× environment diversity; domain-randomized rendering; closed-loop policy eval suite.</p>
+          </div>
+        </li>
+        <li class="milestone">
+          <div class="milestone__node" aria-hidden="true"></div>
+          <div class="milestone__body">
+            <p class="milestone__quarter font-mono">Q3 · 2025</p>
+            <p class="milestone__title">Public Gateway</p>
+            <p class="milestone__copy">Open access tier with rate-limited streaming; benchmark leaderboard for sim-to-real transfer.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- =================== RAW DATA SHOWCASES =================== -->
+    <section id="docs" class="section" aria-labelledby="showcase-title">
+      <header class="section__header">
+        <h2 id="showcase-title" class="font-display text-headline-md">Raw Data Showcases</h2>
+        <span class="section__index font-mono">§04</span>
+      </header>
+
+      <p class="section__lede">
+        Unfiltered captures from the corpus. Each clip is a raw sensor stream — no cuts, no color grading.
+      </p>
+
+      <ul class="showcase-grid">
+        <li class="card-clip" data-task="Manipulation">
+          <div class="card-clip__media">
+            <video class="card-clip__video" muted loop playsinline preload="metadata">
+              <source src="../assets/videos/exo/QSuxYRr3n7o_28.mp4" type="video/mp4" />
+            </video>
+            <button class="card-clip__play" aria-label="Play sample EP_001_MANIP">
+              <span class="material-symbols-outlined" aria-hidden="true">play_arrow</span>
+            </button>
+            <span class="card-clip__duration font-mono">02:14</span>
+          </div>
+          <div class="card-clip__foot">
+            <div class="card-clip__id">
+              <span class="font-mono text-on-surface">EP_001_MANIP</span>
+              <span class="font-mono text-on-surface-mute text-[10px]">Lab&nbsp;7B · 1080p · 60fps</span>
+            </div>
+            <span class="tag tag--amber">Manipulation</span>
+          </div>
+        </li>
+
+        <li class="card-clip" data-task="Navigation">
+          <div class="card-clip__media">
+            <video class="card-clip__video" muted loop playsinline preload="metadata">
+              <source src="../assets/videos/exo/QSuxYRr3n7o_68.mp4" type="video/mp4" />
+            </video>
+            <button class="card-clip__play" aria-label="Play sample EP_042_NAV">
+              <span class="material-symbols-outlined" aria-hidden="true">play_arrow</span>
+            </button>
+            <span class="card-clip__duration font-mono">01:48</span>
+          </div>
+          <div class="card-clip__foot">
+            <div class="card-clip__id">
+              <span class="font-mono text-on-surface">EP_042_NAV</span>
+              <span class="font-mono text-on-surface-mute text-[10px]">Hangar&nbsp;C · 4K · 30fps</span>
+            </div>
+            <span class="tag tag--amber">Navigation</span>
+          </div>
+        </li>
+
+        <li class="card-clip" data-task="Assembly">
+          <div class="card-clip__media">
+            <video class="card-clip__video" muted loop playsinline preload="metadata">
+              <source src="../assets/videos/exo/QSuxYRr3n7o_80.mp4" type="video/mp4" />
+            </video>
+            <button class="card-clip__play" aria-label="Play sample EP_108_ASSEMBLY">
+              <span class="material-symbols-outlined" aria-hidden="true">play_arrow</span>
+            </button>
+            <span class="card-clip__duration font-mono">03:02</span>
+          </div>
+          <div class="card-clip__foot">
+            <div class="card-clip__id">
+              <span class="font-mono text-on-surface">EP_108_ASSEMBLY</span>
+              <span class="font-mono text-on-surface-mute text-[10px]">Cell&nbsp;02 · 1080p · 60fps</span>
+            </div>
+            <span class="tag tag--amber">Assembly</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- =================== TERMINAL / WAITLIST =================== -->
+    <section id="waitlist" class="section section--terminal" aria-labelledby="waitlist-title">
+      <header class="section__header section__header--center">
+        <h2 id="waitlist-title" class="font-display text-headline-md">Join the Developer Beta</h2>
+      </header>
+
+      <div id="cli" class="terminal">
+        <div class="terminal__chrome">
+          <span class="terminal__btn"></span>
+          <span class="terminal__btn"></span>
+          <span class="terminal__btn"></span>
+          <span class="terminal__title font-mono">nebula-gateway-cli — zsh — 80×24</span>
+          <span class="terminal__status font-mono">
+            <span class="terminal__status-dot"></span>OK
+          </span>
+        </div>
+
+        <div class="terminal__body font-mono">
+          <p class="terminal__line">
+            <span class="terminal__prompt">$</span>
+            <span>nebula auth init</span>
+          </p>
+          <p class="terminal__line terminal__line--muted">
+            <span class="terminal__bullet">›</span> initializing_protocol&hellip;
+            <span class="terminal__ok">[ ok ]</span>
+          </p>
+          <p class="terminal__line terminal__line--muted">
+            <span class="terminal__bullet">›</span> requesting_beta_access
+            <span class="terminal__ok">[ ok ]</span>
+          </p>
+          <p class="terminal__line terminal__line--muted">
+            <span class="terminal__bullet">›</span> awaiting_handshake
+            <span class="terminal__pending" data-spinner>&middot;</span>
+          </p>
+
+          <form class="terminal__form" novalidate>
+            <label class="terminal__field">
+              <span class="terminal__prompt">&gt;</span>
+              <input
+                type="email"
+                name="email"
+                required
+                autocomplete="email"
+                spellcheck="false"
+                placeholder="ENTER_EMAIL_ADDRESS"
+                aria-label="Email address"
+              />
+            </label>
+            <button type="submit" class="btn btn--terminal">
+              <span>Execute</span>
+              <span class="material-symbols-outlined text-[18px]" aria-hidden="true">keyboard_return</span>
+            </button>
+          </form>
+
+          <p class="terminal__line terminal__feedback" data-feedback hidden></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =================== FOOTER =================== -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__copy font-mono">
+        © 2026 NEBULA SYSTEMS · ALL RIGHTS RESERVED ·
+        COORDINATES: 37.7749°N&nbsp;122.4194°W
+      </div>
+      <nav class="footer__links font-mono" aria-label="Footer">
+        <a href="#" class="footer__link">Terminal</a>
+        <a href="#" class="footer__link">Research</a>
+        <a href="#" class="footer__link">Stability</a>
+        <a href="#" class="footer__link">Systems</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="./assets/script.js" defer></script>
+</body>
+</html>

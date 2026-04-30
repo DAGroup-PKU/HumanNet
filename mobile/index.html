@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Project Nebula — bridging the sim-to-real gap with high-fidelity robotics telemetry." />
+  <meta name="theme-color" content="#111113" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Project Nebula — Embodied AI</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,200..700,0..1,-50..200&display=block" />
+
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+<body>
+
+  <!-- =================== TOP APP BAR =================== -->
+  <header class="app-bar" role="banner">
+    <a href="#top" class="brand-mark" aria-label="Project Nebula home">
+      <span class="brand-mark__sigil" aria-hidden="true"></span>
+      <span class="brand-mark__name">PROJECT<br/>NEBULA</span>
+    </a>
+    <button class="btn btn--ghost-amber btn--sm" type="button">
+      <span aria-hidden="true" class="material-symbols-outlined">terminal</span>
+      <span>Access&nbsp;Terminal</span>
+    </button>
+  </header>
+
+  <main id="top" class="page">
+
+    <!-- =================== HERO =================== -->
+    <section class="section section--hero" aria-labelledby="hero-title">
+      <div class="kicker">
+        <span class="kicker__index">001</span>
+        <span class="kicker__label">EMBODIED&nbsp;AI&nbsp;CORPUS</span>
+      </div>
+
+      <h1 id="hero-title" class="display">
+        Project&nbsp;Nebula:<br/>
+        <span class="text-primary">Embodied&nbsp;AI</span><br/>
+        Dataset
+      </h1>
+
+      <p class="lede">
+        Bridging the sim-to-real gap with high-fidelity robotics telemetry.
+      </p>
+
+      <div class="hero-cta">
+        <a href="#waitlist" class="btn btn--primary">
+          <span>Get Started</span>
+          <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+        </a>
+        <a href="#explorer" class="btn btn--secondary">
+          <span>Live Demo</span>
+        </a>
+      </div>
+
+      <!-- Live feed video -->
+      <figure class="hero-stage">
+        <video
+          class="hero-stage__media"
+          autoplay muted loop playsinline preload="metadata"
+        >
+          <source src="../assets/videos/exo/QSuxYRr3n7o_85.mp4" type="video/mp4" />
+        </video>
+        <div class="hero-stage__scrim" aria-hidden="true"></div>
+
+        <div class="hero-stage__hud">
+          <span class="chip chip--live">
+            <span class="chip__pulse" aria-hidden="true"></span>
+            LIVE&nbsp;FEED
+          </span>
+          <span class="hud-coord font-mono">SIM_ENV_04_ALPHA</span>
+        </div>
+
+        <button class="hero-stage__play" aria-label="Open full feed">
+          <span class="material-symbols-outlined" aria-hidden="true">play_arrow</span>
+        </button>
+
+        <div class="hero-stage__crosshair" aria-hidden="true">
+          <span class="crosshair__corner crosshair__corner--tl"></span>
+          <span class="crosshair__corner crosshair__corner--tr"></span>
+          <span class="crosshair__corner crosshair__corner--bl"></span>
+          <span class="crosshair__corner crosshair__corner--br"></span>
+        </div>
+      </figure>
+
+      <!-- Metric cards -->
+      <dl class="metric-stack">
+        <div class="metric-card">
+          <dt class="metric-card__label">Episodes</dt>
+          <dd class="metric-card__value font-mono">10M+</dd>
+        </div>
+        <div class="metric-card">
+          <dt class="metric-card__label">Duration</dt>
+          <dd class="metric-card__value font-mono">50K+&nbsp;HRS</dd>
+        </div>
+        <div class="metric-card">
+          <dt class="metric-card__label">Volume</dt>
+          <dd class="metric-card__value font-mono">1PB+</dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- =================== PERSPECTIVE EXPLORER =================== -->
+    <section id="explorer" class="section section--surface" aria-labelledby="explorer-title">
+      <header class="section__header">
+        <h2 id="explorer-title" class="headline">Perspective Explorer</h2>
+        <span class="section__index font-mono">§02</span>
+      </header>
+
+      <div class="tablist" role="tablist" aria-label="Camera perspective">
+        <button role="tab" id="m-tab-exo" aria-controls="m-panel-exo" aria-selected="true" class="tab is-active" data-target="exo">
+          Exocentric
+        </button>
+        <button role="tab" id="m-tab-ego" aria-controls="m-panel-ego" aria-selected="false" tabindex="-1" class="tab" data-target="ego">
+          Egocentric
+        </button>
+      </div>
+
+      <div class="explorer-stage">
+        <video
+          id="m-panel-exo"
+          role="tabpanel"
+          aria-labelledby="m-tab-exo"
+          class="explorer-video is-active"
+          autoplay muted loop playsinline preload="metadata"
+        >
+          <source src="../assets/videos/exo/HnjaKDRnmFM_64.mp4" type="video/mp4" />
+        </video>
+        <video
+          id="m-panel-ego"
+          role="tabpanel"
+          aria-labelledby="m-tab-ego"
+          class="explorer-video"
+          hidden
+          muted loop playsinline preload="metadata"
+        >
+          <source src="../assets/videos/ego/0006_0.3873_63009__44_122_79_six_panel.mp4" type="video/mp4" />
+        </video>
+
+        <div class="explorer-stage__overlay" aria-hidden="true">
+          <span class="crosshair__corner crosshair__corner--tl"></span>
+          <span class="crosshair__corner crosshair__corner--tr"></span>
+          <span class="crosshair__corner crosshair__corner--bl"></span>
+          <span class="crosshair__corner crosshair__corner--br"></span>
+        </div>
+
+        <div class="explorer-stage__tag font-mono">
+          <span>CAM_FRAME</span>
+          <span class="text-primary" data-frame-count>00:14.318</span>
+        </div>
+      </div>
+
+      <ul class="param-stack">
+        <li class="param">
+          <span class="param__key">FOV</span>
+          <span class="param__val font-mono">120°</span>
+        </li>
+        <li class="param">
+          <span class="param__key">Resolution</span>
+          <span class="param__val font-mono">4K&nbsp;UHD</span>
+        </li>
+        <li class="param">
+          <span class="param__key">Latency</span>
+          <span class="param__val font-mono text-primary">&lt;&nbsp;5&nbsp;ms</span>
+        </li>
+        <li class="param">
+          <span class="param__key">Framerate</span>
+          <span class="param__val font-mono">60&nbsp;fps</span>
+        </li>
+      </ul>
+
+      <button class="btn btn--ghost-amber btn--block">
+        <span>Download Sample Array</span>
+        <span class="material-symbols-outlined" aria-hidden="true">download</span>
+      </button>
+    </section>
+
+    <!-- =================== ROADMAP =================== -->
+    <section class="section" aria-labelledby="roadmap-title">
+      <header class="section__header">
+        <h2 id="roadmap-title" class="headline">Deployment Roadmap</h2>
+        <span class="section__index font-mono">§03</span>
+      </header>
+
+      <ol class="roadmap" aria-label="Deployment milestones">
+        <li class="milestone milestone--done">
+          <div class="milestone__node" aria-hidden="true"></div>
+          <div class="milestone__body">
+            <p class="milestone__quarter font-mono">Q4 · 2024</p>
+            <p class="milestone__title">Data Genesis</p>
+          </div>
+        </li>
+        <li class="milestone milestone--active">
+          <div class="milestone__node" aria-hidden="true"></div>
+          <div class="milestone__body">
+            <p class="milestone__quarter font-mono">Q1 · 2025</p>
+            <p class="milestone__title">Hardware Alpha</p>
+          </div>
+        </li>
+        <li class="milestone">
+          <div class="milestone__node" aria-hidden="true"></div>
+          <div class="milestone__body">
+            <p class="milestone__quarter font-mono">Q2 · 2025</p>
+            <p class="milestone__title">Massive Sim Expansion</p>
+          </div>
+        </li>
+        <li class="milestone">
+          <div class="milestone__node" aria-hidden="true"></div>
+          <div class="milestone__body">
+            <p class="milestone__quarter font-mono">Q3 · 2025</p>
+            <p class="milestone__title">Public Gateway</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- =================== WAITLIST / TERMINAL =================== -->
+    <section id="waitlist" class="section section--surface" aria-labelledby="waitlist-title">
+      <header class="section__header section__header--center">
+        <h2 id="waitlist-title" class="headline">Join the Developer Beta</h2>
+      </header>
+
+      <div class="terminal">
+        <div class="terminal__chrome">
+          <span class="terminal__btn"></span>
+          <span class="terminal__btn"></span>
+          <span class="terminal__btn"></span>
+          <span class="terminal__title font-mono">nebula-cli</span>
+        </div>
+        <div class="terminal__body font-mono">
+          <p class="terminal__line"><span class="terminal__prompt">$</span> nebula auth init</p>
+          <p class="terminal__line terminal__line--muted">› requesting_beta_access&nbsp;<span class="terminal__ok">[ ok ]</span></p>
+          <form class="terminal__form" novalidate>
+            <label class="terminal__field">
+              <span class="terminal__prompt">&gt;</span>
+              <input type="email" name="email" required autocomplete="email"
+                     placeholder="ENTER_EMAIL_ADDRESS" aria-label="Email address" />
+            </label>
+            <button type="submit" class="btn btn--terminal">
+              <span>Execute</span>
+              <span class="material-symbols-outlined" aria-hidden="true">keyboard_return</span>
+            </button>
+          </form>
+          <p class="terminal__line terminal__feedback" data-feedback hidden></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =================== FOOTER =================== -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer__brand font-mono">PROJECT NEBULA</div>
+    <div class="footer__copy font-mono">
+      © 2026 PROJECT NEBULA · ALL RIGHTS RESERVED ·
+      OPERATIONAL SPECIFICATION V2.4
+    </div>
+    <nav class="footer__links font-mono" aria-label="Footer">
+      <a href="#" class="footer__link">Telemetry</a>
+      <a href="#" class="footer__link">Documentation</a>
+      <a href="#" class="footer__link">Logistics</a>
+      <a href="#" class="footer__link">Security</a>
+    </nav>
+  </footer>
+
+  <script src="./assets/script.js" defer></script>
+</body>
+</html>
