@@ -34,6 +34,18 @@ app.use((_req, res) => {
 
 // Generic error handler — keeps the surface tight, never leaks the stack
 // to the client. The detailed log goes to stderr for the operator.
+//
+// body-parser surfaces a typed SyntaxError with `status: 400` and
+// `type: 'entity.parse.failed'` for malformed JSON, and a 413 with
+// `type: 'entity.too.large'` for oversize bodies. Translating those into
+// 4xx makes the API contract honest: a client-side bad payload should
+// never look like a server-side bug.
+type ParseError = Error & {
+  status?: number;
+  statusCode?: number;
+  type?: string;
+};
+
 app.use(
   (
     err: unknown,
@@ -41,6 +53,17 @@ app.use(
     res: express.Response,
     _next: express.NextFunction,
   ) => {
+    const e = err as ParseError;
+    const status = e?.status ?? e?.statusCode;
+    if (status === 400 && e?.type === "entity.parse.failed") {
+      return res.status(400).json({ error: "invalid_json" });
+    }
+    if (status === 413 && e?.type === "entity.too.large") {
+      return res.status(413).json({ error: "payload_too_large" });
+    }
+    if (typeof status === "number" && status >= 400 && status < 500) {
+      return res.status(status).json({ error: e.message || "bad_request" });
+    }
     // eslint-disable-next-line no-console
     console.error("[server] unhandled", err);
     res.status(500).json({ error: "internal_error" });
