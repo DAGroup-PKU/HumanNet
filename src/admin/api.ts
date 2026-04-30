@@ -1,4 +1,4 @@
-import type { SiteConfig } from "../lib/config-types";
+import type { StoredSiteConfig } from "../lib/config-types";
 
 const TOKEN_KEY = "nebula:admin-token";
 
@@ -72,12 +72,19 @@ export const adminApi = {
       body: JSON.stringify({ username, password }),
     }),
 
-  me: () => request<MeResponse>("/api/auth/me", { auth: false, headers: getToken() ? { Authorization: `Bearer ${getToken()}` } : {} }),
+  me: () =>
+    request<MeResponse>("/api/auth/me", {
+      auth: false,
+      headers: getToken() ? { Authorization: `Bearer ${getToken()}` } : {},
+    }),
 
-  getConfig: () => request<SiteConfig>("/api/config"),
+  /** Returns the *raw* stored config — videos as discriminated unions
+   *  (kind:"local"|"external"|"oss"), footer hrefs unresolved (still
+   *  contain `$github` references). */
+  getConfig: () => request<StoredSiteConfig>("/api/admin/config", { auth: true }),
 
-  updateConfig: (next: SiteConfig) =>
-    request<SiteConfig>("/api/config", {
+  updateConfig: (next: StoredSiteConfig) =>
+    request<StoredSiteConfig>("/api/admin/config", {
       method: "PUT",
       body: JSON.stringify(next),
       auth: true,

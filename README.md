@@ -16,8 +16,10 @@ redeploy.
 | Backend | Node 22 + Express 4 | `server/`, ESM, `tsx watch` |
 | Auth | JWT (HS256) | rate-limited login, 8-hour TTL |
 | Storage | SQLite (better-sqlite3) | single `site_config` JSON row |
-| Validation | zod | server-side write validation |
-| Static assets | `public/videos/` | served at `/videos/...` (dev fallback) |
+| Validation | zod | server-side write validation (incl. `VideoRef` discriminated union) |
+| Object storage | Aliyun OSS via `ali-oss` | private bucket, signed URL minted per request |
+| Public API rate limit | `express-rate-limit` | 60 req/min/IP on `GET /api/config` |
+| Static assets | `public/videos/` | served at `/videos/...` (used by `kind:"local"` refs) |
 
 ## Scripts
 
@@ -61,16 +63,18 @@ ego_sites/
 │   ├── data/                 # SQLite (gitignored)
 │   └── src/
 │       ├── index.ts          # Express bootstrap
-│       ├── env.ts            # tiny .env loader
+│       ├── env.ts            # tiny .env loader (incl. OSS_* vars)
 │       ├── db.ts             # SQLite + schema (users, site_config)
 │       ├── auth.ts           # JWT issue / verify + requireAdmin
-│       ├── schema.ts         # zod write validator
+│       ├── schema.ts         # zod write validator (VideoRef union, FooterConfig)
 │       ├── shared.ts         # constants shared with the frontend
 │       ├── default-config.ts # bundled seed payload (mirrors src/lib/config-defaults)
-│       ├── seed.ts           # idempotent seed CLI
+│       ├── oss.ts            # ali-oss client + signOssRef (graceful when creds missing)
+│       ├── render.ts         # StoredSiteConfig → PublicSiteConfig (sign + resolve hrefs)
+│       ├── seed.ts           # idempotent seed + schema-aware migration
 │       └── routes/
 │           ├── auth.ts       # POST /api/auth/login + GET /api/auth/me
-│           └── config.ts     # GET / PUT /api/config
+│           └── config.ts     # public GET /api/config + admin GET/PUT /api/admin/config
 ├── src/
 │   ├── main.tsx              # React entry — mounts BrowserRouter + ConfigProvider
 │   ├── App.tsx               # public landing (8 sections)
@@ -86,13 +90,16 @@ ego_sites/
 │       ├── AdminApp.tsx
 │       ├── AdminLogin.tsx
 │       ├── AdminDashboard.tsx
+│       ├── admin-defaults.ts # initial state (StoredSiteConfig shape)
 │       ├── api.ts            # fetch helpers + token storage
 │       └── editors/
 │           ├── Field.tsx
+│           ├── VideoRefInput.tsx  # local | external | OSS toggle + dynamic fields
 │           ├── HeroEditor.tsx
 │           ├── LinksEditor.tsx
 │           ├── TeamEditor.tsx
-│           └── GalleryEditor.tsx
+│           ├── GalleryEditor.tsx
+│           └── FooterEditor.tsx   # tagline / chips / columns / copyright
 ├── docs/_stitch/             # original Stitch HTML + screenshots (not built)
 ├── ProjectStatus.md, Progress.md, Lesson.md
 ├── CLAUDE.md, AGENTS.md      # AI-context mirrors of .cursor/rules
@@ -104,13 +111,38 @@ ego_sites/
 ## Architecture in one paragraph
 
 The public site is a static SPA. On mount, `<ConfigProvider>` fetches
-`GET /api/config` and merges the response over a bundled fallback
-config (`src/lib/config-defaults.ts`). Components like `<Hero>`,
-`<Members>`, and `<DataGallery>` consume `useConfig()` so any change
-on the admin side propagates on the next page load. The admin SPA
-(`/admin/*`) talks to the same Express service with a JWT obtained
-through `POST /api/auth/login`. Tokens live in `localStorage` and
-expire after `JWT_TTL_SECONDS` (default 8h).
+`GET /api/config` (which is rate-limited at 60 req/min/IP) and merges
+the response over a bundled fallback config (`src/lib/config-defaults.ts`).
+Components like `<Hero>`, `<Members>`, `<DataGallery>`, and `<Footer>`
+consume `useConfig()` so any change on the admin side propagates on the
+next page load. The admin SPA (`/admin/*`) talks to the same Express
+service with a JWT obtained through `POST /api/auth/login`. Tokens live
+in `localStorage` and expire after `JWT_TTL_SECONDS` (default 8h).
+
+### Two configs, one source of truth
+
+The DB stores a `StoredSiteConfig`: video fields are
+`{kind:"local"|"external"|"oss", …}` discriminated unions, footer link
+hrefs may use `$key` references. `server/src/render.ts` collapses this
+into a `SiteConfig` (videos as plain string URLs, hrefs fully resolved)
+on every public read. The admin SPA reads / writes the **stored** shape
+via `GET / PUT /api/admin/config` (auth required); the public site
+reads the **rendered** shape via `GET /api/config`.
+
+### Video security model (six layers)
+
+| # | Layer | Where |
+|---|---|---|
+| 1 | RAM sub-account, `oss:GetObject` only on the bucket | Aliyun RAM console |
+| 2 | Signed URLs with 1h TTL via `ali-oss` `asyncSignatureUrl` | `server/src/oss.ts` |
+| 3 | Bucket Referer whitelist | Aliyun OSS console |
+| 4 | App-layer rate limit (60 req/min/IP) | `server/src/routes/config.ts` |
+| 5 | `controlsList="nodownload"`, `disablePictureInPicture`, etc. | `src/components/VideoFrame.tsx` |
+| 6 | (future) CDN URL signing + Referer at the edge | OSS + Aliyun CDN |
+
+Layers 2 / 4 / 5 are implemented in code. 1 / 3 are configuration the
+operator does once in the Aliyun console. 6 is optional — add it if
+bandwidth becomes a problem.
 
 ## Page sections
 
@@ -145,19 +177,45 @@ The page is composed of 8 stacked sections, all responsive:
 
 ## Production deploy notes
 
-- Set `JWT_SECRET` to a long random string. The dev placeholder is
-  refused at boot when `NODE_ENV=production`.
+### Secrets & seed
+
+- Set `JWT_SECRET` to a long random string (e.g. `openssl rand -hex 64`).
+  The dev placeholder is refused at boot when `NODE_ENV=production`.
 - Run `ADMIN_PASSWORD=... npm --prefix server run seed` once to
-  rotate the admin password (re-running the seed is safe; existing
-  config is left intact).
-- Real video protection is **out of the frontend's scope**. The
-  `controlsList="nodownload"` etc. on `<video>` are speed bumps, not
-  a security boundary. Configure your OSS bucket with a Referer
-  whitelist + signed URLs (5-minute STS) for actual access control.
-- Serve the built `dist/` from the same Express instance in
-  production to avoid CORS entirely (`app.use(express.static('dist'))`
-  + a SPA fallback for `/admin/*` is the recommended pattern; not
-  shipped in dev because Vite handles it during development).
+  rotate the admin password (re-running the seed is safe — existing
+  config is preserved unless the schema has changed, in which case
+  the seed prints the validation issues and runs a one-shot migration
+  to bundled defaults).
+
+### OSS hookup
+
+1. Create a private bucket (e.g. `nebula-clips`) in the Aliyun OSS console.
+2. Add a Referer whitelist on the bucket: your production domain (and
+   `localhost` for dev). Disallow empty Referer.
+3. Create a RAM sub-account, attach an inline policy granting only
+   `oss:GetObject` on `acs:oss:*:*:nebula-clips/*`. Generate AK / SK.
+4. Set `OSS_REGION`, `OSS_BUCKET`, `OSS_ACCESS_KEY_ID`,
+   `OSS_ACCESS_KEY_SECRET` in `.env`. (The server runs without these
+   set, but `kind:"oss"` refs degrade to a clearly-broken `data:` URL
+   and a warning is logged at boot.)
+5. Upload a clip and edit it from `/admin` — switch the video source
+   to "OSS" and enter `bucket` + `key`. Each public page-load mints a
+   fresh signed URL with `OSS_URL_TTL_SECONDS` lifetime (default 1h).
+
+### Video security note
+
+Real video protection is **a stack, not a single setting**. The site
+implements layers 2 / 4 / 5 from the security table above; layers 1
+and 3 are configuration the operator does once. Layer 6 (CDN URL
+signing) is optional. Don't rely on `controlsList="nodownload"` alone
+— it's the weakest layer.
+
+### Serving in prod
+
+Serve the built `dist/` from the same Express instance to avoid CORS
+entirely (`app.use(express.static('dist'))` + a SPA fallback for
+`/admin/*` is the recommended pattern). Not shipped in dev because
+Vite handles serving during development.
 
 ## Working with this repo
 
