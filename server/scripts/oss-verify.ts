@@ -42,19 +42,22 @@ async function probe(
     // a real <video> tag would.
     "User-Agent":
       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+    // 1KB byte range = same as the browser's first range request, but
+    // doesn't download the whole video. We use GET (not HEAD) because
+    // ali-oss signs URLs for GET specifically — HEAD with a GET-signed
+    // URL fails signature verification.
+    Range: "bytes=0-1023",
   };
   if (referer) headers["Referer"] = referer;
 
-  // HEAD avoids streaming the whole video while still triggering the
-  // OSS auth + Referer policy.
-  const res = await fetch(url, { method: "HEAD", headers });
+  const res = await fetch(url, { method: "GET", headers });
+  // Drain body so we don't leak the connection.
+  const body = res.body ? await res.text() : "";
   let serverError: string | null = null;
   if (!res.ok) {
-    // OSS embeds the error code in headers when the body is empty on HEAD.
-    serverError =
-      res.headers.get("x-oss-error-code") ??
-      res.headers.get("x-oss-server-error-code") ??
-      null;
+    const code = body.match(/<Code>([^<]+)<\/Code>/)?.[1];
+    const msg = body.match(/<Message>([^<]+)<\/Message>/)?.[1];
+    serverError = code ? `${code}${msg ? `: ${msg}` : ""}` : null;
   }
   return {
     status: res.status,
@@ -132,8 +135,9 @@ async function main() {
   const ok = await probe(url, whitelistRef);
   const evil = await probe(url, "https://evil.example.com/");
 
-  // 200/206 = success, 404 = signing OK but key not in bucket (still
-  // counts as auth-pass for this test), 403 = blocked.
+  // 200/206 = success (206 is what we expect for our 1KB Range probe),
+  // 404 = signing OK but key not in bucket (still counts as auth-pass),
+  // 403 = blocked.
   console.log(
     expectation("no Referer (script/wget)", noRef.status, (s) => s === 403, noRef.serverError ?? "should be RefererDenied"),
   );
@@ -142,9 +146,11 @@ async function main() {
       `whitelist Referer (${whitelistRef})`,
       ok.status,
       (s) => s === 200 || s === 206 || s === 404,
-      ok.status === 404
-        ? "key not found, but signature & Referer accepted"
-        : ok.serverError ?? "should be 200",
+      ok.status === 206
+        ? `${ok.size}B partial content - playback works`
+        : ok.status === 404
+          ? "key not in bucket, but signature & Referer accepted"
+          : ok.serverError ?? "should be 200/206",
     ),
   );
   console.log(
