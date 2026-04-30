@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { LinkButton } from "./LinkButton";
+import { useConfig } from "../lib/useConfig";
 
 // Keep this short. Anything beyond ~5 starts to feel like a sitemap, not
 // a navigation. Data scale + Gallery are reachable from the Perspectives
@@ -14,6 +15,7 @@ const NAV_LINKS = [
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { links } = useConfig();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 4);
@@ -62,7 +64,8 @@ export function Navbar() {
 
         <div className="ml-auto flex items-center gap-2 lg:ml-3">
           <LinkButton
-            href="https://github.com"
+            href={links.github}
+            target="_blank"
             rel="noopener noreferrer"
             size="sm"
             variant="tertiary"

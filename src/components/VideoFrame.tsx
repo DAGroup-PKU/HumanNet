@@ -58,14 +58,22 @@ export function VideoFrame({
     return () => obs.disconnect();
   }, [pauseOffscreen]);
 
+  // Best-effort scraping deterrents. NOTE: these are UX speed bumps, not
+  // security. Determined users can always pull the source URL from the
+  // network tab. Real protection lives in the OSS bucket policy:
+  //   - Referer whitelist on the bucket
+  //   - Signed URLs with short TTL (e.g. 5-minute STS tokens)
+  //   - HLS chunked playback with key rotation for paid tiers.
+  // The server-side enforcement is intentionally out of this component.
   return (
     <div
       className={`relative overflow-hidden rounded-lg bg-nebula-surface-2 ring-1 ring-inset ring-nebula-line ${className}`}
       style={{ aspectRatio: `${aspectRatio}` }}
+      onContextMenu={(e) => e.preventDefault()}
     >
       <video
         ref={ref}
-        className="absolute inset-0 h-full w-full object-contain"
+        className="absolute inset-0 h-full w-full object-contain select-none"
         autoPlay={autoPlay}
         loop
         muted
@@ -73,9 +81,21 @@ export function VideoFrame({
         preload="metadata"
         poster={poster}
         aria-label={ariaLabel}
+        controlsList="nodownload noplaybackrate noremoteplayback"
+        disablePictureInPicture
+        disableRemotePlayback
+        onContextMenu={(e) => e.preventDefault()}
+        draggable={false}
       >
         <source src={src} type="video/mp4" />
       </video>
+      {/* Transparent overlay also catches right-click and drag attempts on
+         non-video edges (poster, letterbox) without blocking pointer events
+         on the video itself (pointer-events-none lets clicks pass through). */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 select-none"
+      />
     </div>
   );
 }

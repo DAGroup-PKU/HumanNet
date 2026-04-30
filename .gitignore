@@ -29,3 +29,11 @@ dist/
 .cursor/cache/
 .cursor/state/
 .claude/state/
+
+# Backend SQLite (do NOT commit secrets / runtime state)
+server/data/
+server/node_modules/
+*.db
+*.db-journal
+*.db-shm
+*.db-wal

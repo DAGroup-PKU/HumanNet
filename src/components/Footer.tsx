@@ -1,15 +1,10 @@
+import { useConfig } from "../lib/useConfig";
+
 const COL_PROJECT = [
   { label: "Dataset card", href: "#" },
   { label: "Loader SDK", href: "#" },
   { label: "Calibration tool", href: "#" },
   { label: "Benchmarks", href: "#" },
-];
-
-const COL_COMMUNITY = [
-  { label: "GitHub", href: "https://github.com" },
-  { label: "Discord", href: "#" },
-  { label: "Mailing list", href: "#" },
-  { label: "Code of conduct", href: "#" },
 ];
 
 const COL_RESEARCH = [
@@ -20,6 +15,13 @@ const COL_RESEARCH = [
 ];
 
 export function Footer() {
+  const { links } = useConfig();
+  const COL_COMMUNITY = [
+    { label: "GitHub", href: links.github, external: true },
+    { label: "Hugging Face", href: links.huggingface, external: true },
+    { label: "Discord", href: links.discord },
+    { label: "Mailing list", href: links.mailingList },
+  ];
   return (
     <footer
       role="contentinfo"
@@ -76,7 +78,7 @@ function FooterColumn({
   items,
 }: {
   title: string;
-  items: { label: string; href: string }[];
+  items: { label: string; href: string; external?: boolean }[];
 }) {
   return (
     <div>
@@ -88,9 +90,17 @@ function FooterColumn({
           <li key={item.label}>
             <a
               href={item.href}
+              {...(item.external
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : {})}
               className="text-sm text-nebula-on-muted transition-colors hover:text-nebula-on"
             >
               {item.label}
+              {item.external && (
+                <span aria-hidden="true" className="ml-1 text-nebula-on-dim">
+                  ↗
+                </span>
+              )}
             </a>
           </li>
         ))}
