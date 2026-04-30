@@ -1,5 +1,6 @@
 import type { FooterLink } from "../lib/config-types";
 import { useConfig } from "../lib/useConfig";
+import logoUrl from "../assets/logo.png";
 
 // All href references received from the API are already resolved by the
 // backend — `$github` etc. become absolute URLs in renderPublicConfig.
@@ -21,12 +22,12 @@ export function Footer() {
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <div className="flex items-center gap-3">
-              <span
-                aria-hidden="true"
-                className="grid h-8 w-8 place-items-center rounded-sm bg-nebula-primary/10 ring-1 ring-nebula-primary/40"
-              >
-                <span className="block h-2.5 w-2.5 rounded-full bg-nebula-primary shadow-[0_0_12px_rgba(238,159,50,0.55)]" />
-              </span>
+              {/* Same DAGroup · Peking University mark as the navbar. */}
+              <img
+                src={logoUrl}
+                alt="DAGroup · Peking University"
+                className="h-10 w-10 rounded-sm bg-white object-contain p-0.5 ring-1 ring-nebula-line"
+              />
               <span className="font-display text-lg text-nebula-on">
                 Project <span className="text-nebula-primary">Nebula</span>
               </span>
