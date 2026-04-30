@@ -7,7 +7,7 @@ export function Hero() {
     <section
       id="top"
       aria-labelledby="hero-title"
-      className="relative overflow-hidden border-b border-nebula-line bg-nebula-base pt-24 lg:pt-28"
+      className="relative scroll-mt-24 overflow-hidden border-b border-nebula-line bg-nebula-base pt-24 lg:pt-28"
     >
       {/* Soft scientific grid backdrop */}
       <div
