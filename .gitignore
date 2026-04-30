@@ -8,11 +8,24 @@ Thumbs.db
 *.swp
 *.swo
 
-# Local dev
-*.log
-.tmp/
-.cache/
+# Build / deps
 node_modules/
+dist/
+.parcel-cache/
+.cache/
+.tmp/
+*.log
+*.tsbuildinfo
 
-# Cursor / agent local state
-.cursor/
+# Env
+.env
+.env.local
+.env.*.local
+
+# Tooling
+.eslintcache
+
+# Cursor / Claude / Codex local agent state (NOT the rules — those are source-of-truth)
+.cursor/cache/
+.cursor/state/
+.claude/state/

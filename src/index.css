@@ -1,0 +1,161 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+
+/* =========================================================================
+   Project Nebula — Design Tokens
+   Brand: Industrial Hard-Science aesthetic for an embodied-AI dataset.
+   ========================================================================= */
+@theme {
+  /* Surface */
+  --color-nebula-base: #0b0b0d;
+  --color-nebula-bg: #0f0f12;
+  --color-nebula-surface: #14141a;
+  --color-nebula-surface-2: #1b1b22;
+  --color-nebula-surface-3: #23232c;
+  --color-nebula-line: #2a2a35;
+  --color-nebula-line-strong: #3a3a48;
+
+  /* Foreground */
+  --color-nebula-on: #f4f4f6;
+  --color-nebula-on-muted: #a4a4ae;
+  --color-nebula-on-dim: #6b6b76;
+
+  /* Brand */
+  --color-nebula-primary: #ee9f32;
+  --color-nebula-primary-soft: #f7c97a;
+  --color-nebula-accent: #6fc1ff;
+  --color-nebula-success: #43c47a;
+  --color-nebula-warn: #f0b042;
+  --color-nebula-danger: #ef5a5a;
+
+  /* Typography */
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+}
+
+/* =========================================================================
+   HeroUI semantic-token overrides — paint HeroUI primitives in our brand
+   palette so default Buttons / Tabs / Inputs / Selects feel native.
+   These vars are documented at https://heroui.com/docs/react/getting-started
+   ========================================================================= */
+.dark {
+  /* Brand accent (drives primary Button, Tab indicator, Focus ring) */
+  --accent: oklch(0.745 0.155 65);
+  --accent-foreground: oklch(0.16 0.01 80);
+
+  /* Surfaces */
+  --background: oklch(0.155 0.005 285);
+  --foreground: oklch(0.965 0.005 80);
+  --surface: oklch(0.21 0.005 285);
+  --surface-secondary: oklch(0.245 0.005 285);
+  --surface-tertiary: oklch(0.28 0.005 285);
+  --overlay: oklch(0.21 0.005 285);
+
+  /* Borders / separators */
+  --border: oklch(0.32 0.006 285);
+  --separator: oklch(0.28 0.006 285);
+
+  /* Muted text */
+  --muted: oklch(0.71 0.015 286);
+
+  /* Form fields */
+  --field-background: oklch(0.21 0.005 285);
+  --field-border: oklch(0.32 0.006 285);
+  --field-border-width: 1px;
+
+  --focus: var(--accent);
+  --link: var(--foreground);
+}
+
+/* Global reset / base */
+:root {
+  color-scheme: dark;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-size-adjust: 100%;
+}
+
+html,
+body {
+  background-color: var(--color-nebula-base);
+  color: var(--color-nebula-on);
+}
+
+body {
+  min-height: 100dvh;
+}
+
+::selection {
+  background-color: color-mix(in oklab, var(--color-nebula-primary) 60%, transparent);
+  color: var(--color-nebula-base);
+}
+
+/* Heading defaults */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+  font-weight: 500;
+}
+
+/* Mono utility */
+.font-mono,
+code,
+kbd,
+pre {
+  font-family: var(--font-mono);
+}
+
+/* Subtle dotted grid background — used on hero / section breakers */
+.bg-grid-dots {
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.045) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
+}
+
+/* Faint horizontal scanline — used as section separators */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-nebula-line) 18%,
+    var(--color-nebula-line) 82%,
+    transparent
+  );
+}
+
+/* Reusable label style */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-nebula-primary);
+}
+
+/* =========================================================================
+   Reduced motion respect
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
