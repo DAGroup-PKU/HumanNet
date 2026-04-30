@@ -2,26 +2,28 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@heroui/react";
 import { adminApi, HttpError, setToken } from "./api";
-import type { SiteConfig } from "../lib/config-types";
-import { DEFAULT_CONFIG } from "../lib/config-defaults";
+import type { StoredSiteConfig } from "../lib/config-types";
+import { ADMIN_DEFAULT_CONFIG } from "./admin-defaults";
 import { HeroEditor } from "./editors/HeroEditor";
 import { LinksEditor } from "./editors/LinksEditor";
 import { TeamEditor } from "./editors/TeamEditor";
 import { GalleryEditor } from "./editors/GalleryEditor";
+import { FooterEditor } from "./editors/FooterEditor";
 
-type Tab = "hero" | "links" | "team" | "gallery";
+type Tab = "hero" | "links" | "team" | "gallery" | "footer";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "hero", label: "Hero" },
   { id: "links", label: "Links" },
   { id: "team", label: "Team" },
   { id: "gallery", label: "Gallery" },
+  { id: "footer", label: "Footer" },
 ];
 
 export function AdminDashboard() {
   const navigate = useNavigate();
-  const [config, setConfig] = useState<SiteConfig>(DEFAULT_CONFIG);
-  const [draft, setDraft] = useState<SiteConfig>(DEFAULT_CONFIG);
+  const [config, setConfig] = useState<StoredSiteConfig>(ADMIN_DEFAULT_CONFIG);
+  const [draft, setDraft] = useState<StoredSiteConfig>(ADMIN_DEFAULT_CONFIG);
   const [tab, setTab] = useState<Tab>("hero");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -184,6 +186,13 @@ export function AdminDashboard() {
           <GalleryEditor
             value={draft.gallery}
             onChange={(gallery) => setDraft({ ...draft, gallery })}
+          />
+        )}
+        {tab === "footer" && (
+          <FooterEditor
+            value={draft.footer}
+            links={draft.links}
+            onChange={(footer) => setDraft({ ...draft, footer })}
           />
         )}
       </main>

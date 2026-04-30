@@ -1,8 +1,11 @@
 import { Router } from "express";
+import rateLimit from "express-rate-limit";
+import { ENV } from "../env.js";
 import { db } from "../db.js";
 import { DEFAULT_CONFIG_PAYLOAD } from "../default-config.js";
 import { requireAdmin } from "../auth.js";
-import { SiteConfigSchema } from "../schema.js";
+import { SiteConfigSchema, type SiteConfigInput } from "../schema.js";
+import { renderPublicConfig } from "../render.js";
 
 export const configRouter = Router();
 
@@ -11,7 +14,10 @@ interface ConfigRow {
   updated_at: string;
 }
 
-function readConfig(): { payload: unknown; updated_at: string | null } {
+/** Read the stored config from the DB, or fall back to bundled defaults
+ *  if the row is missing / corrupt. We never throw from here — the
+ *  public endpoint must be cheap and reliable. */
+function readStored(): { payload: SiteConfigInput; updated_at: string | null } {
   const row = db
     .prepare(
       `SELECT payload, updated_at FROM site_config WHERE id = 1 LIMIT 1`,
@@ -19,27 +25,71 @@ function readConfig(): { payload: unknown; updated_at: string | null } {
     .get() as ConfigRow | undefined;
 
   if (!row) {
-    return { payload: DEFAULT_CONFIG_PAYLOAD, updated_at: null };
+    return {
+      payload: DEFAULT_CONFIG_PAYLOAD as unknown as SiteConfigInput,
+      updated_at: null,
+    };
   }
   try {
-    return { payload: JSON.parse(row.payload), updated_at: row.updated_at };
+    return {
+      payload: JSON.parse(row.payload) as SiteConfigInput,
+      updated_at: row.updated_at,
+    };
   } catch {
-    // Corrupt payload — fall back to bundled defaults rather than 500ing.
-    return { payload: DEFAULT_CONFIG_PAYLOAD, updated_at: row.updated_at };
+    return {
+      payload: DEFAULT_CONFIG_PAYLOAD as unknown as SiteConfigInput,
+      updated_at: row.updated_at,
+    };
   }
 }
 
-// Public read.
-configRouter.get("/api/config", (_req, res) => {
-  const { payload, updated_at } = readConfig();
+// ─────────────────────────────────────────────────────────────────────
+// Public read — rendered shape (signed OSS URLs, resolved footer hrefs).
+// ─────────────────────────────────────────────────────────────────────
+
+const publicLimiter = rateLimit({
+  windowMs: ENV.PUBLIC_API_RATE_WINDOW_MS,
+  max: ENV.PUBLIC_API_RATE_LIMIT,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "too_many_requests" },
+});
+
+configRouter.get("/api/config", publicLimiter, async (_req, res, next) => {
+  try {
+    const { payload, updated_at } = readStored();
+    const rendered = await renderPublicConfig(
+      payload,
+      updated_at ?? new Date(0).toISOString(),
+    );
+    // The signed URLs inside the response have a TTL — tell shared
+    // caches not to keep this for long. The browser's own memory cache
+    // is fine, but a CDN must not pin a stale URL.
+    res.setHeader(
+      "Cache-Control",
+      `public, max-age=60, s-maxage=60, must-revalidate`,
+    );
+    res.json(rendered);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────────
+// Admin endpoints — raw stored shape (videos as discriminated unions,
+// footer hrefs unresolved). The admin SPA needs the raw shape so it can
+// edit kind/bucket/key for OSS refs.
+// ─────────────────────────────────────────────────────────────────────
+
+configRouter.get("/api/admin/config", requireAdmin, (_req, res) => {
+  const { payload, updated_at } = readStored();
   res.json({
-    ...(payload as object),
+    ...payload,
     updatedAt: updated_at ?? new Date(0).toISOString(),
   });
 });
 
-// Admin write — validates the entire object atomically.
-configRouter.put("/api/config", requireAdmin, (req, res) => {
+configRouter.put("/api/admin/config", requireAdmin, (req, res) => {
   const parsed = SiteConfigSchema.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({
@@ -64,9 +114,9 @@ configRouter.put("/api/config", requireAdmin, (req, res) => {
        updated_by = excluded.updated_by`,
   ).run(json, username);
 
-  const fresh = readConfig();
+  const fresh = readStored();
   res.json({
-    ...(fresh.payload as object),
+    ...fresh.payload,
     updatedAt: fresh.updated_at,
   });
 });

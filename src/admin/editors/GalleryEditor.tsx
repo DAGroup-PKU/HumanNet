@@ -1,15 +1,16 @@
-import type { GalleryClip } from "../../data/gallery";
+import type { StoredGalleryClip } from "../../lib/config-types";
 import { Field, NativeSelect, TextArea, TextInput } from "./Field";
+import { VideoRefInput } from "./VideoRefInput";
 
 interface Props {
-  value: GalleryClip[];
-  onChange: (next: GalleryClip[]) => void;
+  value: StoredGalleryClip[];
+  onChange: (next: StoredGalleryClip[]) => void;
 }
 
-function blank(): GalleryClip {
+function blank(): StoredGalleryClip {
   return {
     id: `clip-${Date.now().toString(36)}`,
-    src: "",
+    src: { kind: "external", url: "https://" },
     perspective: "exo",
     task: "Task",
     caption: "Short caption.",
@@ -18,7 +19,7 @@ function blank(): GalleryClip {
 }
 
 export function GalleryEditor({ value, onChange }: Props) {
-  function patch(idx: number, p: Partial<GalleryClip>) {
+  function patch(idx: number, p: Partial<StoredGalleryClip>) {
     onChange(value.map((c, i) => (i === idx ? { ...c, ...p } : c)));
   }
   function add() {
@@ -104,47 +105,53 @@ export function GalleryEditor({ value, onChange }: Props) {
               </div>
             </header>
 
-            <div className="grid gap-4 md:grid-cols-3">
-              <Field label="ID" hint="Unique stable identifier.">
-                <TextInput value={c.id} onChange={(v) => patch(i, { id: v })} />
-              </Field>
-              <Field label="Task">
-                <TextInput value={c.task} onChange={(v) => patch(i, { task: v })} />
-              </Field>
-              <Field label="Perspective">
-                <NativeSelect
-                  value={c.perspective}
-                  onChange={(v) => patch(i, { perspective: v })}
-                  options={[
-                    { id: "exo", label: "Exocentric (third-person)" },
-                    { id: "ego", label: "Egocentric (first-person)" },
-                  ]}
-                />
-              </Field>
-              <Field label="Source URL" className="md:col-span-2">
-                <TextInput
-                  value={c.src}
-                  onChange={(v) => patch(i, { src: v })}
-                  placeholder="https://oss-cn-…aliyuncs.com/nebula/exo/foo.mp4 or /videos/exo/foo.mp4"
-                />
-              </Field>
-              <Field label="Aspect ratio (w / h)">
-                <TextInput
-                  type="number"
-                  step="0.001"
-                  value={c.aspectRatio}
-                  onChange={(v) =>
-                    patch(i, { aspectRatio: Number(v) || c.aspectRatio })
-                  }
-                />
-              </Field>
-              <Field label="Caption" className="md:col-span-3">
-                <TextArea
-                  value={c.caption}
-                  onChange={(v) => patch(i, { caption: v })}
-                  rows={2}
-                />
-              </Field>
+            <div className="grid gap-4">
+              <div className="grid gap-4 md:grid-cols-3">
+                <Field label="ID" hint="Unique stable identifier.">
+                  <TextInput value={c.id} onChange={(v) => patch(i, { id: v })} />
+                </Field>
+                <Field label="Task">
+                  <TextInput
+                    value={c.task}
+                    onChange={(v) => patch(i, { task: v })}
+                  />
+                </Field>
+                <Field label="Perspective">
+                  <NativeSelect
+                    value={c.perspective}
+                    onChange={(v) => patch(i, { perspective: v })}
+                    options={[
+                      { id: "exo", label: "Exocentric (third-person)" },
+                      { id: "ego", label: "Egocentric (first-person)" },
+                    ]}
+                  />
+                </Field>
+              </div>
+
+              <VideoRefInput
+                value={c.src}
+                onChange={(src) => patch(i, { src })}
+              />
+
+              <div className="grid gap-4 md:grid-cols-3">
+                <Field label="Aspect ratio (w / h)">
+                  <TextInput
+                    type="number"
+                    step="0.001"
+                    value={c.aspectRatio}
+                    onChange={(v) =>
+                      patch(i, { aspectRatio: Number(v) || c.aspectRatio })
+                    }
+                  />
+                </Field>
+                <Field label="Caption" className="md:col-span-2">
+                  <TextArea
+                    value={c.caption}
+                    onChange={(v) => patch(i, { caption: v })}
+                    rows={2}
+                  />
+                </Field>
+              </div>
             </div>
           </article>
         ))}

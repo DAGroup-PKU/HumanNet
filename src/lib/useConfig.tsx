@@ -8,7 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import { DEFAULT_CONFIG } from "./config-defaults";
-import type { SiteConfig } from "./config-types";
+import type { FooterConfig, SiteConfig, SiteLinks } from "./config-types";
 
 interface ConfigContextValue {
   config: SiteConfig;
@@ -25,6 +25,32 @@ const ConfigContext = createContext<ConfigContextValue | null>(null);
 
 const API_URL = "/api/config";
 
+/** Resolve `$key` style hrefs against SiteLinks. The backend already does
+ *  this server-side for live API responses, but we still need it on the
+ *  bundled offline default (the same defaults are served verbatim when
+ *  the API is unreachable). */
+function resolveFooterHrefs(footer: FooterConfig, links: SiteLinks): FooterConfig {
+  const resolve = (href: string): string => {
+    if (!href.startsWith("$")) return href;
+    const key = href.slice(1) as keyof SiteLinks;
+    return Object.prototype.hasOwnProperty.call(links, key)
+      ? links[key]
+      : "#";
+  };
+  return {
+    ...footer,
+    columns: footer.columns.map((c) => ({
+      ...c,
+      items: c.items.map((it) => ({ ...it, href: resolve(it.href) })),
+    })),
+  };
+}
+
+const RESOLVED_DEFAULT_CONFIG: SiteConfig = {
+  ...DEFAULT_CONFIG,
+  footer: resolveFooterHrefs(DEFAULT_CONFIG.footer, DEFAULT_CONFIG.links),
+};
+
 async function fetchConfig(): Promise<SiteConfig> {
   const res = await fetch(API_URL, {
     method: "GET",
@@ -35,17 +61,19 @@ async function fetchConfig(): Promise<SiteConfig> {
   const json = (await res.json()) as Partial<SiteConfig>;
   // Defensive merge: if the backend forgets a field (or sends a stale
   // schema version), we still render with the bundled default.
-  return {
-    hero: { ...DEFAULT_CONFIG.hero, ...(json.hero ?? {}) },
-    links: { ...DEFAULT_CONFIG.links, ...(json.links ?? {}) },
-    team: json.team ?? DEFAULT_CONFIG.team,
-    gallery: json.gallery ?? DEFAULT_CONFIG.gallery,
+  const merged: SiteConfig = {
+    hero: { ...RESOLVED_DEFAULT_CONFIG.hero, ...(json.hero ?? {}) },
+    links: { ...RESOLVED_DEFAULT_CONFIG.links, ...(json.links ?? {}) },
+    team: json.team ?? RESOLVED_DEFAULT_CONFIG.team,
+    gallery: json.gallery ?? RESOLVED_DEFAULT_CONFIG.gallery,
+    footer: json.footer ?? RESOLVED_DEFAULT_CONFIG.footer,
     updatedAt: json.updatedAt,
   };
+  return merged;
 }
 
 export function ConfigProvider({ children }: { children: ReactNode }) {
-  const [config, setConfig] = useState<SiteConfig>(DEFAULT_CONFIG);
+  const [config, setConfig] = useState<SiteConfig>(RESOLVED_DEFAULT_CONFIG);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -82,7 +110,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
  * slices spread out for ergonomic destructuring.
  *
  * ```tsx
- * const { hero, team, links, loading } = useConfig();
+ * const { hero, team, links, footer, loading } = useConfig();
  * ```
  */
 export function useConfig() {
@@ -90,11 +118,12 @@ export function useConfig() {
   if (!ctx) {
     // Permits component usage outside the provider during tests / Storybook.
     return {
-      config: DEFAULT_CONFIG,
-      hero: DEFAULT_CONFIG.hero,
-      links: DEFAULT_CONFIG.links,
-      team: DEFAULT_CONFIG.team,
-      gallery: DEFAULT_CONFIG.gallery,
+      config: RESOLVED_DEFAULT_CONFIG,
+      hero: RESOLVED_DEFAULT_CONFIG.hero,
+      links: RESOLVED_DEFAULT_CONFIG.links,
+      team: RESOLVED_DEFAULT_CONFIG.team,
+      gallery: RESOLVED_DEFAULT_CONFIG.gallery,
+      footer: RESOLVED_DEFAULT_CONFIG.footer,
       loading: false,
       error: null,
       reload: async () => {},
@@ -106,5 +135,6 @@ export function useConfig() {
     links: ctx.config.links,
     team: ctx.config.team,
     gallery: ctx.config.gallery,
+    footer: ctx.config.footer,
   };
 }

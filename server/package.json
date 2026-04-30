@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "ali-oss": "^6.23.0",
     "bcryptjs": "^2.4.3",
     "better-sqlite3": "^11.5.0",
     "cors": "^2.8.5",
@@ -20,6 +21,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/ali-oss": "^6.23.3",
     "@types/bcryptjs": "^2.4.6",
     "@types/better-sqlite3": "^7.6.11",
     "@types/cors": "^2.8.17",

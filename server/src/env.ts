@@ -37,6 +37,11 @@ function required(name: string, fallback?: string): string {
   return v;
 }
 
+function optional(name: string): string | undefined {
+  const v = process.env[name];
+  return v && v.length > 0 ? v : undefined;
+}
+
 export const ENV = {
   PORT: Number(process.env.SERVER_PORT ?? 5175),
   DB_PATH: process.env.DB_PATH ?? path.join(repoRoot, "server/data/nebula.db"),
@@ -51,7 +56,40 @@ export const ENV = {
   // password. Not used at runtime — only the bcrypt hash in the DB is.
   ADMIN_PASSWORD: process.env.ADMIN_PASSWORD ?? "nebula-admin",
   CORS_ORIGIN: process.env.CORS_ORIGIN ?? "http://localhost:5174",
+
+  // ─── Aliyun OSS ───────────────────────────────────────────────────
+  // Leave any of these unset to disable OSS signing. Stored videos with
+  // kind:"oss" then fall back to a clearly-broken placeholder URL and
+  // a warning is logged once at boot. Filling them in switches signing
+  // on without code changes.
+  OSS_REGION: optional("OSS_REGION"),
+  OSS_BUCKET: optional("OSS_BUCKET"),
+  OSS_ACCESS_KEY_ID: optional("OSS_ACCESS_KEY_ID"),
+  OSS_ACCESS_KEY_SECRET: optional("OSS_ACCESS_KEY_SECRET"),
+  // Use the *internal* endpoint when the server runs inside Aliyun (free
+  // egress), the public endpoint otherwise. Optional - the SDK derives
+  // an endpoint from `region` when omitted.
+  OSS_ENDPOINT: optional("OSS_ENDPOINT"),
+  // TTL for signed playback URLs. 1h is a reasonable default - long
+  // enough that a casual visitor watching the page can replay the video,
+  // short enough that a leaked link expires before it spreads.
+  OSS_URL_TTL_SECONDS: Number(process.env.OSS_URL_TTL_SECONDS ?? 60 * 60),
+  // Use HTTPS for signed URLs. Should always be true in prod.
+  OSS_SECURE: (process.env.OSS_SECURE ?? "true").toLowerCase() !== "false",
+
+  // ─── Public API rate limiter ──────────────────────────────────────
+  PUBLIC_API_RATE_LIMIT: Number(process.env.PUBLIC_API_RATE_LIMIT ?? 60),
+  PUBLIC_API_RATE_WINDOW_MS: Number(
+    process.env.PUBLIC_API_RATE_WINDOW_MS ?? 60_000,
+  ),
 } as const;
+
+export const OSS_ENABLED = Boolean(
+  ENV.OSS_REGION &&
+    ENV.OSS_BUCKET &&
+    ENV.OSS_ACCESS_KEY_ID &&
+    ENV.OSS_ACCESS_KEY_SECRET,
+);
 
 export const IS_PROD = process.env.NODE_ENV === "production";
 
@@ -63,5 +101,11 @@ if (IS_PROD && ENV.JWT_SECRET.startsWith("dev-only-")) {
   process.exit(1);
 }
 
-// Suppress unused warning if not directly referenced.
+if (!OSS_ENABLED) {
+  // eslint-disable-next-line no-console
+  console.warn(
+    "[oss] OSS credentials missing — kind:'oss' video refs will not be signed. Set OSS_REGION / OSS_BUCKET / OSS_ACCESS_KEY_ID / OSS_ACCESS_KEY_SECRET to enable.",
+  );
+}
+
 void required;

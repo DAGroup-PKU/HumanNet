@@ -3,9 +3,16 @@
 // (1) the frontend file imports React-aware modules, and (2) the seed
 // script runs before any frontend tooling is involved.
 //
-// If you add fields to SiteConfig (src/lib/config-types.ts), add them
-// here too AND update src/lib/config-defaults.ts. Lesson L0013 covers
-// keeping these in sync.
+// IMPORTANT — shape difference vs. the frontend default:
+//   - Frontend's DEFAULT_CONFIG is the *rendered* shape (videos = string).
+//   - This file is the *stored* shape (videos = StoredVideo discriminated
+//     union). The server signs/resolves them on every public GET — see
+//     server/src/render.ts. Bundled clip URLs default to kind:"local" so
+//     they are served unchanged from the Vite /public/videos/ tree.
+//
+// If you add fields to SiteConfigBase / StoredSiteConfig
+// (src/lib/config-types.ts), add them here too AND update
+// src/lib/config-defaults.ts. Lesson L0013 covers keeping these in sync.
 
 import { ACCENT_OPEN, ACCENT_CLOSE } from "./shared.js";
 
@@ -15,7 +22,10 @@ export const DEFAULT_CONFIG_PAYLOAD = {
     title: `The data substrate for ${ACCENT_OPEN}embodied intelligence${ACCENT_CLOSE} that survives contact with the real world.`,
     description:
       "Project Nebula publishes a fully open, multi-modal capture of how humans and robots actually move, manipulate, and assemble — with synchronised exocentric and egocentric streams, raw enough to train on, structured enough to evaluate against.",
-    primaryVideo: "/videos/exo/QSuxYRr3n7o_85.mp4",
+    primaryVideo: {
+      kind: "local" as const,
+      path: "/videos/exo/QSuxYRr3n7o_85.mp4",
+    },
     primaryVideoAspect: 2134 / 1280,
     metrics: [
       { key: "Hours", value: "12.8k" },
@@ -84,67 +94,123 @@ export const DEFAULT_CONFIG_PAYLOAD = {
   gallery: [
     {
       id: "exo-manip",
-      src: "/videos/exo/QSuxYRr3n7o_28.mp4",
-      perspective: "exo",
+      src: { kind: "local" as const, path: "/videos/exo/QSuxYRr3n7o_28.mp4" },
+      perspective: "exo" as const,
       task: "Manipulation",
       caption: "Bimanual pick-and-place under a fixed studio rig.",
       aspectRatio: 2134 / 1280,
     },
     {
       id: "exo-nav",
-      src: "/videos/exo/QSuxYRr3n7o_68.mp4",
-      perspective: "exo",
+      src: { kind: "local" as const, path: "/videos/exo/QSuxYRr3n7o_68.mp4" },
+      perspective: "exo" as const,
       task: "Navigation",
       caption: "Cluttered indoor traversal with dynamic obstacles.",
       aspectRatio: 2134 / 1300,
     },
     {
       id: "exo-assembly",
-      src: "/videos/exo/QSuxYRr3n7o_80.mp4",
-      perspective: "exo",
+      src: { kind: "local" as const, path: "/videos/exo/QSuxYRr3n7o_80.mp4" },
+      perspective: "exo" as const,
       task: "Assembly",
       caption: "Multi-step part-fitting on a workbench.",
       aspectRatio: 2134 / 1322,
     },
     {
       id: "exo-tool",
-      src: "/videos/exo/QSuxYRr3n7o_101.mp4",
-      perspective: "exo",
+      src: { kind: "local" as const, path: "/videos/exo/QSuxYRr3n7o_101.mp4" },
+      perspective: "exo" as const,
       task: "Tool use",
       caption: "Hand-tool sequencing under occlusion.",
       aspectRatio: 2134 / 1280,
     },
     {
       id: "ego-factory",
-      src: "/videos/ego/0006_0.4284_factory_005_worker_011_0069__0_176_177_six_panel.mp4",
-      perspective: "ego",
+      src: {
+        kind: "local" as const,
+        path: "/videos/ego/0006_0.4284_factory_005_worker_011_0069__0_176_177_six_panel.mp4",
+      },
+      perspective: "ego" as const,
       task: "Factory work",
       caption: "Six-panel ego sweep on a production line.",
       aspectRatio: 16 / 9,
     },
     {
       id: "ego-switch",
-      src: "/videos/ego/0001_0.4099_z176-sep-05-22-switch__864_1126_263_six_panel.mp4",
-      perspective: "ego",
+      src: {
+        kind: "local" as const,
+        path: "/videos/ego/0001_0.4099_z176-sep-05-22-switch__864_1126_263_six_panel.mp4",
+      },
+      perspective: "ego" as const,
       task: "Switch handling",
       caption: "First-person panel-switch operation, daylight rig.",
       aspectRatio: 16 / 9,
     },
     {
       id: "ego-dslr",
-      src: "/videos/ego/0003_0.4354_z088-july-07-22-dslr__498_873_376_six_panel.mp4",
-      perspective: "ego",
+      src: {
+        kind: "local" as const,
+        path: "/videos/ego/0003_0.4354_z088-july-07-22-dslr__498_873_376_six_panel.mp4",
+      },
+      perspective: "ego" as const,
       task: "DSLR rig",
       caption: "Outdoor head-mounted DSLR capture.",
       aspectRatio: 16 / 9,
     },
     {
       id: "ego-gopro",
-      src: "/videos/ego/0004_0.3625_z140-aug-16-22-gopro__855_1012_158_six_panel.mp4",
-      perspective: "ego",
+      src: {
+        kind: "local" as const,
+        path: "/videos/ego/0004_0.3625_z140-aug-16-22-gopro__855_1012_158_six_panel.mp4",
+      },
+      perspective: "ego" as const,
       task: "GoPro rig",
       caption: "GoPro-mounted egocentric workshop capture.",
       aspectRatio: 16 / 9,
     },
   ],
+  footer: {
+    brandTagline:
+      "An open-source embodied AI dataset & toolchain. Released under CC-BY-SA 4.0 (data) and Apache 2.0 (code). Built by an open community of robotics researchers, engineers, and field operators.",
+    licenses: [
+      { label: "CC-BY-SA 4.0 · data" },
+      { label: "Apache 2.0 · code" },
+    ],
+    columns: [
+      {
+        id: "project",
+        title: "Project",
+        items: [
+          { label: "Dataset card", href: "#" },
+          { label: "Loader SDK", href: "#" },
+          { label: "Calibration tool", href: "#" },
+          { label: "Benchmarks", href: "#" },
+        ],
+      },
+      {
+        id: "community",
+        title: "Community",
+        items: [
+          { label: "GitHub", href: "$github", external: true },
+          { label: "Hugging Face", href: "$huggingface", external: true },
+          { label: "Discord", href: "$discord" },
+          { label: "Mailing list", href: "$mailingList" },
+        ],
+      },
+      {
+        id: "research",
+        title: "Research",
+        items: [
+          { label: "Methods paper", href: "#" },
+          { label: "Capture rigs", href: "#" },
+          { label: "Annotation schema", href: "#" },
+          { label: "Reproducibility", href: "#" },
+        ],
+      },
+    ],
+    copyright: "© 2025–2026 Project Nebula contributors.",
+    versionTag: "v0.9 · preview · embargo 2026-Q3",
+  },
 };
+
+export type DefaultConfig = typeof DEFAULT_CONFIG_PAYLOAD;

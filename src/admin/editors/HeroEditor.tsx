@@ -1,19 +1,25 @@
-import type { HeroConfig } from "../../lib/config-types";
+import type { StoredHeroConfig } from "../../lib/config-types";
 import { ACCENT_CLOSE, ACCENT_OPEN } from "../../lib/config-types";
 import { Field, TextArea, TextInput } from "./Field";
+import { VideoRefInput } from "./VideoRefInput";
 
 interface Props {
-  value: HeroConfig;
-  onChange: (next: HeroConfig) => void;
+  value: StoredHeroConfig;
+  onChange: (next: StoredHeroConfig) => void;
 }
 
 export function HeroEditor({ value, onChange }: Props) {
-  function patch<K extends keyof HeroConfig>(key: K, next: HeroConfig[K]) {
+  function patch<K extends keyof StoredHeroConfig>(
+    key: K,
+    next: StoredHeroConfig[K],
+  ) {
     onChange({ ...value, [key]: next });
   }
 
   function patchMetric(idx: number, key: "key" | "value", next: string) {
-    const metrics = value.metrics.map((m, i) => (i === idx ? { ...m, [key]: next } : m));
+    const metrics = value.metrics.map((m, i) =>
+      i === idx ? { ...m, [key]: next } : m,
+    );
     onChange({ ...value, metrics });
   }
 
@@ -63,29 +69,25 @@ export function HeroEditor({ value, onChange }: Props) {
         />
       </Field>
 
-      <div className="grid gap-6 md:grid-cols-3">
-        <Field
-          label="Primary video URL"
-          hint="Absolute (OSS / CDN) or relative path under /videos."
-          className="md:col-span-2"
-        >
-          <TextInput
-            value={value.primaryVideo}
-            onChange={(v) => patch("primaryVideo", v)}
-            placeholder="https://… or /videos/exo/foo.mp4"
-          />
-        </Field>
-        <Field label="Aspect ratio (w / h)" hint="e.g. 1.667 for 5:3, 1.778 for 16:9">
-          <TextInput
-            type="number"
-            step="0.001"
-            value={value.primaryVideoAspect}
-            onChange={(v) =>
-              patch("primaryVideoAspect", Number(v) || value.primaryVideoAspect)
-            }
-          />
-        </Field>
-      </div>
+      <VideoRefInput
+        label="Primary video"
+        value={value.primaryVideo}
+        onChange={(v) => patch("primaryVideo", v)}
+      />
+
+      <Field
+        label="Aspect ratio (w / h)"
+        hint="e.g. 1.667 for 5:3, 1.778 for 16:9. Measure with ffprobe."
+      >
+        <TextInput
+          type="number"
+          step="0.001"
+          value={value.primaryVideoAspect}
+          onChange={(v) =>
+            patch("primaryVideoAspect", Number(v) || value.primaryVideoAspect)
+          }
+        />
+      </Field>
 
       <div className="rounded-md border border-nebula-line bg-nebula-surface p-5">
         <div className="mb-4 flex items-center justify-between">

@@ -1,27 +1,17 @@
+import type { FooterLink } from "../lib/config-types";
 import { useConfig } from "../lib/useConfig";
 
-const COL_PROJECT = [
-  { label: "Dataset card", href: "#" },
-  { label: "Loader SDK", href: "#" },
-  { label: "Calibration tool", href: "#" },
-  { label: "Benchmarks", href: "#" },
-];
-
-const COL_RESEARCH = [
-  { label: "Methods paper", href: "#" },
-  { label: "Capture rigs", href: "#" },
-  { label: "Annotation schema", href: "#" },
-  { label: "Reproducibility", href: "#" },
-];
+// All href references received from the API are already resolved by the
+// backend — `$github` etc. become absolute URLs in renderPublicConfig.
+// We still treat anything starting with "$" as defensively unresolved
+// (in case the offline default bundle is in play) by falling back to "#".
+function safeHref(href: string): string {
+  return href.startsWith("$") ? "#" : href;
+}
 
 export function Footer() {
-  const { links } = useConfig();
-  const COL_COMMUNITY = [
-    { label: "GitHub", href: links.github, external: true },
-    { label: "Hugging Face", href: links.huggingface, external: true },
-    { label: "Discord", href: links.discord },
-    { label: "Mailing list", href: links.mailingList },
-  ];
+  const { footer } = useConfig();
+
   return (
     <footer
       role="contentinfo"
@@ -42,43 +32,44 @@ export function Footer() {
               </span>
             </div>
             <p className="mt-5 max-w-md text-sm leading-relaxed text-nebula-on-muted">
-              An open-source embodied AI dataset & toolchain. Released under
-              CC-BY-SA 4.0 (data) and Apache 2.0 (code). Built by an open
-              community of robotics researchers, engineers, and field
-              operators.
+              {footer.brandTagline}
             </p>
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <span className="rounded-sm border border-nebula-line bg-nebula-surface px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-nebula-on-muted">
-                CC-BY-SA 4.0 · data
-              </span>
-              <span className="rounded-sm border border-nebula-line bg-nebula-surface px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-nebula-on-muted">
-                Apache 2.0 · code
-              </span>
-            </div>
+            {footer.licenses.length > 0 && (
+              <div className="mt-6 flex flex-wrap items-center gap-3">
+                {footer.licenses.map((l, i) => (
+                  <span
+                    key={i}
+                    className="rounded-sm border border-nebula-line bg-nebula-surface px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-nebula-on-muted"
+                  >
+                    {l.label}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-8">
-            <FooterColumn title="Project" items={COL_PROJECT} />
-            <FooterColumn title="Community" items={COL_COMMUNITY} />
-            <FooterColumn title="Research" items={COL_RESEARCH} />
+            {footer.columns.map((col) => (
+              <FooterColumnView key={col.id} title={col.title} items={col.items} />
+            ))}
           </div>
         </div>
 
         <div className="mt-16 flex flex-col items-start gap-4 border-t border-nebula-line pt-8 font-mono text-[10px] uppercase tracking-[0.22em] text-nebula-on-dim sm:flex-row sm:items-center sm:justify-between">
-          <span>© 2025–2026 Project Nebula contributors.</span>
-          <span>v0.9 · preview · embargo 2026-Q3</span>
+          <span>{footer.copyright}</span>
+          <span>{footer.versionTag}</span>
         </div>
       </div>
     </footer>
   );
 }
 
-function FooterColumn({
+function FooterColumnView({
   title,
   items,
 }: {
   title: string;
-  items: { label: string; href: string; external?: boolean }[];
+  items: FooterLink[];
 }) {
   return (
     <div>
@@ -86,10 +77,10 @@ function FooterColumn({
         {title}
       </div>
       <ul className="space-y-3">
-        {items.map((item) => (
-          <li key={item.label}>
+        {items.map((item, i) => (
+          <li key={`${item.label}-${i}`}>
             <a
-              href={item.href}
+              href={safeHref(item.href)}
               {...(item.external
                 ? { target: "_blank", rel: "noopener noreferrer" }
                 : {})}
