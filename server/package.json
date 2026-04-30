@@ -8,6 +8,7 @@
     "dev": "tsx watch src/index.ts",
     "start": "node --enable-source-maps --import tsx src/index.ts",
     "seed": "tsx src/seed.ts",
+    "oss:verify": "tsx scripts/oss-verify.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
