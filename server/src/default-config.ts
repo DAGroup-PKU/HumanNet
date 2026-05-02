@@ -398,10 +398,20 @@ export const DEFAULT_CONFIG_PAYLOAD = {
       { label: "CC-BY-SA 4.0 · data" },
       { label: "Apache 2.0 · code" },
     ],
-    // Preview release: per-domain link columns are intentionally hidden.
-    // Refill via the admin Footer tab once GitHub / HF / Discord channels
-    // are ready; the schema accepts up to 6 columns.
-    columns: [],
+    // Preview release surfaces the two live external destinations
+    // (Tally waitlist + arXiv). Items use the `$key` form so the URL is
+    // edited once in the Links tab. Schema accepts up to 6 columns —
+    // add more via the admin Footer tab as channels come online.
+    columns: [
+      {
+        id: "get-involved",
+        title: "Get involved",
+        items: [
+          { label: "Join the waitlist", href: "$waitlist", external: true },
+          { label: "Read the paper", href: "$arxiv", external: true },
+        ],
+      },
+    ],
     copyright: "© 2026 PKU DAGroup · SimpleSilicon.",
     versionTag: "Preview Version",
   },
