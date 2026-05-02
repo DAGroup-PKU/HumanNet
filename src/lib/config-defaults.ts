@@ -24,12 +24,21 @@ export const DEFAULT_FOOTER: FooterConfig = {
     { label: "CC-BY-SA 4.0 · data" },
     { label: "Apache 2.0 · code" },
   ],
-  // The Preview release intentionally hides the per-domain link
-  // columns; HumanNet only exposes waitlist + arXiv to visitors today
-  // and the Footer brand area is enough on its own. The columns array
-  // can be re-populated via the admin tab once GitHub / HF / Discord
-  // channels are ready.
-  columns: [],
+  // The Preview release surfaces just the two live external destinations
+  // (Tally waitlist + arXiv paper). The `$key` form resolves to
+  // siteConfig.links.<key> at render time so the admin only edits the
+  // URL in one place (Links tab). When more channels are ready, add
+  // them via the admin Footer tab — schema accepts up to 6 columns.
+  columns: [
+    {
+      id: "get-involved",
+      title: "Get involved",
+      items: [
+        { label: "Join the waitlist", href: "$waitlist", external: true },
+        { label: "Read the paper", href: "$arxiv", external: true },
+      ],
+    },
+  ],
   copyright: "© 2026 PKU DAGroup · SimpleSilicon.",
   versionTag: "Preview Version",
 };
