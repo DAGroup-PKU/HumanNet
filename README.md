@@ -1,147 +1,231 @@
-# Project Nebula — Embodied AI Dataset Landing
+# HumanNet — Open Human-Centric Video Dataset
 
-Two faithful, production-grade implementations of the **Project Nebula** landing page,
-sourced from Stitch designs:
+Public landing page for **HumanNet**, an open human-centric video corpus
+(third-person + egocentric, ~967k hours) for training, evaluating, and
+advancing embodied-AI models. Co-authored by **PKU DAGroup** and
+**SimpleSilicon**. Ships with a small admin backend so the team can edit
+content without a redeploy.
 
-| Surface  | Stitch project                | Target viewport | Source                                     |
-| -------- | ----------------------------- | --------------- | ------------------------------------------ |
-| `web/`   | `17037056815451835087`        | 1280px+         | [`web/_stitch/source.html`](web/_stitch)   |
-| `mobile/`| `4865892911741871417`         | 360–430px       | [`mobile/_stitch/source.html`](mobile/_stitch) |
+## Stack
 
-Both sites share an **Industrial Hard-Science** design system: matte charcoal surfaces,
-razor-sharp 0–8 px corners, `Space Grotesk` headlines, `Inter` body copy,
-`JetBrains Mono` numeric readouts, and `#EE9F32` industrial-amber accent.
+| Layer | Choice | Notes |
+|---|---|---|
+| Build (web) | Vite 7 | dev / build |
+| UI | React 19 + TypeScript 5 | strict typing, .tsx everywhere |
+| Routing | react-router-dom 6 | `/` public, `/admin/*` editor |
+| Styling | Tailwind CSS **v4** | CSS-first config in `src/index.css` |
+| Components | HeroUI **v3 (Beta)** | `@heroui/styles` + `@heroui/react` |
+| Backend | Node 22 + Express 4 | `server/`, ESM, `tsx watch` |
+| Auth | JWT (HS256) | rate-limited login, 8-hour TTL |
+| Storage | SQLite (better-sqlite3) | single `site_config` JSON row |
+| Validation | zod | server-side write validation (incl. `VideoRef` discriminated union) |
+| Object storage | Aliyun OSS via `ali-oss` | private bucket, signed URL minted per request |
+| Public API rate limit | `express-rate-limit` | 60 req/min/IP on `GET /api/config` |
+| Static assets | `public/videos/` | served at `/videos/...` (used by `kind:"local"` refs) |
 
-## Repository layout
+## Scripts
+
+```bash
+npm install                       # install web deps
+npm install --prefix server       # install api deps
+npm --prefix server run seed      # create SQLite + admin user
+
+npm run dev                       # boots vite (5173) + api (5175) together
+npm run dev:web                   # vite only
+npm run dev:api                   # api only
+npm run build                     # tsc -b + vite build → dist/
+npm run preview                   # preview the static dist
+npm run seed                      # alias of `npm --prefix server run seed`
+```
+
+Default admin credentials after `npm run seed` are
+**`admin / humannet-admin`**. Change them in production via:
+
+```bash
+JWT_SECRET=<long-random-string> ADMIN_PASSWORD=<new-password> \
+  npm --prefix server run seed
+```
+
+See `.env.example` for every backend env var.
+
+## Layout
 
 ```
 ego_sites/
-├── README.md                  ← you are here
-├── ProjectStatus.md           ← work log
-├── Progress.md                ← task notes
-├── Lesson.md                  ← lessons learned
-├── assets/
+├── .cursor/
+│   ├── rules/                # source-of-truth Cursor rules
+│   └── skills/skill-template # meta-template for new skills
+├── public/
 │   └── videos/
-│       ├── exo/               ← exocentric (3rd-person) clips
-│       └── ego/               ← egocentric (1st-person) clips
-├── web/
-│   ├── index.html             ← desktop landing (1280px target)
-│   ├── assets/
-│   │   ├── styles.css
-│   │   └── script.js
-│   └── _stitch/               ← original Stitch HTML + screenshot (reference only)
-└── mobile/
-    ├── index.html             ← mobile landing (390px target)
-    ├── assets/
-    │   ├── styles.css
-    │   └── script.js
-    └── _stitch/               ← original Stitch HTML + screenshot (reference only)
+│       ├── exo/              # third-person clips (~5:3 aspect)
+│       └── ego/              # first-person six-panel clips (16:9)
+├── server/                   # backend (admin API + content store)
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── data/                 # SQLite (gitignored)
+│   └── src/
+│       ├── index.ts          # Express bootstrap
+│       ├── env.ts            # tiny .env loader (incl. OSS_* vars)
+│       ├── db.ts             # SQLite + schema (users, site_config)
+│       ├── auth.ts           # JWT issue / verify + requireAdmin
+│       ├── schema.ts         # zod write validator (VideoRef union, FooterConfig)
+│       ├── shared.ts         # constants shared with the frontend
+│       ├── default-config.ts # bundled seed payload (mirrors src/lib/config-defaults)
+│       ├── oss.ts            # ali-oss client + signOssRef (graceful when creds missing)
+│       ├── render.ts         # StoredSiteConfig → PublicSiteConfig (sign + resolve hrefs)
+│       ├── seed.ts           # idempotent seed + schema-aware migration
+│       └── routes/
+│           ├── auth.ts       # POST /api/auth/login + GET /api/auth/me
+│           └── config.ts     # public GET /api/config + admin GET/PUT /api/admin/config
+├── src/
+│   ├── main.tsx              # React entry — mounts BrowserRouter + ConfigProvider
+│   ├── App.tsx               # public landing (8 sections)
+│   ├── index.css             # Tailwind v4 + HeroUI tokens + brand vars
+│   ├── components/           # Hero / Navbar / Footer / DataGallery / …
+│   ├── data/                 # base data shapes (Member, GalleryClip)
+│   ├── lib/
+│   │   ├── config-types.ts   # SiteConfig shape (frontend ↔ backend)
+│   │   ├── config-defaults.ts# bundled defaults (fallback if API down)
+│   │   ├── useConfig.tsx     # React Context + provider hook
+│   │   └── links.ts          # default external URLs
+│   └── admin/                # admin SPA at /admin/*
+│       ├── AdminApp.tsx
+│       ├── AdminLogin.tsx
+│       ├── AdminDashboard.tsx
+│       ├── admin-defaults.ts # initial state (StoredSiteConfig shape)
+│       ├── api.ts            # fetch helpers + token storage
+│       └── editors/
+│           ├── Field.tsx
+│           ├── VideoRefInput.tsx  # local | external | OSS toggle + dynamic fields
+│           ├── HeroEditor.tsx
+│           ├── LinksEditor.tsx
+│           ├── TeamEditor.tsx
+│           ├── GalleryEditor.tsx
+│           └── FooterEditor.tsx   # tagline / chips / columns / copyright
+├── docs/_stitch/             # original Stitch HTML + screenshots (not built)
+├── ProjectStatus.md, Progress.md, Lesson.md
+├── CLAUDE.md, AGENTS.md      # AI-context mirrors of .cursor/rules
+├── .env.example              # backend env-var documentation
+├── package.json, vite.config.ts, tsconfig*.json
+└── README.md (this file)
 ```
 
-## Run locally
+## Architecture in one paragraph
 
-Both sites are pure static HTML/CSS/JS — no build step.
+The public site is a static SPA. On mount, `<ConfigProvider>` fetches
+`GET /api/config` (which is rate-limited at 60 req/min/IP) and merges
+the response over a bundled fallback config (`src/lib/config-defaults.ts`).
+Components like `<Hero>`, `<Members>`, `<DataGallery>`, and `<Footer>`
+consume `useConfig()` so any change on the admin side propagates on the
+next page load. The admin SPA (`/admin/*`) talks to the same Express
+service with a JWT obtained through `POST /api/auth/login`. Tokens live
+in `localStorage` and expire after `JWT_TTL_SECONDS` (default 8h).
 
-```bash
-# from the repo root
-python3 -m http.server 4173
-```
+### Two configs, one source of truth
 
-Then open:
+The DB stores a `StoredSiteConfig`: video fields are
+`{kind:"local"|"external"|"oss", …}` discriminated unions, footer link
+hrefs may use `$key` references. `server/src/render.ts` collapses this
+into a `SiteConfig` (videos as plain string URLs, hrefs fully resolved)
+on every public read. The admin SPA reads / writes the **stored** shape
+via `GET / PUT /api/admin/config` (auth required); the public site
+reads the **rendered** shape via `GET /api/config`.
 
-- Desktop: <http://127.0.0.1:4173/web/index.html>
-- Mobile : <http://127.0.0.1:4173/mobile/index.html>
+### Video security model (six layers)
 
-A static server is required (not `file://`) so the relative video paths
-(`../assets/videos/...`) resolve.
+| # | Layer | Where |
+|---|---|---|
+| 1 | RAM sub-account, `oss:GetObject` only on the bucket | Aliyun RAM console |
+| 2 | Signed URLs with 1h TTL via `ali-oss` `asyncSignatureUrl` | `server/src/oss.ts` |
+| 3 | Bucket Referer whitelist | Aliyun OSS console |
+| 4 | App-layer rate limit (60 req/min/IP) | `server/src/routes/config.ts` |
+| 5 | `controlsList="nodownload"`, `disablePictureInPicture`, etc. | `src/components/VideoFrame.tsx` |
+| 6 | (future) CDN URL signing + Referer at the edge | OSS + Aliyun CDN |
 
-## What is implemented
+Layers 2 / 4 / 5 are implemented in code. 1 / 3 are configuration the
+operator does once in the Aliyun console. 6 is optional — add it if
+bandwidth becomes a problem.
 
-Each surface ships a fully interactive landing experience.
+## Page sections
 
-### `web/`  — full landing
+The page is composed of 8 stacked sections, all responsive:
 
-1. **Top nav** with sticky uplink-signal bar (live coordinates).
-2. **Hero** with side-by-side copy + autoplaying telemetry video,
-   live HUD readouts (`FRAME`, `DELTA`, `JOINT Σ`) that tick every 600 ms,
-   pulsing `LIVE TELEMETRY` chip, and primary/secondary CTAs.
-3. **Perspective Explorer** with accessible `role="tab"` tabs for
-   Exocentric / Egocentric perspectives, animated cross-fade between
-   videos, animated CAM_FRAME counter, and a 6-row camera-parameter sheet.
-4. **Deployment Roadmap** — 4-stage horizontal timeline with active /
-   done / pending node states.
-5. **Raw Data Showcases** — three video cards that play on hover or click.
-6. **Developer Beta terminal** — fake CLI mock with spinning
-   `awaiting_handshake` indicator and a working email form
-   (regex-validated, simulated handshake feedback).
-7. Sticky footer with monospace coordinates.
+1. **Hero** — value prop + live third-person capture preview
+2. **DatasetProfile** — 7 statistical visualisations rendered from the dataset metadata (scene / object / task taxonomies, motion distributions, quality dashboards)
+3. **DataScale** — 6-cell metric mosaic (total hours, TPV hours, FPV hours, scenes, tasks, objects)
+4. **PerspectiveExplorer** — `Tabs` between Exocentric and Egocentric, with full-frame video
+5. **DataGallery** — filterable grid of 40 OSS-served raw clips (20 TPV + 20 FPV)
+6. **Roadmap** — vertical timeline of upcoming milestones (HumanNet Benchmark v1 + Ego-data scaling-law study)
+7. **Members** — co-author organisations (PKU DAGroup + SimpleSilicon)
+8. **Waitlist** — early-access form linking to a public Tally form
 
-### `mobile/` — focused mobile landing
+## Design decisions
 
-1. **Sticky app bar** (safe-area aware) with `Access Terminal` action.
-2. **Hero** with stacked copy, primary `Get Started`, secondary `Live Demo`,
-   live-feed video preview with click-to-unmute play button, and
-   crosshair markers. Three metric cards stack below.
-3. **Perspective Explorer** with pill tabs (radius-`full`, the only
-   exception to the design system's sharp shape language — used here
-   purely as a touch-friendly affordance), animated CAM_FRAME counter,
-   and a 4-row parameter list.
-4. **Roadmap** — vertical timeline.
-5. **Developer Beta terminal** with the same form behaviour as web.
-6. Footer.
+- **Videos are never cropped.** The previous version used
+  `transform: scale(3)` to crop into the top-left RGB panel of six-panel
+  research clips. That hid information that researchers actually want
+  to see. The current `<VideoFrame>` uses `object-fit: contain` and an
+  `aspect-ratio` container, so the entire frame is always visible.
+  Slight letterboxing / pillarboxing is acceptable — the data is.
+- **Single responsive project, not separate web / mobile.** All sections
+  use mobile-first Tailwind breakpoints (`sm`, `md`, `lg`, `xl`).
+- **HeroUI v3 (Beta) for primitives.** Tabs, Card, Form, TextField, Input,
+  Select, Chip, Button. Theming is done by overriding HeroUI semantic
+  tokens (e.g. `--accent`) inside `.dark { ... }` in `src/index.css`.
+- **Anchors look like buttons via `<LinkButton>`.** HeroUI's `Button`
+  warns when its `render` prop returns an anchor instead of a button;
+  we use a thin custom anchor styled with brand tokens for navigation
+  links, and keep `Button` for true form actions.
 
-## Interactions
+## Production deploy notes
 
-- ✅ Accessible `role="tablist"` / `role="tab"` with arrow-key navigation
-  and `aria-selected` state.
-- ✅ Hover-to-play / click-to-play on showcase videos.
-- ✅ Email form with regex validation; simulated CLI success/error
-  feedback rendered inline.
-- ✅ Section reveal on scroll (intersection-observer driven).
-- ✅ All animations honour `prefers-reduced-motion: reduce`.
-- ✅ Telemetry HUD counters update with realistic jitter
-  (10–14 ms `DELTA`, 5–7 `JOINT Σ`).
+### Secrets & seed
 
-## Design system tokens
+- Set `JWT_SECRET` to a long random string (e.g. `openssl rand -hex 64`).
+  The dev placeholder is refused at boot when `NODE_ENV=production`.
+- Run `ADMIN_PASSWORD=... npm --prefix server run seed` once to
+  rotate the admin password (re-running the seed is safe — existing
+  config is preserved unless the schema has changed, in which case
+  the seed prints the validation issues and runs a one-shot migration
+  to bundled defaults).
 
-Colour ramps, spacing, typography, and component primitives live in
-each `assets/styles.css` under `:root`. The systems are intentionally
-duplicated rather than shared — per the user instruction the two
-designs are independent deliverables targeting different devices, and
-each may evolve separately.
+### OSS hookup
 
-| Token            | Value                            |
-| ---------------- | -------------------------------- |
-| `--base`         | `#111113` (matte charcoal)       |
-| `--bg`           | `#131315` (page surface)         |
-| `--primary`      | `#EE9F32` (industrial amber)     |
-| `--on-primary`   | `#1a0f00`                        |
-| `--outline`      | `#2C2C2E` (1px dividers)         |
-| `--outline-strong` | `#3a3a3c`                      |
-| `--respiration-gap` | `120px`                       |
+1. Create a private bucket (e.g. `ss-oss-sites`) in the Aliyun OSS console.
+2. Add a Referer whitelist on the bucket: your production domain (and
+   `localhost` for dev). Disallow empty Referer.
+3. Create a RAM sub-account, attach an inline policy granting only
+   `oss:GetObject` on `acs:oss:*:*:ss-oss-sites/*`. Generate AK / SK.
+4. Set `OSS_REGION`, `OSS_BUCKET`, `OSS_ACCESS_KEY_ID`,
+   `OSS_ACCESS_KEY_SECRET` in `.env`. (The server runs without these
+   set, but `kind:"oss"` refs degrade to a clearly-broken `data:` URL
+   and a warning is logged at boot.)
+5. Upload a clip and edit it from `/admin` — switch the video source
+   to "OSS" and enter `bucket` + `key`. Each public page-load mints a
+   fresh signed URL with `OSS_URL_TTL_SECONDS` lifetime (default 1h).
 
-Typography scale — `display-lg`, `headline-md`, `body-base`, `body-sm`,
-`label-mono` — matches the Stitch design tokens exactly.
+### Video security note
 
-## Video assets
+Real video protection is **a stack, not a single setting**. The site
+implements layers 2 / 4 / 5 from the security table above; layers 1
+and 3 are configuration the operator does once. Layer 6 (CDN URL
+signing) is optional. Don't rely on `controlsList="nodownload"` alone
+— it's the weakest layer.
 
-The hero, explorer, and showcase blocks reference real research clips
-under `assets/videos/`:
+### Serving in prod
 
-- `exo/` — third-person reference camera captures (motion-capture
-  overlays + meshes baked into a 3-panel layout).
-- `ego/` — first-person POV captures (six-panel format, top-left panel
-  is the raw RGB stream).
+Serve the built `dist/` from the same Express instance to avoid CORS
+entirely (`app.use(express.static('dist'))` + a SPA fallback for
+`/admin/*` is the recommended pattern). Not shipped in dev because
+Vite handles serving during development.
 
-The CSS crops to the top-left panel via
-`transform: scale(3.05); transform-origin: 0 0;` plus an industrial
-colour grade `filter: contrast(1.18) saturate(0.55) brightness(0.78)`.
+## Working with this repo
 
-## Browser support
+Read `.cursor/rules/` and `Lesson.md` before starting any task.
+Every task that produces code must end by:
 
-Modern evergreen browsers. Uses:
+1. Updating `ProjectStatus.md` / `Progress.md` / `Lesson.md`
+2. Committing on a feature branch (`<type>/<scope>`)
+3. Calling MCP `interactive_feedback`
 
-- CSS custom properties, `aspect-ratio`, `clamp()`, `color-mix()`,
-  `:has()`-free fallbacks, `backdrop-filter`.
-- ES2020 vanilla JS (no framework, no bundler).
-- `IntersectionObserver` (with graceful no-op on older browsers).
+(See `.cursor/rules/post-resolution-checklist.mdc`.)
