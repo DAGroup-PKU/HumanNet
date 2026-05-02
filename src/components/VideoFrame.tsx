@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface VideoFrameProps {
   src: string;
@@ -12,6 +12,18 @@ interface VideoFrameProps {
   /** Whether the video should hard-pause when it leaves the viewport. */
   pauseOffscreen?: boolean;
   poster?: string;
+  /**
+   * When true, defer rendering the underlying `<source>` until the tile
+   * is about to enter the viewport. This avoids 40+ simultaneous OSS
+   * `preload="metadata"` requests on the gallery page; with lazy=true,
+   * each request only fires once the user scrolls within ~400px of the
+   * tile. Once a tile has been activated it stays loaded — leaving the
+   * viewport pauses but does not unload, so scrolling back is instant.
+   *
+   * Default false so non-gallery callers (Hero, PerspectiveExplorer)
+   * keep their above-the-fold behaviour.
+   */
+  lazy?: boolean;
 }
 
 /**
@@ -35,9 +47,43 @@ export function VideoFrame({
   autoPlay = true,
   pauseOffscreen = true,
   poster,
+  lazy = false,
 }: VideoFrameProps) {
   const ref = useRef<HTMLVideoElement | null>(null);
+  // Sticky "this tile has been near the viewport at least once" flag.
+  // When lazy=false we initialise to true so the <source> renders
+  // immediately (Hero / PerspectiveExplorer behaviour). When lazy=true
+  // we wait for the first IntersectionObserver hit to flip it.
+  const [activated, setActivated] = useState(!lazy);
 
+  // Lazy-activation observer — fires once with a generous rootMargin so
+  // the metadata request races the user's scroll instead of waiting for
+  // the tile to fully enter the viewport. Disconnects after the first
+  // hit so we don't keep observing a tile that is already loaded.
+  useEffect(() => {
+    if (!lazy || activated) return;
+    const v = ref.current;
+    if (!v) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActivated(true);
+            obs.disconnect();
+            return;
+          }
+        }
+      },
+      { rootMargin: "400px 0px 400px 0px", threshold: 0 },
+    );
+    obs.observe(v);
+    return () => obs.disconnect();
+  }, [lazy, activated]);
+
+  // Play / pause observer — runs on every tile that has pauseOffscreen
+  // enabled. With lazy=true we still attach this immediately; .play()
+  // simply fails (silently) until the <source> is in the DOM, and the
+  // next intersection event after activation will start playback.
   useEffect(() => {
     const v = ref.current;
     if (!v || !pauseOffscreen) return;
@@ -78,7 +124,11 @@ export function VideoFrame({
         loop
         muted
         playsInline
-        preload="metadata"
+        // Until the lazy gate flips, preload="none" so the browser does
+        // *not* even fire the metadata HEAD/Range request. After
+        // activation, switch to "metadata" (the original behaviour) to
+        // get duration + first frame ready quickly.
+        preload={activated ? "metadata" : "none"}
         poster={poster}
         aria-label={ariaLabel}
         controlsList="nodownload noplaybackrate noremoteplayback"
@@ -87,7 +137,10 @@ export function VideoFrame({
         onContextMenu={(e) => e.preventDefault()}
         draggable={false}
       >
-        <source src={src} type="video/mp4" />
+        {/* The <source> is what triggers the network request. Gating
+            its render is what actually defers the load — preload="none"
+            alone is not enough on Safari. */}
+        {activated ? <source src={src} type="video/mp4" /> : null}
       </video>
       {/* Transparent overlay also catches right-click and drag attempts on
          non-video edges (poster, letterbox) without blocking pointer events

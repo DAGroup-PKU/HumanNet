@@ -83,6 +83,7 @@ export function DataGallery() {
               aspectRatio={clip.aspectRatio}
               ariaLabel={`${clip.task} clip — ${clip.caption}`}
               className="rounded-md"
+              lazy
             />
             <div className="flex items-start justify-between gap-3 px-1">
               <div className="min-w-0">
