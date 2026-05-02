@@ -45,7 +45,8 @@ function readStored(): { payload: SiteConfigInput; updated_at: string | null } {
 }
 
 // ─────────────────────────────────────────────────────────────────────
-// Public read — rendered shape (signed OSS URLs, resolved footer hrefs).
+// Public read — rendered shape (OSS-typed videos rewritten to
+// /api/clip/<id>.mp4 proxy URLs, footer hrefs resolved).
 // ─────────────────────────────────────────────────────────────────────
 
 const publicLimiter = rateLimit({
