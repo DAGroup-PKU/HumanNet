@@ -97,6 +97,11 @@ export interface SiteLinks {
   discord: string;
   mailingList: string;
   codeOfConduct: string;
+  /** arXiv paper (HumanNet methods paper). The Preview release intentionally
+   *  exposes only `waitlist` + `arxiv` as live external destinations; all
+   *  other entries default to "#" placeholders until the matching channel
+   *  is provisioned. */
+  arxiv: string;
 }
 
 // ─────────────────────────────────────────────────────────────────────

@@ -7,53 +7,18 @@ export interface Member {
   focus: string;
 }
 
+// Per-person team listing. The public Members section currently
+// renders two organisations (PKU DAGroup + SimpleSilicon) hard-coded
+// in src/components/Members.tsx, so this array is unused on the
+// visitor side for the Preview release. We keep one placeholder
+// entry so the admin Team tab is non-empty out of the box.
 export const MEMBERS: Member[] = [
   {
-    id: "lh",
-    name: "Linhua Hou",
-    initials: "LH",
-    role: "Project Lead",
-    org: "Nebula Lab",
-    focus: "Long-horizon embodied policies · dataset architecture",
-  },
-  {
-    id: "ms",
-    name: "Mira Saito",
-    initials: "MS",
-    role: "Capture Systems",
-    org: "Nebula Lab",
-    focus: "Multi-camera rig design · hardware synchronisation",
-  },
-  {
-    id: "ya",
-    name: "Yusuf Ahmadi",
-    initials: "YA",
-    role: "Annotation Tooling",
-    org: "Nebula Lab",
-    focus: "Six-panel renderer · skeleton & hand-pose pipelines",
-  },
-  {
-    id: "rk",
-    name: "Ravi Krishnan",
-    initials: "RK",
-    role: "Benchmark & Eval",
-    org: "Sim-to-Real Group",
-    focus: "Cross-embodiment evaluation · leaderboard infra",
-  },
-  {
-    id: "es",
-    name: "Elena Sokolova",
-    initials: "ES",
-    role: "Robotics Liaison",
-    org: "Field Robotics Co-op",
-    focus: "Factory & home capture deployments",
-  },
-  {
-    id: "kj",
-    name: "Kim Jiwoo",
-    initials: "KJ",
-    role: "Research Engineer",
-    org: "Nebula Lab",
-    focus: "Baseline VLA models · fine-tuning recipes",
+    id: "humannet-core",
+    name: "HumanNet Core Team",
+    initials: "HN",
+    role: "Maintainers",
+    org: "PKU DAGroup · SimpleSilicon",
+    focus: "Per-person credits land alongside the methods paper.",
   },
 ];

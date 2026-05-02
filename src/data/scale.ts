@@ -6,47 +6,51 @@ export interface ScaleMetric {
   hint: string;
 }
 
+// Headline statistics for the HumanNet Preview release. The two
+// breakdown lines (TPV / FPV) sum to the total — keeping them adjacent
+// in the grid lets researchers sanity-check the split at a glance
+// instead of having to read a footnote.
 export const SCALE_METRICS: ScaleMetric[] = [
   {
-    id: "hours",
-    value: "12,840",
+    id: "total-hours",
+    value: "967k",
     unit: "hrs",
-    label: "Annotated footage",
-    hint: "across 9 task families",
+    label: "Total footage",
+    hint: "third-person + egocentric, deduplicated",
   },
   {
-    id: "clips",
-    value: "184,520",
-    unit: "clips",
-    label: "Curated segments",
-    hint: "balanced across exo / ego",
+    id: "tpv-hours",
+    value: "220k",
+    unit: "hrs",
+    label: "Third-person view",
+    hint: "Koala-36M-v1 + OpenHumanVid renders",
+  },
+  {
+    id: "fpv-hours",
+    value: "747k",
+    unit: "hrs",
+    label: "Egocentric view",
+    hint: "helmet · GoPro · DSLR head-mount captures",
+  },
+  {
+    id: "scenes",
+    value: "30+",
+    unit: "scenes",
+    label: "Scene categories",
+    hint: "home · industrial · work · outdoor · retail · …",
   },
   {
     id: "tasks",
-    value: "230",
+    value: "720k+",
     unit: "tasks",
-    label: "Embodied skills",
-    hint: "manipulation · assembly · navigation",
+    label: "Task instances",
+    hint: "clip-level action labels across 828 leaf categories",
   },
   {
-    id: "robots",
-    value: "37",
-    unit: "platforms",
-    label: "Robot embodiments",
-    hint: "humanoid · mobile · table-top",
-  },
-  {
-    id: "envs",
-    value: "84",
-    unit: "envs",
-    label: "Real-world sites",
-    hint: "labs · factories · homes · outdoor",
-  },
-  {
-    id: "modalities",
-    value: "11",
-    unit: "modalities",
-    label: "Sensor streams",
-    hint: "RGB · depth · IMU · pose · audio · …",
+    id: "objects",
+    value: "150k",
+    unit: "objects",
+    label: "Object instances",
+    hint: "across 800+ unique object categories",
   },
 ];

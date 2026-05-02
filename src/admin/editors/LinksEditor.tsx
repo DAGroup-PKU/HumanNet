@@ -7,16 +7,25 @@ interface Props {
 }
 
 const SPEC: { key: keyof SiteLinks; label: string; hint: string }[] = [
-  { key: "github", label: "GitHub URL", hint: "Org or repo URL · used by nav + footer." },
-  {
-    key: "huggingface",
-    label: "Hugging Face URL",
-    hint: "https://huggingface.co/<org>",
-  },
   {
     key: "waitlist",
     label: "Waitlist form URL",
-    hint: "External form (Tally / Typeform / Notion) — opens in a new tab.",
+    hint: "External form (Tally / Typeform / Notion) — opens in a new tab. Currently the primary CTA on the public site.",
+  },
+  {
+    key: "arxiv",
+    label: "arXiv paper URL",
+    hint: "Full preprint URL (https://arxiv.org/abs/…). Drives the navbar 'arXiv' button. Use '#' to keep it disabled until the paper is live.",
+  },
+  {
+    key: "github",
+    label: "GitHub URL",
+    hint: "Org or repo URL. Hidden from the public site for the Preview release; kept here for forward compatibility.",
+  },
+  {
+    key: "huggingface",
+    label: "Hugging Face URL",
+    hint: "https://huggingface.co/<org> · placeholder for now.",
   },
   { key: "discord", label: "Discord invite", hint: "Or '#' to leave as a placeholder." },
   { key: "mailingList", label: "Mailing list URL", hint: "Or '#' to leave as a placeholder." },

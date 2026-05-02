@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Admin + content API for the Project Nebula landing page.",
+  "description": "Admin + content API for the HumanNet landing page.",
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "start": "node --enable-source-maps --import tsx src/index.ts",

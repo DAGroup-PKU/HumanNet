@@ -43,7 +43,7 @@ export function DataGallery() {
           <span className="text-nebula-on-muted">No demo reels.</span>
         </>
       }
-      description="A scrollable selection of raw clips from Nebula-1 — exactly what researchers receive after running `nebula download`. Filter by perspective; every tile preserves the source aspect ratio."
+      description="A scrollable selection of raw clips from the HumanNet Preview corpus — 20 third-person samples (Koala-36M-v1 + OpenHumanVid) and 20 egocentric six-panel renderings, served straight from OSS. Filter by perspective; every tile preserves the source aspect ratio."
     >
       <div className="mb-8 flex flex-wrap items-center gap-2">
         {FILTERS.map((f) => {
@@ -127,13 +127,22 @@ export function DataGallery() {
           <span aria-hidden="true" className="hidden sm:block" />
         )}
 
+        {/* Right-side CTA — points at the arXiv preprint when one is
+            configured, otherwise scrolls to the waitlist (the only
+            other live destination during the Preview release). Keeps
+            the layout balanced even when no real link is set yet. */}
         <a
-          href={links.github}
-          target="_blank"
-          rel="noopener noreferrer"
+          href={
+            links.arxiv && links.arxiv !== "#" ? links.arxiv : "#waitlist"
+          }
+          {...(links.arxiv && links.arxiv !== "#"
+            ? { target: "_blank", rel: "noopener noreferrer" }
+            : {})}
           className="group inline-flex items-center justify-center gap-2 rounded-sm border border-nebula-primary/50 bg-nebula-primary/10 px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.22em] text-nebula-on transition-colors hover:bg-nebula-primary/20"
         >
-          Browse the full corpus on GitHub
+          {links.arxiv && links.arxiv !== "#"
+            ? "Read the methods paper on arXiv"
+            : "Join the waitlist"}
           <span
             aria-hidden="true"
             className="transition-transform group-hover:translate-x-0.5"

@@ -90,7 +90,7 @@ export function PerspectiveExplorer() {
 
                 <div className="mt-6 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.22em] text-nebula-on-dim">
                   <span>active · {active}</span>
-                  <span>nebula-1 / {p.id}</span>
+                  <span>humannet · {p.id}</span>
                 </div>
               </div>
             </div>

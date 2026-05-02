@@ -37,16 +37,16 @@ export function Navbar() {
     >
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center gap-4 px-6 sm:px-10 lg:h-20 lg:px-16">
         <a href="#top" className="flex items-center gap-3 font-medium text-nebula-on">
-          {/* DAGroup · Peking University brand mark. The asset has a
-              white background, so we render it as a small white card on
-              the dark nav — looks intentional rather than alpha-cut. */}
+          {/* PKU DAGroup mark. The asset has a white background, so we
+              render it as a small white card on the dark nav — looks
+              intentional rather than alpha-cut. */}
           <img
             src={logoUrl}
-            alt="DAGroup · Peking University"
+            alt="PKU DAGroup"
             className="h-9 w-9 rounded-sm bg-white object-contain p-0.5 ring-1 ring-nebula-line"
           />
           <span className="font-display text-base tracking-tight">
-            Project <span className="text-nebula-primary">Nebula</span>
+            Human<span className="text-nebula-primary">Net</span>
           </span>
         </a>
 
@@ -66,15 +66,19 @@ export function Navbar() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2 lg:ml-3">
+          {/* arXiv preprint link. Falls back to a hash anchor when the
+              admin hasn't filled in a real URL yet — keeps the button
+              from advertising a broken destination. */}
           <LinkButton
-            href={links.github}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={links.arxiv && links.arxiv !== "#" ? links.arxiv : "#top"}
+            {...(links.arxiv && links.arxiv !== "#"
+              ? { target: "_blank", rel: "noopener noreferrer" }
+              : { "aria-disabled": true })}
             size="sm"
             variant="tertiary"
             className="hidden sm:inline-flex"
           >
-            GitHub
+            arXiv
           </LinkButton>
           <LinkButton href="#waitlist" size="sm">
             Join waitlist

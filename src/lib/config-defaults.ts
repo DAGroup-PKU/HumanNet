@@ -19,59 +19,33 @@ import {
 
 export const DEFAULT_FOOTER: FooterConfig = {
   brandTagline:
-    "An open-source embodied AI dataset & toolchain. Released under CC-BY-SA 4.0 (data) and Apache 2.0 (code). Built by an open community of robotics researchers, engineers, and field operators.",
+    "An open, human-centric video corpus for embodied AI research. Released as a Preview build under CC-BY-SA 4.0 (data) and Apache 2.0 (code) by PKU DAGroup and SimpleSilicon.",
   licenses: [
     { label: "CC-BY-SA 4.0 · data" },
     { label: "Apache 2.0 · code" },
   ],
-  columns: [
-    {
-      id: "project",
-      title: "Project",
-      items: [
-        { label: "Dataset card", href: "#" },
-        { label: "Loader SDK", href: "#" },
-        { label: "Calibration tool", href: "#" },
-        { label: "Benchmarks", href: "#" },
-      ],
-    },
-    {
-      id: "community",
-      title: "Community",
-      items: [
-        { label: "GitHub", href: "$github", external: true },
-        { label: "Hugging Face", href: "$huggingface", external: true },
-        { label: "Discord", href: "$discord" },
-        { label: "Mailing list", href: "$mailingList" },
-      ],
-    },
-    {
-      id: "research",
-      title: "Research",
-      items: [
-        { label: "Methods paper", href: "#" },
-        { label: "Capture rigs", href: "#" },
-        { label: "Annotation schema", href: "#" },
-        { label: "Reproducibility", href: "#" },
-      ],
-    },
-  ],
-  copyright: "© 2025–2026 Project Nebula contributors.",
-  versionTag: "v0.9 · preview · embargo 2026-Q3",
+  // The Preview release intentionally hides the per-domain link
+  // columns; HumanNet only exposes waitlist + arXiv to visitors today
+  // and the Footer brand area is enough on its own. The columns array
+  // can be re-populated via the admin tab once GitHub / HF / Discord
+  // channels are ready.
+  columns: [],
+  copyright: "© 2026 PKU DAGroup · SimpleSilicon.",
+  versionTag: "Preview Version",
 };
 
 export const DEFAULT_CONFIG: SiteConfig = {
   hero: {
-    eyebrow: "Open Source · Embodied AI Dataset · v0.9 preview",
-    title: `The data substrate for ${ACCENT_OPEN}embodied intelligence${ACCENT_CLOSE} that survives contact with the real world.`,
+    eyebrow: "Embodied AI · Human-Centric Dataset · Preview Version",
+    title: `Scaling ${ACCENT_OPEN}Human-centric Video Learning${ACCENT_CLOSE} to One Million Hours`,
     description:
-      "Project Nebula publishes a fully open, multi-modal capture of how humans and robots actually move, manipulate, and assemble — with synchronised exocentric and egocentric streams, raw enough to train on, structured enough to evaluate against.",
+      "HumanNet aims to provide a comprehensive human-centric dataset, served as a scalable data infrastructure for training, evaluating, and advancing embodied learning models.",
     primaryVideo: "/videos/exo/QSuxYRr3n7o_85.mp4",
     primaryVideoAspect: 2134 / 1280,
     metrics: [
-      { key: "Hours", value: "12.8k" },
-      { key: "Tasks", value: "230" },
-      { key: "Robots", value: "37" },
+      { key: "Hours", value: "967k" },
+      { key: "Scenes", value: "30+" },
+      { key: "Tasks", value: "720k+" },
     ],
   },
   links: { ...DEFAULT_LINKS },

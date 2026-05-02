@@ -54,7 +54,7 @@ export const ENV = {
   ADMIN_USERNAME: process.env.ADMIN_USERNAME ?? "admin",
   // ADMIN_PASSWORD is consumed by `npm run seed` to (re)set the admin
   // password. Not used at runtime — only the bcrypt hash in the DB is.
-  ADMIN_PASSWORD: process.env.ADMIN_PASSWORD ?? "nebula-admin",
+  ADMIN_PASSWORD: process.env.ADMIN_PASSWORD ?? "humannet-admin",
   CORS_ORIGIN: process.env.CORS_ORIGIN ?? "http://localhost:5173",
 
   // ─── Aliyun OSS ───────────────────────────────────────────────────

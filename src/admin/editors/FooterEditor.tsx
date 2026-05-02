@@ -131,7 +131,7 @@ export function FooterEditor({ value, links, onChange }: Props) {
       {/* Brand tagline */}
       <Field
         label="Brand tagline"
-        hint="The paragraph under the Project Nebula mark. Plain text."
+        hint="The paragraph under the HumanNet brand mark. Plain text."
       >
         <TextArea
           value={value.brandTagline}
