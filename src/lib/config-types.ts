@@ -26,9 +26,10 @@ export type StoredVideo =
   /** A direct, public absolute URL (CDN, public OSS, etc.). */
   | { kind: "external"; url: string }
   /** A private Aliyun OSS object referenced by bucket + key. The server
-   *  signs it (asyncSignatureUrl, expires=OSS_URL_TTL_SECONDS) before
-   *  returning it to the public site. `bucket` is optional - when omitted
-   *  the server falls back to OSS_BUCKET. */
+   *  serves the bytes through an opaque proxy URL of the form
+   *  `/api/clip/<id>.mp4` (see server/src/routes/clip.ts) — the bucket /
+   *  region / key / credentials never reach the browser. `bucket` is
+   *  optional; when omitted the server falls back to OSS_BUCKET. */
   | { kind: "oss"; bucket?: string; key: string };
 
 /** Sent to the public site - just a URL the browser can load. */

@@ -3,6 +3,7 @@ import cors from "cors";
 import { ENV } from "./env.js";
 import { configRouter } from "./routes/config.js";
 import { authRouter } from "./routes/auth.js";
+import { clipRouter } from "./routes/clip.js";
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.get("/api/health", (_req, res) => {
 
 app.use(authRouter);
 app.use(configRouter);
+app.use(clipRouter);
 
 app.use((_req, res) => {
   res.status(404).json({ error: "not_found" });

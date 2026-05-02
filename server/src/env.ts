@@ -58,10 +58,10 @@ export const ENV = {
   CORS_ORIGIN: process.env.CORS_ORIGIN ?? "http://localhost:5173",
 
   // ─── Aliyun OSS ───────────────────────────────────────────────────
-  // Leave any of these unset to disable OSS signing. Stored videos with
-  // kind:"oss" then fall back to a clearly-broken placeholder URL and
-  // a warning is logged once at boot. Filling them in switches signing
-  // on without code changes.
+  // The backend keeps a private OSS bucket as the source of truth and
+  // serves bytes through `/api/clip/<id>.mp4` (see server/src/routes/
+  // clip.ts). Leave any of these unset to disable the proxy — OSS-typed
+  // entries then return 502 with a clear log line.
   OSS_REGION: optional("OSS_REGION"),
   OSS_BUCKET: optional("OSS_BUCKET"),
   OSS_ACCESS_KEY_ID: optional("OSS_ACCESS_KEY_ID"),
@@ -70,11 +70,7 @@ export const ENV = {
   // egress), the public endpoint otherwise. Optional - the SDK derives
   // an endpoint from `region` when omitted.
   OSS_ENDPOINT: optional("OSS_ENDPOINT"),
-  // TTL for signed playback URLs. 1h is a reasonable default - long
-  // enough that a casual visitor watching the page can replay the video,
-  // short enough that a leaked link expires before it spreads.
-  OSS_URL_TTL_SECONDS: Number(process.env.OSS_URL_TTL_SECONDS ?? 60 * 60),
-  // Use HTTPS for signed URLs. Should always be true in prod.
+  // Use HTTPS when the SDK fetches bytes. Should always be true in prod.
   OSS_SECURE: (process.env.OSS_SECURE ?? "true").toLowerCase() !== "false",
 
   // ─── Public API rate limiter ──────────────────────────────────────
@@ -104,7 +100,7 @@ if (IS_PROD && ENV.JWT_SECRET.startsWith("dev-only-")) {
 if (!OSS_ENABLED) {
   // eslint-disable-next-line no-console
   console.warn(
-    "[oss] OSS credentials missing — kind:'oss' video refs will not be signed. Set OSS_REGION / OSS_BUCKET / OSS_ACCESS_KEY_ID / OSS_ACCESS_KEY_SECRET to enable.",
+    "[oss] OSS credentials missing — kind:'oss' video refs will return 502 from /api/clip/<id>.mp4. Set OSS_REGION / OSS_BUCKET / OSS_ACCESS_KEY_ID / OSS_ACCESS_KEY_SECRET to enable.",
   );
 }
 
