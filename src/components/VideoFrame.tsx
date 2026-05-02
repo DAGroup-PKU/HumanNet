@@ -119,7 +119,9 @@ export function VideoFrame({
     >
       <video
         ref={ref}
-        className="absolute inset-0 h-full w-full object-contain select-none"
+        className={`absolute inset-0 h-full w-full object-contain select-none transition-opacity duration-300 ${
+          activated ? "opacity-100" : "opacity-0"
+        }`}
         autoPlay={autoPlay}
         loop
         muted
@@ -142,6 +144,31 @@ export function VideoFrame({
             alone is not enough on Safari. */}
         {activated ? <source src={src} type="video/mp4" /> : null}
       </video>
+
+      {/* Dormant-state placeholder. Only renders while the lazy gate
+          hasn't flipped yet (i.e. the tile is still well below the
+          viewport). Without this, the dormant tile would just be a flat
+          dark rectangle — readable but visually dead.
+          Goals:
+          - communicate "this is going to load, scroll a bit further"
+          - keep the chrome on-brand (mono eyebrow, dotted grid, pulsing
+            indicator) without animating expensive properties
+          - aria-hidden because the <video> below carries the real label */}
+      {!activated && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 bg-grid-dots"
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-nebula-primary/40" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-nebula-primary/70" />
+          </span>
+          <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-nebula-on-dim">
+            queued · scroll to play
+          </span>
+        </div>
+      )}
+
       {/* Transparent overlay also catches right-click and drag attempts on
          non-video edges (poster, letterbox) without blocking pointer events
          on the video itself (pointer-events-none lets clicks pass through). */}
