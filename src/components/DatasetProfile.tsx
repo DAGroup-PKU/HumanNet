@@ -1,12 +1,17 @@
 import { Card } from "@heroui/react";
 import { Section } from "./Section";
-import sceneSunburstUrl from "../assets/FPV/scene_distribution_sunburst.png";
-import sceneBarUrl from "../assets/FPV/scene_distribution_bar.png";
-import egoObjectUrl from "../assets/FPV/ego_object.png";
-import egoTaskUrl from "../assets/FPV/ego_task.png";
-import exoMotionUrl from "../assets/FPV/exo_motion_distribution.png";
-import motionSunburstUrl from "../assets/TPV/motion_categories_sunburst.png";
-import motionDashboardUrl from "../assets/TPV/motion_quality_dashboard.jpeg";
+// Charts ship as WebP — quality 88 (cwebp) on the original PNGs, q82
+// on the JPEG dashboard. Total ~2.8 MB across all 7, vs ~8.7 MB for
+// the source PNG/JPEG versions. WebP has full coverage in evergreen
+// browsers (Safari ≥14, Chrome ≥32, Firefox ≥65), so no <picture>
+// fallback is needed for this audience.
+import sceneSunburstUrl from "../assets/FPV/scene_distribution_sunburst.webp";
+import sceneBarUrl from "../assets/FPV/scene_distribution_bar.webp";
+import egoObjectUrl from "../assets/FPV/ego_object.webp";
+import egoTaskUrl from "../assets/FPV/ego_task.webp";
+import exoMotionUrl from "../assets/FPV/exo_motion_distribution.webp";
+import motionSunburstUrl from "../assets/TPV/motion_categories_sunburst.webp";
+import motionDashboardUrl from "../assets/TPV/motion_quality_dashboard.webp";
 
 interface ChartCardProps {
   src: string;
