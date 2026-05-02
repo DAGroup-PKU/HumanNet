@@ -3,12 +3,11 @@
 // PublicSiteConfig the website consumes (videos as plain string URLs,
 // fully-resolved footer hrefs).
 //
-// All this happens on every public GET /api/config so signed URLs stay
-// fresh. The cost is a few ali-oss signature computations per request,
-// which is local CPU only (no network round-trip), so it's negligible
-// even if every clip ends up backed by OSS.
+// OSS-backed videos are emitted as opaque proxy URLs of the form
+// `/api/clip/<id>.mp4`. The actual bytes are fetched server-side by the
+// clip-cache module (see server/src/routes/clip.ts) — the browser never
+// sees the bucket / region / key / signature.
 
-import { signOssRef } from "./oss.js";
 import type { SiteConfigInput } from "./schema.js";
 
 /** Minimal public shape returned by GET /api/config. */
@@ -47,14 +46,24 @@ export interface PublicSiteConfig {
 
 type StoredVideo = SiteConfigInput["hero"]["primaryVideo"];
 
-async function renderVideo(v: StoredVideo): Promise<string> {
+/** Turn a StoredVideo into a URL the `<video>` element can consume.
+ *
+ *  - kind:"local"    → returned unchanged (`/videos/...` served by Vite
+ *                       in dev, by nginx static in prod).
+ *  - kind:"external" → returned unchanged (any public CDN URL).
+ *  - kind:"oss"      → opaque `/api/clip/<id>.mp4` proxy URL. The id
+ *                       must match the entry's id in the stored config
+ *                       (gallery `c.id`, or `hero-primary` for the hero
+ *                       video). The clip route looks the id up to find
+ *                       the bucket+key and serves bytes via OSS SDK. */
+function renderVideo(v: StoredVideo, fallbackId: string): string {
   switch (v.kind) {
     case "local":
       return v.path;
     case "external":
       return v.url;
     case "oss":
-      return signOssRef({ bucket: v.bucket, key: v.key });
+      return `/api/clip/${fallbackId}.mp4`;
   }
 }
 
@@ -73,29 +82,24 @@ function resolveFooterHref(
   return links[key] ?? "#";
 }
 
-export async function renderPublicConfig(
+export function renderPublicConfig(
   stored: SiteConfigInput,
   updatedAt?: string,
-): Promise<PublicSiteConfig> {
-  const heroVideoUrl = await renderVideo(stored.hero.primaryVideo);
-  const galleryUrls = await Promise.all(
-    stored.gallery.map((c) => renderVideo(c.src)),
-  );
-
+): PublicSiteConfig {
   return {
     hero: {
       eyebrow: stored.hero.eyebrow,
       title: stored.hero.title,
       description: stored.hero.description,
-      primaryVideo: heroVideoUrl,
+      primaryVideo: renderVideo(stored.hero.primaryVideo, "hero-primary"),
       primaryVideoAspect: stored.hero.primaryVideoAspect,
       metrics: stored.hero.metrics,
     },
     links: stored.links,
     team: stored.team,
-    gallery: stored.gallery.map((c, i) => ({
+    gallery: stored.gallery.map((c) => ({
       id: c.id,
-      src: galleryUrls[i]!,
+      src: renderVideo(c.src, c.id),
       perspective: c.perspective,
       task: c.task,
       caption: c.caption,

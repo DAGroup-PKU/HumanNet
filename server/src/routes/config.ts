@@ -6,6 +6,7 @@ import { DEFAULT_CONFIG_PAYLOAD } from "../default-config.js";
 import { requireAdmin } from "../auth.js";
 import { SiteConfigSchema, type SiteConfigInput } from "../schema.js";
 import { renderPublicConfig } from "../render.js";
+import { invalidateAllClips } from "../clip-cache.js";
 
 export const configRouter = Router();
 
@@ -55,16 +56,16 @@ const publicLimiter = rateLimit({
   message: { error: "too_many_requests" },
 });
 
-configRouter.get("/api/config", publicLimiter, async (_req, res, next) => {
+configRouter.get("/api/config", publicLimiter, (_req, res, next) => {
   try {
     const { payload, updated_at } = readStored();
-    const rendered = await renderPublicConfig(
+    const rendered = renderPublicConfig(
       payload,
       updated_at ?? new Date(0).toISOString(),
     );
-    // The signed URLs inside the response have a TTL — tell shared
-    // caches not to keep this for long. The browser's own memory cache
-    // is fine, but a CDN must not pin a stale URL.
+    // The config payload itself is small and changes only when the
+    // admin saves. A short shared-cache TTL plus must-revalidate keeps
+    // the cache hot without ever pinning a stale gallery shape.
     res.setHeader(
       "Cache-Control",
       `public, max-age=60, s-maxage=60, must-revalidate`,
@@ -113,6 +114,12 @@ configRouter.put("/api/admin/config", requireAdmin, (req, res) => {
        updated_at = excluded.updated_at,
        updated_by = excluded.updated_by`,
   ).run(json, username);
+
+  // The clip-id → bucket/key mapping just changed. Drop the in-memory
+  // bytes cache so a re-mapped id doesn't keep serving stale content.
+  // ESA edge cache is not invalidated automatically — admin must purge
+  // /api/clip/* via the ESA console after a renaming admin save.
+  invalidateAllClips();
 
   const fresh = readStored();
   res.json({
