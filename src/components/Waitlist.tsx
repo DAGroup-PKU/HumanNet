@@ -4,8 +4,8 @@ import { LinkButton } from "./LinkButton";
 import { useConfig } from "../lib/useConfig";
 
 const BENEFITS = [
-  "Early access to Nebula-2 long-horizon clips before public release.",
-  "Monthly summary of capture rigs deployed, with reproducibility seeds.",
+  "Early access to new HumanNet shards before they hit the public mirror.",
+  "Monthly summary of curated subsets and benchmark updates.",
   "Direct line into the maintainers' triage channel (best-effort).",
   "No ads. No partner offers. We don't share or sell your address.",
 ];

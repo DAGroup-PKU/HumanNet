@@ -1,6 +1,6 @@
 import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/Hero";
-import { ProjectIntro } from "./components/ProjectIntro";
+import { DatasetProfile } from "./components/DatasetProfile";
 import { DataScale } from "./components/DataScale";
 import { PerspectiveExplorer } from "./components/PerspectiveExplorer";
 import { DataGallery } from "./components/DataGallery";
@@ -15,7 +15,7 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
-        <ProjectIntro />
+        <DatasetProfile />
         <div className="section-divider" aria-hidden="true" />
         <DataScale />
         <div className="section-divider" aria-hidden="true" />

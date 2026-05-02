@@ -22,14 +22,14 @@ export function Footer() {
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <div className="flex items-center gap-3">
-              {/* Same DAGroup · Peking University mark as the navbar. */}
+              {/* PKU DAGroup brand mark, same as the navbar. */}
               <img
                 src={logoUrl}
-                alt="DAGroup · Peking University"
+                alt="PKU DAGroup"
                 className="h-10 w-10 rounded-sm bg-white object-contain p-0.5 ring-1 ring-nebula-line"
               />
               <span className="font-display text-lg text-nebula-on">
-                Project <span className="text-nebula-primary">Nebula</span>
+                Human<span className="text-nebula-primary">Net</span>
               </span>
             </div>
             <p className="mt-5 max-w-md text-sm leading-relaxed text-nebula-on-muted">

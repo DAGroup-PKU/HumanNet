@@ -1,71 +1,126 @@
 import { Section } from "./Section";
 import { useConfig } from "../lib/useConfig";
+import type { Org } from "../data/orgs";
+import logoUrl from "../assets/logo.png";
+
+// HumanNet's contributor surface, Preview-edition. Two organisations
+// drive the effort; per-person attribution is intentionally deferred
+// until the methods paper goes live (the admin still has a `team`
+// editor backing the StoredSiteConfig.team list, but that list is not
+// rendered here yet).
+//
+// `links` is consumed via useConfig() so the GitHub URL admin sets in
+// the editor flows through without a redeploy. SimpleSilicon doesn't
+// expose a public org URL yet — the card stays non-clickable until one
+// is ready, which keeps the layout honest instead of pretending.
 
 export function Members() {
-  const { team, links } = useConfig();
+  const { links } = useConfig();
+
+  const ORGS: Org[] = [
+    {
+      id: "pku-dagroup",
+      name: "PKU DAGroup",
+      initials: "DA",
+      role: "Research Lab",
+      context: "Peking University",
+      logoUrl,
+      href: links.github && links.github !== "#" ? links.github : undefined,
+    },
+    {
+      id: "simplesilicon",
+      name: "SimpleSilicon",
+      initials: "SS",
+      role: "Industry Partner",
+      context: "Capture · curation · platform",
+    },
+  ];
+
   return (
     <Section
       id="members"
-      eyebrow="Team · contributors"
+      eyebrow="Team · organisations"
       title={
         <>
-          Built by people who run robots,{" "}
+          Built jointly by{" "}
           <span className="text-nebula-on-muted">
-            not just write papers about them.
+            an academic lab and an industry partner.
           </span>
         </>
       }
-      description="Project Nebula is maintained by a small core team plus a wider network of community contributors. Everyone listed here can be reached on the project Discord."
+      description="Two organisations co-author the Preview release. Per-person credits will land alongside the methods paper."
     >
       <ul
-        className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+        className="grid gap-4 sm:grid-cols-2 lg:max-w-3xl"
         role="list"
       >
-        {team.map((m) => (
-          <li
-            key={m.id}
-            className="group flex items-start gap-4 rounded-lg border border-nebula-line bg-nebula-surface p-5 transition-colors hover:border-nebula-line-strong sm:p-6"
-          >
-            <span
-              aria-hidden="true"
-              className="grid h-12 w-12 shrink-0 place-items-center rounded-md bg-nebula-primary/10 font-mono text-sm tracking-[0.2em] text-nebula-primary ring-1 ring-inset ring-nebula-primary/30 sm:h-14 sm:w-14 sm:text-base"
-            >
-              {m.initials}
-            </span>
-            <div className="min-w-0">
-              <div className="font-display text-lg text-nebula-on">
-                {m.name}
-              </div>
-              <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-nebula-primary">
-                {m.role}
-              </div>
-              <div className="mt-1 text-xs text-nebula-on-dim">{m.org}</div>
-              <p className="mt-3 text-sm leading-relaxed text-nebula-on-muted">
-                {m.focus}
-              </p>
-            </div>
-          </li>
+        {ORGS.map((o) => (
+          <OrgCard key={o.id} org={o} />
         ))}
       </ul>
+    </Section>
+  );
+}
 
-      <div className="mt-10 flex flex-col items-start gap-4 rounded-lg border border-dashed border-nebula-line bg-nebula-surface/60 p-6 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <div className="eyebrow mb-2">Contribute</div>
-          <p className="max-w-xl text-sm leading-relaxed text-nebula-on-muted">
-            Researchers, students, and field operators are welcome — capture
-            rigs, annotation tooling, and benchmark harnesses are all open
-            workstreams.
-          </p>
+function OrgCard({ org }: { org: Org }) {
+  // The card flips between a clickable <a> and a static <li> based on
+  // whether the org has surfaced a public URL yet. Same DOM shape, just
+  // different outermost tag — keeps spacing identical between the two.
+  const inner = (
+    <>
+      {org.logoUrl ? (
+        <img
+          src={org.logoUrl}
+          alt=""
+          className="h-14 w-14 shrink-0 rounded-md bg-white object-contain p-1 ring-1 ring-nebula-line"
+          draggable={false}
+        />
+      ) : (
+        <span
+          aria-hidden="true"
+          className="grid h-14 w-14 shrink-0 place-items-center rounded-md bg-nebula-primary/10 font-mono text-base tracking-[0.2em] text-nebula-primary ring-1 ring-inset ring-nebula-primary/30"
+        >
+          {org.initials}
+        </span>
+      )}
+      <div className="min-w-0">
+        <div className="font-display text-lg text-nebula-on">{org.name}</div>
+        <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-nebula-primary">
+          {org.role}
         </div>
+        {org.context && (
+          <div className="mt-1 text-xs text-nebula-on-dim">{org.context}</div>
+        )}
+      </div>
+      {org.href && (
+        <span
+          aria-hidden="true"
+          className="ml-auto self-center font-mono text-[10px] uppercase tracking-[0.22em] text-nebula-on-dim transition-transform group-hover:translate-x-0.5 group-hover:text-nebula-primary"
+        >
+          ↗
+        </span>
+      )}
+    </>
+  );
+
+  if (org.href) {
+    return (
+      <li>
         <a
-          href={`${links.github}/issues`}
+          href={org.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded-sm border border-nebula-primary/40 bg-nebula-primary/10 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-nebula-primary transition-colors hover:bg-nebula-primary/20"
+          aria-label={`${org.name} — opens in a new tab`}
+          className="group flex items-center gap-4 rounded-lg border border-nebula-line bg-nebula-surface p-5 transition-colors hover:border-nebula-line-strong sm:p-6"
         >
-          View open issues →
+          {inner}
         </a>
-      </div>
-    </Section>
+      </li>
+    );
+  }
+  return (
+    <li className="group flex items-center gap-4 rounded-lg border border-nebula-line bg-nebula-surface p-5 sm:p-6">
+      {inner}
+    </li>
   );
 }

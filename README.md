@@ -1,8 +1,10 @@
-# Project Nebula — Open-Source Embodied AI Dataset
+# HumanNet — Open Human-Centric Video Dataset
 
-Public landing page for an open-source embodied-AI dataset & toolchain,
-plus a small admin backend so the team can edit content without a
-redeploy.
+Public landing page for **HumanNet**, an open human-centric video corpus
+(third-person + egocentric, ~967k hours) for training, evaluating, and
+advancing embodied-AI models. Co-authored by **PKU DAGroup** and
+**SimpleSilicon**. Ships with a small admin backend so the team can edit
+content without a redeploy.
 
 ## Stack
 
@@ -37,7 +39,7 @@ npm run seed                      # alias of `npm --prefix server run seed`
 ```
 
 Default admin credentials after `npm run seed` are
-**`admin / nebula-admin`**. Change them in production via:
+**`admin / humannet-admin`**. Change them in production via:
 
 ```bash
 JWT_SECRET=<long-random-string> ADMIN_PASSWORD=<new-password> \
@@ -148,14 +150,14 @@ bandwidth becomes a problem.
 
 The page is composed of 8 stacked sections, all responsive:
 
-1. **Hero** — value prop + live exocentric capture preview
-2. **ProjectIntro** — four pillars (Open / Sim-to-real / Cross-embodiment / Honest)
-3. **DataScale** — 6-cell metric mosaic (hours, clips, tasks, robots, envs, modalities)
+1. **Hero** — value prop + live third-person capture preview
+2. **DatasetProfile** — 7 statistical visualisations rendered from the dataset metadata (scene / object / task taxonomies, motion distributions, quality dashboards)
+3. **DataScale** — 6-cell metric mosaic (total hours, TPV hours, FPV hours, scenes, tasks, objects)
 4. **PerspectiveExplorer** — `Tabs` between Exocentric and Egocentric, with full-frame video
-5. **DataGallery** — filterable grid of raw clips
-6. **Roadmap** — vertical timeline of shipped / active / queued milestones
-7. **Members** — team / contributor cards
-8. **Waitlist** — email capture form (HeroUI `Form` + `TextField` + `Select`)
+5. **DataGallery** — filterable grid of 40 OSS-served raw clips (20 TPV + 20 FPV)
+6. **Roadmap** — vertical timeline of upcoming milestones (HumanNet Benchmark v1 + Ego-data scaling-law study)
+7. **Members** — co-author organisations (PKU DAGroup + SimpleSilicon)
+8. **Waitlist** — early-access form linking to a public Tally form
 
 ## Design decisions
 
@@ -189,11 +191,11 @@ The page is composed of 8 stacked sections, all responsive:
 
 ### OSS hookup
 
-1. Create a private bucket (e.g. `nebula-clips`) in the Aliyun OSS console.
+1. Create a private bucket (e.g. `ss-oss-sites`) in the Aliyun OSS console.
 2. Add a Referer whitelist on the bucket: your production domain (and
    `localhost` for dev). Disallow empty Referer.
 3. Create a RAM sub-account, attach an inline policy granting only
-   `oss:GetObject` on `acs:oss:*:*:nebula-clips/*`. Generate AK / SK.
+   `oss:GetObject` on `acs:oss:*:*:ss-oss-sites/*`. Generate AK / SK.
 4. Set `OSS_REGION`, `OSS_BUCKET`, `OSS_ACCESS_KEY_ID`,
    `OSS_ACCESS_KEY_SECRET` in `.env`. (The server runs without these
    set, but `kind:"oss"` refs degrade to a clearly-broken `data:` URL

@@ -90,6 +90,7 @@ const SiteLinks = z.object({
   discord: UrlOrPlaceholder,
   mailingList: UrlOrPlaceholder,
   codeOfConduct: UrlOrPlaceholder,
+  arxiv: UrlOrPlaceholder,
 });
 
 // ─────────────────────────────────────────────────────────────────────
@@ -158,7 +159,10 @@ const FooterLicenseTag = z.object({
 const FooterConfig = z.object({
   brandTagline: z.string().min(1).max(800),
   licenses: z.array(FooterLicenseTag).max(8),
-  columns: z.array(FooterColumn).min(1).max(6),
+  // 0 columns is legal — the Preview release ships with the columns
+  // hidden so visitors can focus on the brand + licence info. The
+  // admin tab still allows up to 6 columns when channels are ready.
+  columns: z.array(FooterColumn).max(6),
   copyright: z.string().min(1).max(160),
   versionTag: z.string().min(1).max(80),
 });

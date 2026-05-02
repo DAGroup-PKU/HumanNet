@@ -2,8 +2,11 @@
 @import "@heroui/styles";
 
 /* =========================================================================
-   Project Nebula — Design Tokens
+   HumanNet — Design Tokens
    Brand: Industrial Hard-Science aesthetic for an embodied-AI dataset.
+   Token names retain the `nebula-` prefix only for backward compatibility
+   with the original scaffold; they are pure colour identifiers and do
+   not encode the project name anywhere visitors can see.
    ========================================================================= */
 @theme {
   /* Surface */

@@ -13,7 +13,7 @@ export function DataScale() {
           <span className="text-nebula-primary">but only if it's honest.</span>
         </>
       }
-      description="Headline numbers from the Nebula-1 release. Every count below maps 1-to-1 to an entry in the public dataset card — no privately held holdouts."
+      description="Headline numbers from the HumanNet Preview release. Every count below maps 1-to-1 to an entry in the public dataset manifests — no privately held holdouts."
     >
       <div className="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-nebula-line bg-nebula-line lg:grid-cols-3">
         {SCALE_METRICS.map((m, i) => (
