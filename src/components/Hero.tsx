@@ -115,7 +115,7 @@ export function Hero() {
             <div className="mb-3 flex items-center gap-2">
               <span className="block h-1.5 w-1.5 rounded-full bg-nebula-primary shadow-[0_0_12px_rgba(238,159,50,0.6)]" />
               <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-nebula-on-muted">
-                live · third-person capture · 30 fps
+                preview · third-person capture · 30 fps
               </span>
             </div>
             <VideoFrame

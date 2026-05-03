@@ -36,7 +36,7 @@ function ChartCard({ src, alt, tag, title, caption, aspectRatio }: ChartCardProp
           {tag}
         </span>
         <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-nebula-on-dim">
-          live · public
+          preview · public
         </span>
       </div>
       <div
