@@ -12,10 +12,10 @@ import { DEFAULT_FOOTER } from "../lib/config-defaults";
 
 export const ADMIN_DEFAULT_CONFIG: StoredSiteConfig = {
   hero: {
-    eyebrow: "Embodied AI · Human-Centric Dataset · Preview Version",
+    eyebrow: "Embodied AI · Human-Centric Dataset · Preview",
     title: `Scaling ${ACCENT_OPEN}Human-centric Video Learning${ACCENT_CLOSE} to One Million Hours`,
     description:
-      "HumanNet aims to provide a comprehensive human-centric dataset, served as a scalable data infrastructure for training, evaluating, and advancing embodied learning models.",
+      "HumanNet aims to provide a comprehensive human-centric dataset, designed as scalable data infrastructure for training, evaluating, and advancing embodied learning models.",
     primaryVideo: { kind: "local", path: "/videos/exo/QSuxYRr3n7o_85.mp4" },
     primaryVideoAspect: 2134 / 1280,
     metrics: [
@@ -40,7 +40,7 @@ export const ADMIN_DEFAULT_CONFIG: StoredSiteConfig = {
       id: "fpv-ego-01",
       src: {
         kind: "oss",
-        key: "data/dataset/egocentric/show_cases/selected/0001_0.4099_z176-sep-05-22-switch__864_1126_263_six_panel.mp4",
+        key: "preview/fpv/0001_0.4099_z176-sep-05-22-switch__864_1126_263_six_panel.mp4",
       },
       perspective: "ego",
       task: "Switch handling",

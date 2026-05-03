@@ -30,7 +30,7 @@ export function Roadmap() {
           <span className="text-nebula-primary">not a press release.</span>
         </>
       }
-      description="Where we shipped, where we are, and where we're heading. Each milestone is anchored to artefacts you can already (or will eventually) inspect on GitHub."
+      description="What is in progress, what is next, and how each milestone will connect to artifacts researchers can inspect and reproduce."
     >
       {/* Timeline geometry (kept as fixed pixels so the rail and the dots
           share a single source of truth):
@@ -74,7 +74,7 @@ export function Roadmap() {
                   {m.body}
                 </p>
                 <ul className="mt-3 flex flex-wrap gap-2">
-                  {m.artefacts.map((a) => (
+                  {m.artifacts.map((a) => (
                     <li
                       key={a}
                       className="rounded-sm border border-nebula-line bg-nebula-surface px-2 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-nebula-on-muted"

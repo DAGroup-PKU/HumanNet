@@ -4,7 +4,7 @@ import { LinkButton } from "./LinkButton";
 import { useConfig } from "../lib/useConfig";
 
 const BENEFITS = [
-  "Early access to new HumanNet shards before they hit the public mirror.",
+  "Early access notifications as new HumanNet shards become available.",
   "Monthly summary of curated subsets and benchmark updates.",
   "Direct line into the maintainers' triage channel (best-effort).",
   "No ads. No partner offers. We don't share or sell your address.",
@@ -30,7 +30,7 @@ export function Waitlist() {
           <span className="text-nebula-primary">before the public mirror.</span>
         </>
       }
-      description="Subscribers receive download links for new corpora 7–10 days before the public mirror sync, plus monthly capture-rig changelogs. Unsubscribe anytime."
+      description="Subscribers receive updates when new corpora, curated subsets, and capture-rig changelogs are ready. Unsubscribe anytime."
     >
       <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
         <div className="lg:col-span-5">
@@ -56,7 +56,7 @@ export function Waitlist() {
               Request early access
             </Card.Title>
             <Card.Description className="text-sm text-nebula-on-muted">
-              We typically respond within 3 business days.
+              We usually respond within a few business days.
             </Card.Description>
           </Card.Header>
 

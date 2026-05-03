@@ -5,7 +5,7 @@ export interface RoadmapMilestone {
   title: string;
   status: RoadmapStatus;
   body: string;
-  artefacts: string[];
+  artifacts: string[];
 }
 
 // HumanNet Preview roadmap. Two near-term milestones; both unshipped.
@@ -17,7 +17,7 @@ export const ROADMAP: RoadmapMilestone[] = [
     title: "HumanNet Benchmark v1",
     status: "active",
     body: "An embodied-evaluation suite spanning third-person and egocentric perception, recognition, and downstream policy-tuning probes — released alongside reference baselines so external submissions are reproducible end-to-end.",
-    artefacts: [
+    artifacts: [
       "task taxonomy",
       "evaluation harness",
       "baseline weights",
@@ -28,7 +28,7 @@ export const ROADMAP: RoadmapMilestone[] = [
     title: "Ego-data scaling-law study",
     status: "queued",
     body: "Empirical validation of how embodied policies scale as the egocentric subset grows from 100k → 747k hours. The goal is a published curve that lets practitioners decide which slice of HumanNet to download for a given compute budget.",
-    artefacts: [
+    artifacts: [
       "scaling-curve report",
       "subset manifests",
       "reproduction scripts",

@@ -34,7 +34,7 @@ export const PERSPECTIVES: PerspectiveSpec[] = [
     id: "ego",
     label: "Egocentric",
     short: "First-person",
-    tagline: "Head-mounted, six-panel research clips synchronising RGB, depth, hand pose, and rendered reference views.",
+    tagline: "Head-mounted, six-panel research clips synchronizing RGB, depth, hand pose, and rendered reference views.",
     description:
       "Egocentric clips are first-person captures from helmet/glasses rigs, exported as a six-panel research montage. The full panel layout is preserved here so researchers can verify alignment between RGB, depth, mesh, and hand-pose references.",
     bullets: [

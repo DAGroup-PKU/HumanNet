@@ -39,11 +39,11 @@ export function DataGallery() {
       eyebrow="Data · gallery"
       title={
         <>
-          Sampled directly from the public bucket.{" "}
-          <span className="text-nebula-on-muted">No demo reels.</span>
+          Sampled from the preview corpus.{" "}
+          <span className="text-nebula-on-muted">Raw preview clips.</span>
         </>
       }
-      description="A scrollable selection of raw clips from the HumanNet Preview corpus — 20 third-person samples (Koala-36M-v1 + OpenHumanVid) and 20 egocentric six-panel renderings, served straight from OSS. Filter by perspective; every tile preserves the source aspect ratio."
+      description="A scrollable selection of raw clips from the HumanNet Preview corpus — 20 third-person samples and 20 egocentric six-panel renderings. Filter by perspective; every tile preserves the source aspect ratio."
     >
       <div className="mb-8 flex flex-wrap items-center gap-2">
         {FILTERS.map((f) => {

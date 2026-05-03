@@ -8,7 +8,9 @@
     "dev": "tsx watch src/index.ts",
     "start": "node --enable-source-maps --import tsx src/index.ts",
     "seed": "tsx src/seed.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:gallery": "tsx scripts/check-preview-gallery.ts",
+    "migrate:preview-gallery": "tsx scripts/migrate-preview-gallery.ts"
   },
   "dependencies": {
     "ali-oss": "^6.23.0",
