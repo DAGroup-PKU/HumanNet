@@ -7,7 +7,7 @@ import logoUrl from "../assets/logo.png";
 // a navigation. Data scale + Gallery are reachable from the Perspectives
 // flow; Waitlist is the right-hand CTA, so it's intentionally absent here.
 const NAV_LINKS = [
-  { id: "intro", label: "Project" },
+  { id: "profile", label: "Project" },
   { id: "perspectives", label: "Data" },
   { id: "roadmap", label: "Roadmap" },
   { id: "members", label: "Team" },

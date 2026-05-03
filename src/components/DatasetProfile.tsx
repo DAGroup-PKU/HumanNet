@@ -79,8 +79,8 @@ export function DatasetProfile() {
         <>
           Distributions, taxonomies, and quality signals from the Preview
           release. Every chart is rendered from the same metadata files
-          shipped with the dataset — researchers can reproduce them after a
-          single <code className="rounded-sm bg-nebula-surface-2 px-1.5 py-0.5 font-mono text-[12px] text-nebula-on">humannet stats</code> call.
+          shipped with the dataset, so researchers can reproduce them with the
+          accompanying metadata scripts.
         </>
       }
     >
@@ -94,7 +94,7 @@ export function DatasetProfile() {
           alt="Sunburst chart of scene coverage across Home, Industrial, Work, Outdoor, Retail, Transportation, Dining, Medical, Sports, and Other categories"
           tag="01 · scene coverage"
           title="30+ scene categories, three-level taxonomy."
-          caption="Home dominates at 53.9% (kitchen / living-room / bedroom), with the long tail covering factories, offices, transportation, and outdoor work — the kind of breadth embodied agents need to generalise outside a demo lab."
+          caption="Home dominates at 53.9% (kitchen / living-room / bedroom), with the long tail covering factories, offices, transportation, and outdoor work — the kind of breadth embodied agents need to generalize beyond controlled lab settings."
           aspectRatio="1024 / 760"
         />
 
@@ -108,7 +108,7 @@ export function DatasetProfile() {
             alt="Word cloud of 800+ object categories observed in the egocentric subset"
             tag="02 · objects"
             title="150,000+ object instances across 800+ categories."
-            caption="From `smartphone` and `keyboard` down to `tarot cards` and `airbrush`. Long-tail object exposure is what lets a policy generalise to the manipulation a researcher actually has in the lab."
+            caption="From `smartphone` and `keyboard` down to `tarot cards` and `airbrush`. Long-tail object exposure is what lets a policy generalize to the manipulation scenarios researchers actually study."
             aspectRatio="1024 / 512"
           />
           <ChartCard
@@ -138,8 +138,8 @@ export function DatasetProfile() {
             src={exoMotionUrl}
             alt="Horizontal bar chart of motion categories and sub-categories"
             tag="05 · motion breakdown"
-            title="Daily activity ≠ basketball clips."
-            caption="Daily activities lead at 53.6% (basic postures, object interaction, eating, fine-motor skills). Social leisure adds 39.1%. Sports & game-character actions stay below 1% — this is a dataset for embodiment, not for highlight reels."
+            title="Daily activity beyond sports highlights."
+            caption="Daily activities lead at 53.6% (basic postures, object interaction, eating, fine-motor skills). Social leisure adds 39.1%. Sports and game-character actions stay below 1%, keeping the distribution focused on embodied behavior."
             aspectRatio="1024 / 600"
           />
         </div>

@@ -15,7 +15,7 @@ export function PerspectiveExplorer() {
       title={
         <>
           Two viewpoints,{" "}
-          <span className="text-nebula-primary">one synchronised reality.</span>
+          <span className="text-nebula-primary">one synchronized reality.</span>
         </>
       }
       description="Embodied learning needs both the actor's view and the observer's view. Toggle between exocentric studio captures and egocentric six-panel research clips — the full frame is preserved in either case."

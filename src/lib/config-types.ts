@@ -14,10 +14,10 @@ import type { PerspectiveId } from "../data/perspectives";
 //                    the admin UI. Never reaches the public site.
 //   - RenderedVideo → a plain string URL the <video> element can load.
 //                    The backend converts StoredVideo → RenderedVideo on
-//                    every public GET (signing OSS keys at request time).
+//                    every public GET.
 //
 // This split is what lets the admin store a private OSS bucket+key while
-// the public response only ever contains short-TTL signed URLs.
+// the public response only ever contains browser-loadable URLs.
 
 /** Stored on disk + sent to the admin SPA. Discriminated by `kind`. */
 export type StoredVideo =

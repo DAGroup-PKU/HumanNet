@@ -45,10 +45,10 @@ export const DEFAULT_FOOTER: FooterConfig = {
 
 export const DEFAULT_CONFIG: SiteConfig = {
   hero: {
-    eyebrow: "Embodied AI · Human-Centric Dataset · Preview Version",
+    eyebrow: "Embodied AI · Human-Centric Dataset · Preview",
     title: `Scaling ${ACCENT_OPEN}Human-centric Video Learning${ACCENT_CLOSE} to One Million Hours`,
     description:
-      "HumanNet aims to provide a comprehensive human-centric dataset, served as a scalable data infrastructure for training, evaluating, and advancing embodied learning models.",
+      "HumanNet aims to provide a comprehensive human-centric dataset, designed as scalable data infrastructure for training, evaluating, and advancing embodied learning models.",
     primaryVideo: "/videos/exo/QSuxYRr3n7o_85.mp4",
     primaryVideoAspect: 2134 / 1280,
     metrics: [

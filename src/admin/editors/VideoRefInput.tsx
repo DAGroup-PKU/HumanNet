@@ -22,7 +22,7 @@ const KIND_HINT: Record<Kind, string> = {
   external:
     "Any absolute URL the browser can fetch directly. No signing — the URL is public forever.",
   oss:
-    "Aliyun OSS object reference. The server signs a short-TTL URL on every page load (default TTL = 1 hour). Bucket may be omitted to use the OSS_BUCKET env default.",
+    "Aliyun OSS object reference. The server serves it through /api/clip/<id>.mp4, so the bucket/key stay private. Bucket may be omitted to use the OSS_BUCKET env default.",
 };
 
 export function VideoRefInput({ value, onChange, label = "Video source" }: Props) {
