@@ -24,6 +24,7 @@ interface ConfigContextValue {
 const ConfigContext = createContext<ConfigContextValue | null>(null);
 
 const API_URL = "/api/config";
+const STATIC_SITE = import.meta.env.VITE_STATIC_SITE === "true";
 
 /** Resolve `$key` style hrefs against SiteLinks. The backend already does
  *  this server-side for live API responses, but we still need it on the
@@ -74,10 +75,16 @@ async function fetchConfig(): Promise<SiteConfig> {
 
 export function ConfigProvider({ children }: { children: ReactNode }) {
   const [config, setConfig] = useState<SiteConfig>(RESOLVED_DEFAULT_CONFIG);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!STATIC_SITE);
   const [error, setError] = useState<string | null>(null);
 
   const reload = useCallback(async () => {
+    if (STATIC_SITE) {
+      setConfig(RESOLVED_DEFAULT_CONFIG);
+      setError(null);
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     try {
       const fresh = await fetchConfig();
@@ -92,6 +99,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
+    if (STATIC_SITE) return;
     void reload();
   }, [reload]);
 

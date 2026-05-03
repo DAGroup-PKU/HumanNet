@@ -1,3 +1,5 @@
+import { publicPath } from "../lib/public-path";
+
 export type PerspectiveId = "exo" | "ego";
 
 export interface PerspectiveSpec {
@@ -7,7 +9,7 @@ export interface PerspectiveSpec {
   tagline: string;
   description: string;
   bullets: { label: string; value: string }[];
-  /** Path under /public — must be served as /videos/... */
+  /** Browser-loadable video path. Static builds prefix it with Vite's base. */
   primaryVideo: string;
   /** Native aspect ratio of the source clip (width / height). */
   aspectRatio: number;
@@ -27,7 +29,7 @@ export const PERSPECTIVES: PerspectiveSpec[] = [
       { label: "Typical resolution", value: "1080p · 30 fps" },
       { label: "Annotation", value: "skeleton · object track · phase label" },
     ],
-    primaryVideo: "/videos/exo/HnjaKDRnmFM_64.mp4",
+    primaryVideo: publicPath("/media/curation/video/tpv/C0-CyeDtBvw_111.mp4"),
     aspectRatio: 2134 / 1238,
   },
   {
@@ -43,7 +45,9 @@ export const PERSPECTIVES: PerspectiveSpec[] = [
       { label: "Typical resolution", value: "six-panel 1.5×3 grid · 30 fps" },
       { label: "Annotation", value: "RGB-D · gaze · 6-DoF hand pose" },
     ],
-    primaryVideo: "/videos/ego/0006_0.3873_63009__44_122_79_six_panel.mp4",
+    primaryVideo: publicPath(
+      "/media/curation/video/fpv/0026_0.3700_78920__59_172_114_six_panel.mp4",
+    ),
     aspectRatio: 16 / 9,
   },
 ];
