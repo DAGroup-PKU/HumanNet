@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { LinkButton } from "./LinkButton";
 import { useConfig } from "../lib/useConfig";
+import { useTheme } from "../lib/theme";
 import logoUrl from "../assets/logo.png";
 
 // Keep this short. Anything beyond ~5 starts to feel like a sitemap, not
@@ -12,6 +13,79 @@ const NAV_LINKS = [
   { id: "roadmap", label: "Roadmap" },
   { id: "members", label: "Team" },
 ];
+
+function ThemeToggle({
+  compact = false,
+  tabIndex,
+}: {
+  compact?: boolean;
+  tabIndex?: number;
+}) {
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === "dark";
+
+  return (
+    <button
+      type="button"
+      aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
+      aria-pressed={isDark}
+      onClick={toggleTheme}
+      tabIndex={tabIndex}
+      className={[
+        "group inline-flex h-9 items-center rounded-sm border border-nebula-line bg-nebula-surface text-nebula-on transition-colors",
+        "hover:border-nebula-line-strong hover:bg-nebula-surface-2",
+        "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-nebula-line-strong",
+        compact ? "w-9 justify-center" : "w-full justify-between gap-4 px-3",
+      ].join(" ")}
+    >
+      {!compact ? (
+        <span className="font-mono text-xs uppercase tracking-[0.18em] text-nebula-on-muted">
+          {isDark ? "Dark" : "Light"}
+        </span>
+      ) : null}
+      <span
+        aria-hidden="true"
+        className="relative grid h-5 w-5 shrink-0 place-items-center overflow-hidden"
+      >
+        <span
+          className={`absolute h-3.5 w-3.5 rounded-full border border-current transition duration-200 ${
+            isDark ? "scale-50 opacity-0" : "scale-100 opacity-100"
+          }`}
+        />
+        <span
+          className={`absolute h-4 w-px bg-current transition duration-200 ${
+            isDark ? "scale-y-0 opacity-0" : "scale-y-100 opacity-100"
+          }`}
+        />
+        <span
+          className={`absolute h-px w-4 bg-current transition duration-200 ${
+            isDark ? "scale-x-0 opacity-0" : "scale-x-100 opacity-100"
+          }`}
+        />
+        <span
+          className={`absolute h-px w-4 rotate-45 bg-current transition duration-200 ${
+            isDark ? "scale-x-0 opacity-0" : "scale-x-100 opacity-100"
+          }`}
+        />
+        <span
+          className={`absolute h-px w-4 -rotate-45 bg-current transition duration-200 ${
+            isDark ? "scale-x-0 opacity-0" : "scale-x-100 opacity-100"
+          }`}
+        />
+        <span
+          className={`absolute h-4 w-4 rounded-full bg-current transition duration-200 ${
+            isDark ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0"
+          }`}
+        />
+        <span
+          className={`absolute h-4 w-4 rounded-full bg-nebula-surface transition duration-200 ${
+            isDark ? "translate-x-1.5 opacity-100" : "translate-x-4 opacity-0"
+          }`}
+        />
+      </span>
+    </button>
+  );
+}
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -76,10 +150,13 @@ export function Navbar() {
               : { "aria-disabled": true })}
             size="sm"
             variant="tertiary"
-            className="hidden sm:inline-flex"
+            className="max-sm:!hidden sm:!inline-flex"
           >
             arXiv
           </LinkButton>
+          <div className="hidden sm:block">
+            <ThemeToggle compact />
+          </div>
           <LinkButton href="#waitlist" size="sm">
             Join waitlist
           </LinkButton>
@@ -114,6 +191,7 @@ export function Navbar() {
 
       <div
         id="mobile-menu"
+        aria-hidden={!open}
         className={`overflow-hidden border-t border-nebula-line bg-nebula-base/95 backdrop-blur-md transition-[max-height,opacity] duration-200 ease-out lg:hidden ${
           open ? "max-h-[420px] opacity-100" : "pointer-events-none max-h-0 opacity-0"
         }`}
@@ -124,12 +202,16 @@ export function Navbar() {
               <a
                 href={`#${link.id}`}
                 onClick={() => setOpen(false)}
+                tabIndex={open ? 0 : -1}
                 className="block rounded-sm px-3 py-3 font-mono text-xs uppercase tracking-[0.18em] text-nebula-on-muted hover:bg-nebula-surface hover:text-nebula-on"
               >
                 {link.label}
               </a>
             </li>
           ))}
+          <li className="pt-2 sm:hidden">
+            <ThemeToggle tabIndex={open ? 0 : -1} />
+          </li>
         </ul>
       </div>
     </header>

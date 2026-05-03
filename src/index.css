@@ -10,26 +10,26 @@
    ========================================================================= */
 @theme {
   /* Surface */
-  --color-nebula-base: #0b0b0d;
-  --color-nebula-bg: #0f0f12;
-  --color-nebula-surface: #14141a;
-  --color-nebula-surface-2: #1b1b22;
-  --color-nebula-surface-3: #23232c;
-  --color-nebula-line: #2a2a35;
-  --color-nebula-line-strong: #3a3a48;
+  --color-nebula-base: var(--nebula-base);
+  --color-nebula-bg: var(--nebula-bg);
+  --color-nebula-surface: var(--nebula-surface);
+  --color-nebula-surface-2: var(--nebula-surface-2);
+  --color-nebula-surface-3: var(--nebula-surface-3);
+  --color-nebula-line: var(--nebula-line);
+  --color-nebula-line-strong: var(--nebula-line-strong);
 
   /* Foreground */
-  --color-nebula-on: #f4f4f6;
-  --color-nebula-on-muted: #a4a4ae;
-  --color-nebula-on-dim: #6b6b76;
+  --color-nebula-on: var(--nebula-on);
+  --color-nebula-on-muted: var(--nebula-on-muted);
+  --color-nebula-on-dim: var(--nebula-on-dim);
 
   /* Brand */
-  --color-nebula-primary: #ee9f32;
-  --color-nebula-primary-soft: #f7c97a;
-  --color-nebula-accent: #6fc1ff;
-  --color-nebula-success: #43c47a;
-  --color-nebula-warn: #f0b042;
-  --color-nebula-danger: #ef5a5a;
+  --color-nebula-primary: var(--nebula-primary);
+  --color-nebula-primary-soft: var(--nebula-primary-soft);
+  --color-nebula-accent: var(--nebula-accent);
+  --color-nebula-success: var(--nebula-success);
+  --color-nebula-warn: var(--nebula-warn);
+  --color-nebula-danger: var(--nebula-danger);
 
   /* Typography */
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
@@ -48,7 +48,91 @@
    palette so default Buttons / Tabs / Inputs / Selects feel native.
    These vars are documented at https://heroui.com/docs/react/getting-started
    ========================================================================= */
+:root,
+.light {
+  color-scheme: light;
+
+  /* Surface */
+  --nebula-base: #f5f7f6;
+  --nebula-bg: #fbfcfa;
+  --nebula-surface: #ffffff;
+  --nebula-surface-2: #edf2f1;
+  --nebula-surface-3: #e2e9e7;
+  --nebula-line: #d4ddda;
+  --nebula-line-strong: #a6b7b2;
+
+  /* Foreground */
+  --nebula-on: #17211f;
+  --nebula-on-muted: #546360;
+  --nebula-on-dim: #84918d;
+
+  /* Brand */
+  --nebula-primary: #b8640f;
+  --nebula-primary-soft: #e7a345;
+  --nebula-accent: #1e78a8;
+  --nebula-success: #207a48;
+  --nebula-warn: #a66a0c;
+  --nebula-danger: #b53737;
+
+  --grid-dot: rgba(23, 33, 31, 0.055);
+  --selection-foreground: #fbfcfa;
+
+  /* Brand accent (drives primary Button, Tab indicator, Focus ring) */
+  --accent: oklch(0.56 0.145 62);
+  --accent-foreground: oklch(0.985 0.012 82);
+
+  /* Surfaces */
+  --background: oklch(0.97 0.006 170);
+  --foreground: oklch(0.23 0.017 175);
+  --surface: oklch(0.995 0.003 82);
+  --surface-secondary: oklch(0.94 0.008 170);
+  --surface-tertiary: oklch(0.9 0.012 170);
+  --overlay: oklch(0.995 0.003 82);
+
+  /* Borders / separators */
+  --border: oklch(0.84 0.012 170);
+  --separator: oklch(0.87 0.01 170);
+
+  /* Muted text */
+  --muted: oklch(0.48 0.018 170);
+
+  /* Form fields */
+  --field-background: oklch(0.995 0.003 82);
+  --field-border: oklch(0.84 0.012 170);
+  --field-border-width: 1px;
+
+  --focus: var(--accent);
+  --link: var(--foreground);
+}
+
 .dark {
+  color-scheme: dark;
+
+  /* Surface */
+  --nebula-base: #0b0b0d;
+  --nebula-bg: #0f0f12;
+  --nebula-surface: #14141a;
+  --nebula-surface-2: #1b1b22;
+  --nebula-surface-3: #23232c;
+  --nebula-line: #2a2a35;
+  --nebula-line-strong: #3a3a48;
+
+  /* Foreground */
+  --nebula-on: #f4f4f6;
+  --nebula-on-muted: #a4a4ae;
+  --nebula-on-dim: #6b6b76;
+
+  /* Brand */
+  --nebula-primary: #ee9f32;
+  --nebula-primary-soft: #f7c97a;
+  --nebula-accent: #6fc1ff;
+  --nebula-success: #43c47a;
+  --nebula-warn: #f0b042;
+  --nebula-danger: #ef5a5a;
+
+  --grid-dot: rgba(255, 255, 255, 0.045);
+  --selection-foreground: #0b0b0d;
+
   /* Brand accent (drives primary Button, Tab indicator, Focus ring) */
   --accent: oklch(0.745 0.155 65);
   --accent-foreground: oklch(0.16 0.01 80);
@@ -79,7 +163,6 @@
 
 /* Global reset / base */
 :root {
-  color-scheme: dark;
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -104,7 +187,7 @@ html {
 
 ::selection {
   background-color: color-mix(in oklab, var(--color-nebula-primary) 60%, transparent);
-  color: var(--color-nebula-base);
+  color: var(--selection-foreground);
 }
 
 /* Heading defaults */
@@ -129,7 +212,7 @@ pre {
 .bg-grid-dots {
   background-image: radial-gradient(
     circle,
-    rgba(255, 255, 255, 0.045) 1px,
+    var(--grid-dot) 1px,
     transparent 1px
   );
   background-size: 24px 24px;
