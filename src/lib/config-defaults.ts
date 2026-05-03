@@ -1,6 +1,7 @@
 import { MEMBERS } from "../data/members";
 import { GALLERY } from "../data/gallery";
 import { DEFAULT_LINKS } from "./links";
+import { publicPath } from "./public-path";
 import {
   ACCENT_CLOSE,
   ACCENT_OPEN,
@@ -49,7 +50,7 @@ export const DEFAULT_CONFIG: SiteConfig = {
     title: `Scaling ${ACCENT_OPEN}Human-centric Video Learning${ACCENT_CLOSE} to One Million Hours`,
     description:
       "HumanNet aims to provide a comprehensive human-centric dataset, designed as scalable data infrastructure for training, evaluating, and advancing embodied learning models.",
-    primaryVideo: "/videos/exo/QSuxYRr3n7o_85.mp4",
+    primaryVideo: publicPath("/media/curation/video/tpv/QzPCrOJJ1dg_19.mp4"),
     primaryVideoAspect: 2134 / 1280,
     metrics: [
       { key: "Hours", value: "967k" },

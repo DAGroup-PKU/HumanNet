@@ -125,7 +125,7 @@ export function Hero() {
               className="shadow-[0_30px_80px_-30px_rgba(238,159,50,0.35)]"
             />
             <div className="mt-3 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.22em] text-nebula-on-dim">
-              <span>clip · QSuxYRr3n7o_85</span>
+              <span>clip · QzPCrOJJ1dg_19</span>
               <span>humannet · tpv</span>
             </div>
           </div>

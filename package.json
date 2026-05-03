@@ -10,6 +10,7 @@
     "dev:api": "npm --prefix server run dev",
     "seed": "npm --prefix server run seed",
     "build": "tsc -b && vite build",
+    "build:pages": "tsc -b && VITE_STATIC_SITE=true vite build --base ${GITHUB_PAGES_BASE:-/ego_sites/}",
     "preview": "vite preview --host",
     "lint": "eslint . --ext .ts,.tsx"
   },

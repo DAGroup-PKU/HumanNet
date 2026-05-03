@@ -34,6 +34,7 @@ npm run dev                       # boots vite (5173) + api (5175) together
 npm run dev:web                   # vite only
 npm run dev:api                   # api only
 npm run build                     # tsc -b + vite build → dist/
+npm run build:pages               # static GitHub Pages build → dist/
 npm run preview                   # preview the static dist
 npm run seed                      # alias of `npm --prefix server run seed`
 ```
@@ -218,6 +219,29 @@ Serve the built `dist/` from the same Express instance to avoid CORS
 entirely (`app.use(express.static('dist'))` + a SPA fallback for
 `/admin/*` is the recommended pattern). Not shipped in dev because
 Vite handles serving during development.
+
+### GitHub Pages static mode
+
+GitHub Pages can host the public landing page, but not the Node API,
+admin editor, auth, SQLite storage, or `/api/clip/*` OSS proxy. For
+Pages, build with the static flag:
+
+```bash
+GITHUB_PAGES_BASE=/ego_sites/ npm run build:pages
+```
+
+The static build:
+
+- skips the `/api/config` request and uses bundled defaults only
+- omits the `/admin/*` route
+- copies `media/curation/video` into `dist/media/curation/video`
+- prefixes media URLs with Vite's `base`, so project pages work under
+  `https://<owner>.github.io/<repo>/`
+
+This repo includes `.github/workflows/deploy-pages.yml`, which builds
+and deploys `dist/` automatically from `main`. If the repository is an
+owner site named `<owner>.github.io`, the workflow uses `/` as the base;
+otherwise it uses `/<repo>/`.
 
 ## Working with this repo
 
