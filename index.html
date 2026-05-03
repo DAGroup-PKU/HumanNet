@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#0b0b0d" />
+    <meta name="theme-color" content="#f5f7f6" />
     <meta
       name="description"
       content="HumanNet — a comprehensive, open, human-centric video dataset (967k hours) for training, evaluating, and advancing embodied AI models."
@@ -23,6 +23,27 @@
       href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
     />
     <title>HumanNet — Scaling Human-Centric Video Learning to One Million Hours</title>
+    <script>
+      (() => {
+        try {
+          const stored = localStorage.getItem("humannet-theme");
+          const theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+          document.documentElement.classList.remove("light", "dark");
+          document.documentElement.classList.add(theme);
+          document.documentElement.dataset.theme = theme;
+          document
+            .querySelector('meta[name="theme-color"]')
+            ?.setAttribute("content", theme === "dark" ? "#0b0b0d" : "#f5f7f6");
+        } catch {
+          // Keep the static light theme if browser storage is unavailable.
+        }
+      })();
+    </script>
   </head>
   <body class="bg-nebula-base text-nebula-on antialiased">
     <div id="root"></div>
