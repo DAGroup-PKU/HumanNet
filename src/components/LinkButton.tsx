@@ -11,7 +11,7 @@ interface LinkButtonProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
 
 const variantClass: Record<Variant, string> = {
   primary:
-    "bg-[oklch(0.745_0.155_65)] text-[oklch(0.16_0.01_80)] hover:bg-[oklch(0.79_0.15_65)] focus-visible:outline-[oklch(0.745_0.155_65)]",
+    "bg-nebula-primary text-[var(--accent-foreground)] hover:bg-nebula-primary-soft focus-visible:outline-nebula-primary",
   tertiary:
     "border border-nebula-line bg-nebula-surface text-nebula-on hover:border-nebula-line-strong hover:bg-nebula-surface-2 focus-visible:outline-nebula-line-strong",
 };

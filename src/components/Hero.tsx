@@ -113,7 +113,7 @@ export function Hero() {
               className="absolute -left-3 top-0 hidden h-full w-px bg-gradient-to-b from-transparent via-nebula-line-strong to-transparent lg:block"
             />
             <div className="mb-3 flex items-center gap-2">
-              <span className="block h-1.5 w-1.5 rounded-full bg-nebula-primary shadow-[0_0_12px_rgba(238,159,50,0.6)]" />
+              <span className="block h-1.5 w-1.5 rounded-full bg-nebula-primary shadow-[0_0_12px_color-mix(in_oklab,var(--color-nebula-primary)_55%,transparent)]" />
               <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-nebula-on-muted">
                 preview · third-person capture · 30 fps
               </span>
@@ -122,7 +122,7 @@ export function Hero() {
               src={hero.primaryVideo}
               aspectRatio={hero.primaryVideoAspect}
               ariaLabel="Third-person capture preview"
-              className="shadow-[0_30px_80px_-30px_rgba(238,159,50,0.35)]"
+              className="shadow-[0_30px_80px_-30px_color-mix(in_oklab,var(--color-nebula-primary)_35%,transparent)]"
             />
             <div className="mt-3 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.22em] text-nebula-on-dim">
               <span>clip · QSuxYRr3n7o_85</span>
