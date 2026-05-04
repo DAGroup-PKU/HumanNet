@@ -9,6 +9,8 @@ import { Members } from "./components/Members";
 import { Waitlist } from "./components/Waitlist";
 import { Footer } from "./components/Footer";
 
+const SHOW_DATA_SCALE = false;
+
 export default function App() {
   return (
     <>
@@ -16,8 +18,12 @@ export default function App() {
       <main>
         <Hero />
         <DatasetProfile />
-        <div className="section-divider" aria-hidden="true" />
-        <DataScale />
+        {SHOW_DATA_SCALE ? (
+          <>
+            <div className="section-divider" aria-hidden="true" />
+            <DataScale />
+          </>
+        ) : null}
         <div className="section-divider" aria-hidden="true" />
         <PerspectiveExplorer />
         <div className="section-divider" aria-hidden="true" />
