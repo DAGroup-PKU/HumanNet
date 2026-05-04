@@ -149,16 +149,19 @@ bandwidth becomes a problem.
 
 ## Page sections
 
-The page is composed of 8 stacked sections, all responsive:
+The page is composed of stacked responsive sections:
 
 1. **Hero** — value prop + live third-person capture preview
 2. **DatasetProfile** — 7 statistical visualisations rendered from the dataset metadata (scene / object / task taxonomies, motion distributions, quality dashboards)
-3. **DataScale** — 6-cell metric mosaic (total hours, TPV hours, FPV hours, scenes, tasks, objects)
-4. **PerspectiveExplorer** — `Tabs` between Exocentric and Egocentric, with full-frame video
-5. **DataGallery** — filterable grid of 40 OSS-served raw clips (20 TPV + 20 FPV)
-6. **Roadmap** — vertical timeline of upcoming milestones (HumanNet Benchmark v1 + Ego-data scaling-law study)
-7. **Members** — co-author organisations (PKU DAGroup + SimpleSilicon)
-8. **Waitlist** — early-access form linking to a public Tally form
+3. **PerspectiveExplorer** — `Tabs` between Exocentric and Egocentric, with full-frame video
+4. **DataGallery** — filterable grid of 40 OSS-served raw clips (20 TPV + 20 FPV)
+5. **Roadmap** — vertical timeline of upcoming milestones (HumanNet Benchmark v1 + Ego-data scaling-law study)
+6. **Members** — co-author organisations (PKU DAGroup + SimpleSilicon)
+7. **Waitlist** — early-access form linking to a public Tally form
+
+`DataScale` remains in the codebase but is hidden behind
+`SHOW_DATA_SCALE` in `src/App.tsx` until the detailed counts and
+accompanying copy are approved.
 
 ## Design decisions
 
