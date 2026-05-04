@@ -25,20 +25,15 @@
     <title>HumanNet — Scaling Human-Centric Video Learning to One Million Hours</title>
     <script>
       (() => {
+        const theme = "light";
         try {
-          const stored = localStorage.getItem("humannet-theme");
-          const theme =
-            stored === "light" || stored === "dark"
-              ? stored
-              : matchMedia("(prefers-color-scheme: dark)").matches
-                ? "dark"
-                : "light";
+          localStorage.setItem("humannet-theme", theme);
           document.documentElement.classList.remove("light", "dark");
           document.documentElement.classList.add(theme);
           document.documentElement.dataset.theme = theme;
           document
             .querySelector('meta[name="theme-color"]')
-            ?.setAttribute("content", theme === "dark" ? "#0b0b0d" : "#f5f7f6");
+            ?.setAttribute("content", "#f5f7f6");
         } catch {
           // Keep the static light theme if browser storage is unavailable.
         }
