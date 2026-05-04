@@ -67,8 +67,8 @@
   --nebula-on-dim: #84918d;
 
   /* Brand */
-  --nebula-primary: #b8640f;
-  --nebula-primary-soft: #e7a345;
+  --nebula-primary: #950100;
+  --nebula-primary-soft: #c7423a;
   --nebula-accent: #1e78a8;
   --nebula-success: #207a48;
   --nebula-warn: #a66a0c;
@@ -78,8 +78,8 @@
   --selection-foreground: #fbfcfa;
 
   /* Brand accent (drives primary Button, Tab indicator, Focus ring) */
-  --accent: oklch(0.56 0.145 62);
-  --accent-foreground: oklch(0.985 0.012 82);
+  --accent: #950100;
+  --accent-foreground: #ffffff;
 
   /* Surfaces */
   --background: oklch(0.97 0.006 170);

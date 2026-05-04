@@ -11,6 +11,7 @@ import {
 type Theme = "light" | "dark";
 
 const STORAGE_KEY = "humannet-theme";
+const DEFAULT_THEME: Theme = "light";
 const THEME_COLOR: Record<Theme, string> = {
   light: "#f5f7f6",
   dark: "#0b0b0d",
@@ -27,20 +28,8 @@ function isTheme(value: string | null): value is Theme {
   return value === "light" || value === "dark";
 }
 
-function getSystemTheme(): Theme {
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
-}
-
 function getInitialTheme(): Theme {
-  if (typeof window === "undefined") return "light";
-  try {
-    const stored = window.localStorage.getItem(STORAGE_KEY);
-    return isTheme(stored) ? stored : getSystemTheme();
-  } catch {
-    return getSystemTheme();
-  }
+  return DEFAULT_THEME;
 }
 
 function applyTheme(theme: Theme) {

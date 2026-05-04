@@ -14,6 +14,8 @@ const NAV_LINKS = [
   { id: "members", label: "Team" },
 ];
 
+const SHOW_THEME_TOGGLE = false;
+
 function ThemeToggle({
   compact = false,
   tabIndex,
@@ -154,9 +156,11 @@ export function Navbar() {
           >
             arXiv
           </LinkButton>
-          <div className="hidden sm:block">
-            <ThemeToggle compact />
-          </div>
+          {SHOW_THEME_TOGGLE ? (
+            <div className="hidden sm:block">
+              <ThemeToggle compact />
+            </div>
+          ) : null}
           <LinkButton href="#waitlist" size="sm">
             Join waitlist
           </LinkButton>
@@ -209,9 +213,11 @@ export function Navbar() {
               </a>
             </li>
           ))}
-          <li className="pt-2 sm:hidden">
-            <ThemeToggle tabIndex={open ? 0 : -1} />
-          </li>
+          {SHOW_THEME_TOGGLE ? (
+            <li className="pt-2 sm:hidden">
+              <ThemeToggle tabIndex={open ? 0 : -1} />
+            </li>
+          ) : null}
         </ul>
       </div>
     </header>
