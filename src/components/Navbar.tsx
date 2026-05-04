@@ -142,6 +142,17 @@ export function Navbar() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2 lg:ml-3">
+          <LinkButton
+            href={links.github && links.github !== "#" ? links.github : "#top"}
+            {...(links.github && links.github !== "#"
+              ? { target: "_blank", rel: "noopener noreferrer" }
+              : { "aria-disabled": true })}
+            size="sm"
+            variant="tertiary"
+            className="max-sm:!hidden sm:!inline-flex"
+          >
+            GitHub
+          </LinkButton>
           {/* arXiv preprint link. Falls back to a hash anchor when the
               admin hasn't filled in a real URL yet — keeps the button
               from advertising a broken destination. */}
