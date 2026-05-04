@@ -9,7 +9,8 @@ const STATUS_LABEL: Record<RoadmapStatus, string> = {
 
 const STATUS_DOT: Record<RoadmapStatus, string> = {
   shipped: "bg-nebula-success shadow-[0_0_10px_rgba(67,196,122,0.6)]",
-  active: "bg-nebula-primary shadow-[0_0_10px_rgba(238,159,50,0.7)] animate-pulse",
+  active:
+    "bg-nebula-primary shadow-[0_0_10px_color-mix(in_oklab,var(--color-nebula-primary)_65%,transparent)] animate-pulse",
   queued: "bg-nebula-on-dim",
 };
 
