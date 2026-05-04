@@ -220,6 +220,25 @@ entirely (`app.use(express.static('dist'))` + a SPA fallback for
 `/admin/*` is the recommended pattern). Not shipped in dev because
 Vite handles serving during development.
 
+### Restricted preview on gz-ali
+
+`tools/deploy-gz-ali.sh` enables nginx Basic Auth by default. Use a
+dedicated preview account when sharing with reviewers:
+
+```bash
+BASIC_AUTH_USER=preview BASIC_AUTH_PASSWORD='...' bash tools/deploy-gz-ali.sh
+```
+
+The script writes the password file on gz-ali and injects
+`auth_basic` into both the port-80 and port-443 origin vhosts. Aliyun
+ESA should stay enabled for HTTPS, caching, and origin routing; the
+origin authentication gate is still enforced after ESA forwards the
+request. Disable the gate only for an intentional public launch:
+
+```bash
+ENABLE_BASIC_AUTH=0 bash tools/deploy-gz-ali.sh
+```
+
 ### GitHub Pages static mode
 
 GitHub Pages can host the public landing page, but not the Node API,
