@@ -32,6 +32,7 @@ dist/
 .gemini/
 .windsurf*
 docs/
+tools/
 AGENTS.md
 CLAUDE.md
 CONTENT-TODO.md
