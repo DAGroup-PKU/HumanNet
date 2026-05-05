@@ -9,14 +9,13 @@
 // unreachable (e.g. during initial page paint, offline preview, or
 // static export).
 //
-// Preview-release policy (HumanNet): the only two destinations exposed
-// to visitors are `waitlist` (Tally-hosted form) and `arxiv` (the
-// methods paper). Everything else stays as a "#" placeholder until the
-// real channel exists; admin tabs still let an operator fill them in
-// later without code changes.
+// Preview-release policy (HumanNet): expose the project GitHub account
+// and waitlist. Everything else stays as a "#" placeholder until the real
+// channel exists; admin tabs still let an operator fill them in later
+// without code changes.
 
 export const DEFAULT_LINKS = {
-  github: "#",
+  github: "https://github.com/DAGroup-PKU",
   huggingface: "#",
   waitlist: "https://tally.so/r/humannet-waitlist",
   discord: "#",
