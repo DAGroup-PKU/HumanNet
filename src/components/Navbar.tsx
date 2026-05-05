@@ -172,7 +172,17 @@ export function Navbar() {
               <ThemeToggle compact />
             </div>
           ) : null}
-          <LinkButton href="#waitlist" size="sm">
+          {/* Waitlist CTA: open the live form in a new tab when the admin
+              has set a real URL; fall back to the in-page Waitlist section
+              anchor when the link is still the "#" placeholder so visitors
+              at least land on the explanation copy. */}
+          <LinkButton
+            href={links.waitlist && links.waitlist !== "#" ? links.waitlist : "#waitlist"}
+            {...(links.waitlist && links.waitlist !== "#"
+              ? { target: "_blank", rel: "noopener noreferrer" }
+              : {})}
+            size="sm"
+          >
             Join waitlist
           </LinkButton>
           <button
