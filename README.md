@@ -29,8 +29,7 @@ This repository is the official home of **HumanNet**, a one-million-hour human-c
 - [ ] Release the curation pipeline (acquisition, human-centric filtering, viewpoint characterization, segmentation, deduplication, quality control, privacy review, caption / motion annotation).
 - [ ] Release a HumanNet preview subset on Hugging Face for early access.
 - [ ] Release the full one-million-hour HumanNet corpus with metadata and annotations.
-- [ ] Release the LingBot-VLA-style validation code and post-training scripts used in the report.
-- [ ] Release the trained vision-language-action checkpoints initialized from HumanNet.
+- [ ] Release the trained checkpoints initialized from HumanNet.
 
 ## ⚙️ Installation
 *Coming soon.*
