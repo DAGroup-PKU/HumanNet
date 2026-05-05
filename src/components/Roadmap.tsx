@@ -27,11 +27,11 @@ export function Roadmap() {
       eyebrow="Project · roadmap"
       title={
         <>
-          A public timeline,{" "}
-          <span className="text-nebula-primary">not a press release.</span>
+          What we plan to{" "}
+          <span className="text-nebula-primary">work on next.</span>
         </>
       }
-      description="What is in progress, what is next, and how each milestone will connect to artifacts researchers can inspect and reproduce."
+      description="We are focusing on two research-facing directions: a benchmark for reproducible evaluation and a scaling study for egocentric data."
     >
       {/* Timeline geometry (kept as fixed pixels so the rail and the dots
           share a single source of truth):
