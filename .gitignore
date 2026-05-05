@@ -26,6 +26,7 @@ dist/
 .eslintcache
 
 # Cursor / Claude / Codex local agent state (NOT the rules — those are source-of-truth)
+.cursor/
 .cursor/cache/
 .cursor/state/
 .claude/state/
