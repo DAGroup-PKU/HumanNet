@@ -25,10 +25,19 @@ dist/
 # Tooling
 .eslintcache
 
-# Cursor / Claude / Codex local agent state (NOT the rules — those are source-of-truth)
+# Local AI/editor context and working notes
 .cursor/
-.cursor/cache/
-.cursor/state/
+.claude/
+.codex/
+.gemini/
+.windsurf*
+docs/
+AGENTS.md
+CLAUDE.md
+CONTENT-TODO.md
+Lesson.md
+Progress.md
+ProjectStatus.md
 .claude/state/
 
 # Backend SQLite (do NOT commit secrets / runtime state)
