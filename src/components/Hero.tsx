@@ -36,8 +36,9 @@ function renderAccentTitle(raw: string) {
 }
 
 export function Hero() {
-  const { hero } = useConfig();
+  const { hero, links } = useConfig();
   const titleSegments = renderAccentTitle(hero.title);
+  const waitlistLive = links.waitlist && links.waitlist !== "#";
   return (
     <section
       id="top"
@@ -86,7 +87,18 @@ export function Hero() {
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-3">
-            <LinkButton href="#waitlist">Request early access</LinkButton>
+            {/* Same waitlist behavior as the Navbar CTA: open the live form
+                in a new tab when the admin has filled it in, fall back to
+                the in-page Waitlist anchor when the URL is still "#" so
+                visitors land on the explanation copy. */}
+            <LinkButton
+              href={waitlistLive ? links.waitlist : "#waitlist"}
+              {...(waitlistLive
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : {})}
+            >
+              Request early access
+            </LinkButton>
             <LinkButton href="#perspectives" variant="tertiary">
               Inspect the data
             </LinkButton>
