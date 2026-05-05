@@ -46,7 +46,7 @@ export const DEFAULT_CONFIG_PAYLOAD = {
   links: {
     github: "https://github.com/DAGroup-PKU",
     huggingface: "#",
-    waitlist: "https://tally.so/r/humannet-waitlist",
+    waitlist: "https://tally.so/r/ZjPQ4y",
     discord: "#",
     mailingList: "#",
     codeOfConduct: "#",
