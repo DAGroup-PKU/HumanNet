@@ -13,25 +13,25 @@ export interface RoadmapMilestone {
 // belongs in a research log, not on the public site.
 export const ROADMAP: RoadmapMilestone[] = [
   {
-    quarter: "Q3 · 2026",
-    title: "HumanNet Benchmark v1",
+    quarter: "Next",
+    title: "Benchmark",
     status: "active",
-    body: "An embodied-evaluation suite spanning third-person and egocentric perception, recognition, and downstream policy-tuning probes — released alongside reference baselines so external submissions are reproducible end-to-end.",
+    body: "We will build a HumanNet benchmark for reproducible evaluation across embodied perception and policy-related tasks, with baseline results and clearly defined evaluation protocols.",
     artifacts: [
-      "task taxonomy",
-      "evaluation harness",
-      "baseline weights",
+      "evaluation tasks",
+      "baseline results",
+      "reproducible protocols",
     ],
   },
   {
-    quarter: "Q4 · 2026",
-    title: "Ego-data scaling-law study",
+    quarter: "Following",
+    title: "Ego-data Scaling",
     status: "queued",
-    body: "Empirical validation of how embodied policies scale as the egocentric subset grows from 100k → 747k hours. The goal is a published curve that lets practitioners decide which slice of HumanNet to download for a given compute budget.",
+    body: "We will validate the scaling effect of HumanNet's egocentric data by training and evaluating models on controlled ego-data subsets, measuring how performance changes as data volume increases.",
     artifacts: [
-      "scaling-curve report",
-      "subset manifests",
-      "reproduction scripts",
+      "ego-data subsets",
+      "scaling analysis",
+      "controlled experiments",
     ],
   },
 ];
