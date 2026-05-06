@@ -2,7 +2,7 @@
 
 ## HumanNet: Scaling Human-centric Video Learning to One Million Hours
 
-[![arXiv](https://img.shields.io/badge/Arxiv-Coming%20Soon-b31b1b.svg?logo=arXiv)](https://github.com/DAGroup-PKU/HumanNet/)
+[![arXiv](https://img.shields.io/badge/Arxiv-b31b1b.svg?logo=arXiv)](https://github.com/DAGroup-PKU/HumanNet/blob/main/HumanNet_arxiv.pdf)
 [![Home Page](https://img.shields.io/badge/Project-<Website>-blue.svg)](https://dagroup-pku.github.io/HumanNet/)
 [![Dataset](https://img.shields.io/badge/Dataset-HumanNet-brightgreen)](https://huggingface.co/datasets/DAGroup-PKU/HumanNet/)
 [![License](https://img.shields.io/badge/License-Apache--2.0-lightgrey)](YOUR_LINK)
@@ -18,8 +18,8 @@ Peking University
 This repository is the official home of **HumanNet**, a one-million-hour human-centric video corpus designed as scalable infrastructure for fine-grained activity understanding, motion-aware video learning, and embodied pretraining. HumanNet pairs first-person and third-person footage with caption labels, motion annotations, and hand and body signals, organized by a multi-axis taxonomy and produced by a curation pipeline that treats human-centric filtering, viewpoint characterization, quality control, and privacy review as first-class design choices. Under a controlled vision-language-action post-training protocol, initializing from 1,000 hours of egocentric video drawn from HumanNet matches or modestly surpasses initializing from 100 hours of real-robot data and substantially closes the gap to a 20,000-hour real-robot baseline, indicating that egocentric human video is a scalable and cost-effective substitute when robot data is limited.
 
 ## 🔥 News
-* `[Ongoing]` 🔥 We are preparing the open-source release of the HumanNet corpus, the curation pipeline, and the post-training validation code. Stay tuned!
-* `[Coming Soon]` 🔥 The HumanNet technical report and project page will be released. The dataset will be available on [Hugging Face](https://huggingface.co/datasets/DAGroup-PKU/HumanNet/) once internal review is approved.
+* `[Coming Soon]` 🔥 We are preparing the open-source release of the HumanNet corpus, the curation pipeline, and the post-training validation code. Stay tuned!
+* 🔥 The **HumanNet** technical report and project page have been released: [Paper](https://github.com/DAGroup-PKU/HumanNet/blob/main/HumanNet_arxiv.pdf) | [Project](https://dagroup-pku.github.io/HumanNet/).
 
 ## 🎥 Demo
 *Coming soon.*
