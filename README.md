@@ -25,7 +25,7 @@ This repository is the official home of **HumanNet**, a one-million-hour human-c
 *Coming soon.*
 
 ## 📑 Todo List
-- [ ] Release the HumanNet technical report on arXiv.
+- [x] Release the **HumanNet** technical report on arXiv. ✅
 - [ ] Release the curation pipeline (acquisition, human-centric filtering, viewpoint characterization, segmentation, deduplication, quality control, privacy review, caption / motion annotation).
 - [ ] Release a HumanNet preview subset on Hugging Face for early access.
 - [ ] Release the full one-million-hour HumanNet corpus with metadata and annotations.
