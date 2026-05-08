@@ -22,7 +22,9 @@ This repository is the official home of **HumanNet**, a one-million-hour human-c
 * 🔥 The **HumanNet** technical report and project page have been released: [Paper](https://github.com/DAGroup-PKU/HumanNet/blob/main/HumanNet_arxiv.pdf) | [Project](https://dagroup-pku.github.io/HumanNet/).
 
 ## 🎥 Demo
-*Coming soon.*
+Uploading HumanNet_demo_github.mp4…
+
+
 
 ## 📑 Todo List
 - [x] Release the **HumanNet** technical report on arXiv. ✅
