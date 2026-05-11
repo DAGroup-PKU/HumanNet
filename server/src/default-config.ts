@@ -50,7 +50,7 @@ export const DEFAULT_CONFIG_PAYLOAD = {
     discord: "#",
     mailingList: "#",
     codeOfConduct: "#",
-    arxiv: "#",
+    arxiv: "https://arxiv.org/abs/2605.06747",
   },
   // The public Members section now renders two organisations
   // (PKU DAGroup + SimpleSilicon) hard-coded in src/components/Members.tsx,

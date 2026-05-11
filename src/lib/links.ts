@@ -10,9 +10,8 @@
 // static export).
 //
 // Preview-release policy (HumanNet): expose the project GitHub account
-// and waitlist. Everything else stays as a "#" placeholder until the real
-// channel exists; admin tabs still let an operator fill them in later
-// without code changes.
+// and waitlist. The arXiv paper is also live; admin tabs still let an
+// operator fill the remaining channels in later without code changes.
 
 export const DEFAULT_LINKS = {
   github: "https://github.com/DAGroup-PKU",
@@ -21,7 +20,7 @@ export const DEFAULT_LINKS = {
   discord: "#",
   mailingList: "#",
   codeOfConduct: "#",
-  arxiv: "#",
+  arxiv: "https://arxiv.org/abs/2605.06747",
 } as const;
 
 export type SiteLinks = typeof DEFAULT_LINKS;
