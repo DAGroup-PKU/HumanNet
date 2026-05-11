@@ -2,7 +2,7 @@
 
 ## HumanNet: Scaling Human-centric Video Learning to One Million Hours
 
-[![arXiv](https://img.shields.io/badge/Arxiv-b31b1b.svg?logo=arXiv)](https://github.com/DAGroup-PKU/HumanNet/blob/main/HumanNet_Arxiv.pdf)
+[![arXiv](https://img.shields.io/badge/Arxiv-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2605.06747)
 [![Home Page](https://img.shields.io/badge/Project-<Website>-blue.svg)](https://dagroup-pku.github.io/HumanNet/)
 [![Dataset](https://img.shields.io/badge/Dataset-HumanNet-brightgreen)](https://huggingface.co/datasets/DAGroup-PKU/HumanNet/)
 [![License](https://img.shields.io/badge/License-Apache--2.0-lightgrey)](YOUR_LINK)
@@ -19,7 +19,7 @@ This repository is the official home of **HumanNet**, a one-million-hour human-c
 
 ## 🔥 News
 * `[Coming Soon]` 🔥 We are preparing the open-source release of the HumanNet corpus, the curation pipeline, and the post-training validation code. Stay tuned!
-* 🔥 The **HumanNet** technical report and project page have been released: [Paper](https://github.com/DAGroup-PKU/HumanNet/blob/main/HumanNet_Arxiv.pdf) | [Project](https://dagroup-pku.github.io/HumanNet/).
+* 🔥 The **HumanNet** technical report and project page have been released: [Paper](https://arxiv.org/abs/2605.06747) | [Project](https://dagroup-pku.github.io/HumanNet/).
 
 ## 🎥 Demo
 https://github.com/user-attachments/assets/52eaa410-0ec4-4f89-81e8-d2ecf9bb351c
