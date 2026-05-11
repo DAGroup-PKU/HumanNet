@@ -1,6 +1,7 @@
 import { Chip } from "@heroui/react";
 import { AnimatedNumber } from "./AnimatedNumber";
 import { LinkButton } from "./LinkButton";
+import { PromotionVideo } from "./PromotionVideo";
 import { VideoFrame } from "./VideoFrame";
 import { useConfig } from "../lib/useConfig";
 import { ACCENT_CLOSE, ACCENT_OPEN } from "../lib/config-types";
@@ -143,6 +144,7 @@ export function Hero() {
           </div>
         </div>
       </div>
+      <PromotionVideo />
     </section>
   );
 }
