@@ -86,10 +86,13 @@ If you find our work useful in your research, please consider giving a star :sta
 
 ### BibTeX
 ```bibtex
-@misc{humannet2026,
-  title        = {HumanNet: Scaling Human-centric Video Learning to One Million Hours},
-  author       = {{DAGroup-PKU} and {SimpleSilicon Team}},
-  year         = {2026},
-  howpublished = {\url{https://github.com/DAGroup-PKU/HumanNet/}},
+@misc{deng2026humannetscalinghumancentricvideo,
+      title={HumanNet: Scaling Human-centric Video Learning to One Million Hours}, 
+      author={Yufan Deng and Daquan Zhou},
+      year={2026},
+      eprint={2605.06747},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2605.06747}, 
 }
 ```
