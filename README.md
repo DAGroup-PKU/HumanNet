@@ -1,4 +1,19 @@
-# HumanNet Website
+<div align="center">
+
+# HumanNet: Scaling Human-centric Video Learning to One Million Hours
+
+[![arXiv](https://img.shields.io/badge/Arxiv-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2605.06747)
+[![Home Page](https://img.shields.io/badge/Project-<Website>-blue.svg)](https://dagroup-pku.github.io/HumanNet/)
+[![Dataset](https://img.shields.io/badge/Dataset-HumanNet-brightgreen)](https://huggingface.co/datasets/DAGroup-PKU/HumanNet/)
+[![License](https://img.shields.io/badge/License-Apache--2.0-lightgrey)](YOUR_LINK)
+
+**DAGroup** &amp; **SimpleSilicon Innovation Team**
+
+Peking University
+
+</div>
+
+## HumanNet Website
 
 This repository contains the public website for **HumanNet**, a
 human-centric video dataset project from **PKU DAGroup** and
