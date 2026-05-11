@@ -37,16 +37,7 @@ https://github.com/user-attachments/assets/52eaa410-0ec4-4f89-81e8-d2ecf9bb351c
 ## ⚙️ Installation
 *Coming soon.*
 
-```bash
-# 0. Clone the repo
-git clone https://github.com/DAGroup-PKU/HumanNet.git
-cd HumanNet
 
-# 1. Environment (placeholder)
-conda create -n humannet python=3.10
-conda activate humannet
-pip install -r requirements.txt
-```
 
 ## 📦 Dataset
 *Coming soon.*
