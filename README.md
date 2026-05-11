@@ -70,3 +70,21 @@ npm run build:pages
 This repository is for the HumanNet website only. Dataset files,
 benchmarks, and paper materials are published separately through the
 official HumanNet project channels.
+
+
+## ✏️ Citation
+
+If you find our work useful in your research, please consider giving a star :star: and citation :pencil:.
+
+### BibTeX
+```bibtex
+@misc{deng2026humannetscalinghumancentricvideo,
+      title={HumanNet: Scaling Human-centric Video Learning to One Million Hours}, 
+      author={Yufan Deng and Daquan Zhou},
+      year={2026},
+      eprint={2605.06747},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2605.06747}, 
+}
+```
