@@ -18,8 +18,8 @@ Peking University
 This repository is the official home of **HumanNet**, a one-million-hour human-centric video corpus designed as scalable infrastructure for fine-grained activity understanding, motion-aware video learning, and embodied pretraining. HumanNet pairs first-person and third-person footage with caption labels, motion annotations, and hand and body signals, organized by a multi-axis taxonomy and produced by a curation pipeline that treats human-centric filtering, viewpoint characterization, quality control, and privacy review as first-class design choices. Under a controlled vision-language-action post-training protocol, initializing from 1,000 hours of egocentric video drawn from HumanNet matches or modestly surpasses initializing from 100 hours of real-robot data and substantially closes the gap to a 20,000-hour real-robot baseline, indicating that egocentric human video is a scalable and cost-effective substitute when robot data is limited.
 
 ## 🔥 News
-* `[Coming Soon]` 🔥 We are preparing the open-source release of the HumanNet corpus, the curation pipeline, and the post-training validation code. Stay tuned!
-* 🔥 The **HumanNet** technical report and project page have been released: [Paper](https://arxiv.org/abs/2605.06747) | [Project](https://dagroup-pku.github.io/HumanNet/).
+* `[Next Month]` 🔥 We are preparing the open-source release of the HumanNet corpus, the curation pipeline, and the post-training validation code. Stay tuned!
+* `[2026.05.11]`🔥 The **HumanNet** technical report and project page have been released: [Paper](https://arxiv.org/abs/2605.06747) | [Project](https://dagroup-pku.github.io/HumanNet/).
 
 ## 🎥 Demo
 https://github.com/user-attachments/assets/52eaa410-0ec4-4f89-81e8-d2ecf9bb351c
