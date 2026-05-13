@@ -1,8 +1,7 @@
 <div align="center">
 
 ## HumanNet: Scaling Human-centric Video Learning to One Million Hours
-
-[![arXiv](https://img.shields.io/badge/Arxiv-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2605.06747)
+[![arXiv](https://img.shields.io/badge/Arxiv-2605.06747-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2605.06747)
 [![Home Page](https://img.shields.io/badge/Project-<Website>-blue.svg)](https://dagroup-pku.github.io/HumanNet/)
 [![Dataset](https://img.shields.io/badge/Dataset-HumanNet-brightgreen)](https://huggingface.co/datasets/DAGroup-PKU/HumanNet/)
 [![License](https://img.shields.io/badge/License-Apache--2.0-lightgrey)](YOUR_LINK)
