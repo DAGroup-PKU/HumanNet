@@ -6,9 +6,7 @@
 [![Dataset](https://img.shields.io/badge/Dataset-HumanNet-brightgreen)](https://huggingface.co/datasets/DAGroup-PKU/HumanNet/)
 [![License](https://img.shields.io/badge/License-Apache--2.0-lightgrey)](YOUR_LINK)
 
-**DAGroup** &amp; **SimpleSilicon Innovation Team**
-
-Peking University
+**PKU, NUS, MIT, UCSB, NVIDIA, Simple Silicon Innovation**
 
 </div>
 
