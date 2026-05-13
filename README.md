@@ -29,7 +29,6 @@ https://github.com/user-attachments/assets/52eaa410-0ec4-4f89-81e8-d2ecf9bb351c
 
 ## 📑 Todo List
 - [x] Release the **HumanNet** technical report on arXiv. ✅
-- [ ] Release the curation pipeline (acquisition, human-centric filtering, viewpoint characterization, segmentation, deduplication, quality control, privacy review, caption / motion annotation).
 - [ ] Release a HumanNet preview subset on Hugging Face for early access.
 - [ ] Release the full one-million-hour HumanNet corpus with metadata and annotations.
 - [ ] Release the trained checkpoints initialized from HumanNet.
