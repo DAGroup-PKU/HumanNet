@@ -19,7 +19,7 @@
 > **📝 Paper:** https://arxiv.org/abs/TODO  
 > **🌍 Project page:** https://dagroup-pku.github.io/StableVLA/  
 > **🤗 HuggingFace:** https://huggingface.co/DAGroup-PKU/StableVLA  
-> **GitHub:** https://github.com/DAGroup-PKU/StableVLA
+> **GitHub:** https://github.com/DAGroup-PKU/HumanNet/tree/main/src/model/StableVLA
 
 ---
 
@@ -59,8 +59,8 @@ conda activate stablevla
 pip install torch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0
 
 # Install package
-git clone https://github.com/baiyingzhuying/StableVLA.git
-cd StableVLA
+git clone https://github.com/DAGroup-PKU/HumanNet.git
+cd HumanNet/src/model/StableVLA
 pip install -e .
 
 pip install packaging ninja
