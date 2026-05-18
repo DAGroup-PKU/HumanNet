@@ -80,6 +80,9 @@ huggingface-cli download DAGroup-PKU/HumanNet
 ```
 
 
+## 🙏 Acknowledgement
+We gratefully acknowledge **SimpleSilicon Innovation** for providing funding and resource support, and **Astribot** for providing real-robot platforms and deployment experiment support.
+
 ## 📧 Ethics Concerns
 The videos referenced in this repository are sourced from public domains and intended solely to showcase the capabilities of this research. Human-centric video raises non-trivial privacy, consent, and dual-use concerns; any release will follow license review, redaction, restricted-content filtering, access controls where necessary, and clear documentation of what is included or excluded.
 
