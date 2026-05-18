@@ -13,7 +13,7 @@ Peking University
 </div>
 
 ## 🔥 News
-* `[2026.05.18]` 🔥 We release **StableVLA**. Congratulations on its acceptance to **ICML 2026**! It is a vision-language-action model for robust robot policy learning. See [docs](./docs/stablevla.md) | [code](./src/model/StableVLA/) | [Project](https://dagroup-pku.github.io/StableVLA/) | [Paper](https://arxiv.org/abs/2605.06747).
+* `[2026.05.18]` 🔥 We release **StableVLA**. Congratulations on its acceptance to **ICML 2026**! It is a vision-language-action model for robust robot policy learning. See [Docs](./docs/stablevla.md) | [Code](./src/model/StableVLA/) | [Project](https://dagroup-pku.github.io/StableVLA/) | [Paper](https://arxiv.org/abs/2605.06747) | [Checkpoint](https://huggingface.co/DAGroup-PKU/StableVLA/tree/main).
 * `[Next Month]` 🔥 We are preparing the open-source release of the HumanNet corpus, the curation pipeline, and the post-training validation code. Stay tuned!
 * `[2026.05.11]`🔥 The **HumanNet** technical report and project page have been released: [Paper](https://arxiv.org/abs/2605.06747) | [Project](https://dagroup-pku.github.io/HumanNet/).
 
