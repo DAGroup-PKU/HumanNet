@@ -2,7 +2,7 @@
 
 # [ICML 2026🔥🔥🔥] StableVLA: Towards Robust Vision-Language-Action Models without Extra Data
 
-[![Paper](https://img.shields.io/badge/Paper-ICML%202026-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/TODO)
+[![Paper](https://img.shields.io/badge/Paper-ICML%202026-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2605.18287)
 [![Project Page](https://img.shields.io/badge/Project-Page-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://baiyingzhuying.github.io/StableVLA/)
 [![HuggingFace](https://img.shields.io/badge/🤗-Model%20Weights-fcd022?style=for-the-badge)](https://huggingface.co/beikui12345/stablevla)
 
@@ -16,7 +16,7 @@
 
 ---
 
-> **📝 Paper:** https://arxiv.org/abs/TODO  
+> **📝 Paper:** https://arxiv.org/abs/2605.18287
 > **🌍 Project page:** https://dagroup-pku.github.io/StableVLA/  
 > **🤗 HuggingFace:** https://huggingface.co/DAGroup-PKU/StableVLA  
 > **GitHub:** https://github.com/DAGroup-PKU/HumanNet/tree/main/src/model/StableVLA
