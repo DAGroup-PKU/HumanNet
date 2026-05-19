@@ -13,7 +13,7 @@ Peking University
 </div>
 
 ## 🔥 News
-* `[2026.05.18]` 🔥 We release **StableVLA**. Congratulations on its acceptance to **ICML 2026**! It is a vision-language-action model for robust robot policy learning. See [Docs](./docs/stablevla.md) | [Code](./src/model/StableVLA/) | [Project](https://dagroup-pku.github.io/StableVLA/) | [Paper](https://arxiv.org/abs/2605.06747) | [Checkpoint](https://huggingface.co/DAGroup-PKU/StableVLA/tree/main).
+* `[2026.05.18]` 🔥 We release **StableVLA**. Congratulations on its acceptance to **ICML 2026**! It is a vision-language-action model for robust robot policy learning. See [Docs](./docs/stablevla.md) | [Code](./src/model/StableVLA/) | [Project](https://dagroup-pku.github.io/StableVLA/) | [Paper](https://arxiv.org/abs/2605.18287) | [Checkpoint](https://huggingface.co/DAGroup-PKU/StableVLA/tree/main).
 * `[Next Month]` 🔥 We are preparing the open-source release of the HumanNet corpus, the curation pipeline, and the post-training validation code. Stay tuned!
 * `[2026.05.11]`🔥 The **HumanNet** technical report and project page have been released: [Paper](https://arxiv.org/abs/2605.06747) | [Project](https://dagroup-pku.github.io/HumanNet/).
 
@@ -94,13 +94,21 @@ If you find our work useful in your research, please consider giving a star :sta
 
 ### BibTeX
 ```bibtex
-@misc{deng2026humannetscalinghumancentricvideo,
-      title={HumanNet: Scaling Human-centric Video Learning to One Million Hours}, 
-      author={Yufan Deng and Daquan Zhou},
+@article{deng2026humannet,
+  title={HumanNet: Scaling Human-centric Video Learning to One Million Hours},
+  author={Deng, Yufan and Zhou, Daquan},
+  journal={arXiv preprint arXiv:2605.06747},
+  year={2026}
+}
+
+@misc{fu2026stablevlarobustvisionlanguageactionmodels,
+      title={StableVLA: Towards Robust Vision-Language-Action Models without Extra Data}, 
+      author={Yiyang Fu and Chubin Zhang and Shukai Gong and Yufan Deng and Kaiwei Sun and Qiyang Min and Qibin Hou and Yansong Tang and Jianan Wang and Daquan Zhou},
       year={2026},
-      eprint={2605.06747},
+      eprint={2605.18287},
       archivePrefix={arXiv},
       primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2605.06747}, 
+      url={https://arxiv.org/abs/2605.18287}, 
 }
+
 ```
