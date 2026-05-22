@@ -9,6 +9,7 @@ Peking University
 </div>
 
 ## 🔥 News
+* `[2026.05.22]` 🔥 We released **RoVid-X** on Hugging Face, a large-scale video dataset for robotics-oriented video generation. See [Dataset](https://huggingface.co/datasets/DAGroup-PKU/RoVid-X) and [resources](./src/dataset/rovid-x/).
 * `[2026.05.18]` 🔥 We release **StableVLA**. Congratulations on its acceptance to **ICML 2026**! It is a vision-language-action model for robust robot policy learning. See [Docs](./docs/stablevla.md) | [Code](./src/model/StableVLA/) | [Project](https://dagroup-pku.github.io/StableVLA/) | [Paper](https://arxiv.org/abs/2605.18287) | [Checkpoint](https://huggingface.co/DAGroup-PKU/StableVLA/tree/main).
 * `[Next Month]` 🔥 We are preparing the open-source release of the HumanNet corpus, the curation pipeline, and the post-training validation code. Stay tuned!
 * `[2026.05.11]`🔥 The **HumanNet** technical report and project page have been released: [Paper](https://arxiv.org/abs/2605.06747) | [Project](https://dagroup-pku.github.io/HumanNet/).
@@ -16,6 +17,7 @@ Peking University
 ## 📑 Todo List
 - [x] Release the **HumanNet** technical report on arXiv. ✅
 - [x] Release **StableVLA** model code and documentation. ✅
+- [x] Release **RoVid-X** on Hugging Face. ✅
 - [ ] Release a HumanNet preview subset on Hugging Face for early access.
 - [ ] Release the full one-million-hour HumanNet corpus with metadata and annotations.
 - [ ] Release the trained checkpoints initialized from HumanNet.
@@ -37,7 +39,7 @@ https://github.com/user-attachments/assets/52eaa410-0ec4-4f89-81e8-d2ecf9bb351c
 | Dataset | Status | Documentation | Resources |
 |---|---|---|---|
 | **HumanNet** | Documentation available | [Docs](./docs/humandata.md) | [src/dataset/humandata](./src/dataset/humandata/) |
-| **Rovid-X** | Placeholder available | Coming soon | [src/dataset/rovid-x](./src/dataset/rovid-x/) |
+| **RoVid-X** | Released on Hugging Face | [Dataset card](https://huggingface.co/datasets/DAGroup-PKU/RoVid-X) | [Hugging Face](https://huggingface.co/datasets/DAGroup-PKU/RoVid-X) / [src/dataset/rovid-x](./src/dataset/rovid-x/) |
 
 ## 🤖 Model Family
 
@@ -73,6 +75,9 @@ HumanNet/
 # if you are in china mainland, run this first: export HF_ENDPOINT=https://hf-mirror.com
 # pip install -U "huggingface_hub[cli]"
 huggingface-cli download DAGroup-PKU/HumanNet
+
+# Download RoVid-X
+huggingface-cli download DAGroup-PKU/RoVid-X --repo-type dataset
 ```
 
 
