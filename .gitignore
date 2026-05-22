@@ -1,1 +1,11 @@
 .DS_Store
+__pycache__/
+*.py[cod]
+outputs/
+src/dataset/rovid-x/outputs/
+src/dataset/rovid-x/**/*.mp4
+src/dataset/rovid-x/**/*.gif
+src/dataset/rovid-x/tools/facebook_co-tracker/weights/*.pth
+src/dataset/rovid-x/tools/facebook_co-tracker/notebooks/*.ipynb
+src/dataset/rovid-x/tools/facebook_co-tracker/assets/teaser.png
+src/dataset/rovid-x/tools/video_depth_anything/*.pth

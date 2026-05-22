@@ -1,0 +1,2 @@
+caption_short_list,video_path,frames,task
+Example raw first-person robot video for condition extraction.,videos/example_000001.mp4,300,example_task
