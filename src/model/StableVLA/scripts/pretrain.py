@@ -145,7 +145,8 @@ def pretrain(cfg: PretrainConfig) -> None:
     # Load Vision Backbone --> on CPU, in Full Precision (initializing model, image_transform via TIMM)
     overwatch.info(f"Loading Vision Backbone [bold]{cfg.model.vision_backbone_id}[/] via TIMM ")
     vision_backbone, image_transform = get_vision_backbone_and_transform(
-        cfg.model.vision_backbone_id, image_resize_strategy=cfg.model.image_resize_strategy
+        cfg.model.vision_backbone_id, image_resize_strategy=cfg.model.image_resize_strategy,
+        image_sequence_len=cfg.model.image_sequence_len,
     )
 
     # Load LLM Backbone --> on CPU, in Full Precision (initializing Tokenizer + handling special tokens if necessary)
