@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+.venv/
+.env
+**/configs/paths.local.yaml
+runs/
+data/
+weights/
+*.pt
+*.pth
+*.safetensors
+*.log

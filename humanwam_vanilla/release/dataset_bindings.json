@@ -1,0 +1,255 @@
+{
+  "profile": "idm_w0_a2_50kh",
+  "task_roots": [
+    {
+      "binding": "data__train__dataset_dirs__0",
+      "task_directory": "adjust_bottle-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__1",
+      "task_directory": "beat_block_hammer-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__2",
+      "task_directory": "blocks_ranking_rgb-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__3",
+      "task_directory": "blocks_ranking_size-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__4",
+      "task_directory": "click_alarmclock-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__5",
+      "task_directory": "click_bell-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__6",
+      "task_directory": "dump_bin_bigbin-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__7",
+      "task_directory": "grab_roller-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__8",
+      "task_directory": "handover_block-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__9",
+      "task_directory": "handover_mic-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__10",
+      "task_directory": "hanging_mug-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__11",
+      "task_directory": "lift_pot-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__12",
+      "task_directory": "move_can_pot-demo_clean_collect_200-50",
+      "uses_repaired_video_view": true
+    },
+    {
+      "binding": "data__train__dataset_dirs__13",
+      "task_directory": "move_pillbottle_pad-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__14",
+      "task_directory": "move_playingcard_away-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__15",
+      "task_directory": "move_stapler_pad-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__16",
+      "task_directory": "open_laptop-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__17",
+      "task_directory": "open_microwave-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__18",
+      "task_directory": "pick_diverse_bottles-demo_clean_collect_200-50",
+      "uses_repaired_video_view": true
+    },
+    {
+      "binding": "data__train__dataset_dirs__19",
+      "task_directory": "pick_dual_bottles-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__20",
+      "task_directory": "place_a2b_left-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__21",
+      "task_directory": "place_a2b_right-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__22",
+      "task_directory": "place_bread_basket-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__23",
+      "task_directory": "place_bread_skillet-demo_clean_collect_200-50",
+      "uses_repaired_video_view": true
+    },
+    {
+      "binding": "data__train__dataset_dirs__24",
+      "task_directory": "place_burger_fries-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__25",
+      "task_directory": "place_can_basket-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__26",
+      "task_directory": "place_cans_plasticbox-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__27",
+      "task_directory": "place_container_plate-demo_clean_collect_200-50",
+      "uses_repaired_video_view": true
+    },
+    {
+      "binding": "data__train__dataset_dirs__28",
+      "task_directory": "place_dual_shoes-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__29",
+      "task_directory": "place_empty_cup-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__30",
+      "task_directory": "place_fan-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__31",
+      "task_directory": "place_mouse_pad-demo_clean_collect_200-50",
+      "uses_repaired_video_view": true
+    },
+    {
+      "binding": "data__train__dataset_dirs__32",
+      "task_directory": "place_object_basket-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__33",
+      "task_directory": "place_object_scale-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__34",
+      "task_directory": "place_object_stand-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__35",
+      "task_directory": "place_phone_stand-demo_clean_collect_200-50",
+      "uses_repaired_video_view": true
+    },
+    {
+      "binding": "data__train__dataset_dirs__36",
+      "task_directory": "place_shoe-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__37",
+      "task_directory": "press_stapler-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__38",
+      "task_directory": "put_bottles_dustbin-piper_clean_50-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__39",
+      "task_directory": "put_object_cabinet-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__40",
+      "task_directory": "rotate_qrcode-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__41",
+      "task_directory": "scan_object-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__42",
+      "task_directory": "shake_bottle-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__43",
+      "task_directory": "shake_bottle_horizontally-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__44",
+      "task_directory": "stack_blocks_three-demo_clean_collect_200-50",
+      "uses_repaired_video_view": true
+    },
+    {
+      "binding": "data__train__dataset_dirs__45",
+      "task_directory": "stack_blocks_two-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__46",
+      "task_directory": "stack_bowls_three-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__47",
+      "task_directory": "stack_bowls_two-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__48",
+      "task_directory": "stamp_seal-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    },
+    {
+      "binding": "data__train__dataset_dirs__49",
+      "task_directory": "turn_switch-demo_clean_collect_200-50",
+      "uses_repaired_video_view": false
+    }
+  ]
+}

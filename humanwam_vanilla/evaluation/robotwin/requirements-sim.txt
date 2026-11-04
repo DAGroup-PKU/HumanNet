@@ -1,0 +1,36 @@
+# Python 3.10; install torch==2.7.1+cu128 / torchvision==0.22.1+cu128 first.
+# RoboTwin simulator: 13c3c47ff4312dd62484bcd51be034af55c062d1.
+# Install separately from the policy environment.
+numpy==1.26.4
+sapien==3.0.0b1
+mplib==0.2.1
+transforms3d==0.4.2
+scipy==1.10.1
+gymnasium==0.29.1
+trimesh==4.4.3
+open3d==0.18.0
+imageio==2.34.2
+imageio-ffmpeg==0.6.0
+opencv-python==4.11.0.86
+PyYAML==6.0.3
+warp-lang==1.12.0
+huggingface-hub==0.25.0
+matplotlib==3.9.4
+h5py==3.16.0
+zarr==2.18.3
+numcodecs==0.13.1
+ninja==1.11.1.3
+setuptools==80.9.0
+wheel==0.45.1
+fvcore==0.1.5.post20221221
+iopath==0.1.10
+termcolor==2.5.0
+tqdm==4.66.5
+toppra==0.6.9
+networkx==3.4.2
+numpy-quaternion==2024.0.13
+yourdfpy==0.0.60
+scikit-image==0.24.0
+pyglet==1.5.31
+setuptools-scm==10.3.4
+pybind11==3.1.0

@@ -1,0 +1,459 @@
+output_dir: ${paths.output_dir}
+batch_size: 64
+num_workers: 12
+dataloader_timeout: 600
+dataloader_prefetch_factor: 2
+dataloader_persistent_workers: auto
+dataloader_in_order: true
+dataloader_non_blocking: true
+dataloader_rank_aware_strict: true
+dataloader_require_merged_cache: false
+dataloader_fail_on_cache_miss: false
+dataloader_require_video_latent_cache: false
+dataloader_fail_on_latent_cache_miss: false
+lr_scheduler_type: cosine
+learning_rate: 0.0001
+warmup_ratio: 0.05
+num_epochs: 16
+max_steps: 12000
+log_every: 10
+save_every: 1000
+save_initial_checkpoint: false
+checkpoint_steps: []
+eval_every: 100000000
+eval_num_inference_steps: 10
+checkpoint_state_keep_last: 2
+checkpoint_weights_keep_local: 16
+gradient_accumulation_steps: 1
+mixed_precision: bf16
+seed: 42
+max_grad_norm: 1.0
+weight_decay: 0.01
+optimizer_fused: true
+optimizer_video_lr_scale: 1.0
+optimizer_action_lr_scale: 1.0
+optimizer_view_lr_scale: 1.0
+optimizer_video_freeze_steps: 0
+lora:
+  enabled: false
+  rank: 16
+  alpha: 16
+  dropout: 0.0
+  experts:
+  - video
+  - action
+  target_modules:
+  - self_attn.q
+  - self_attn.k
+  - self_attn.v
+  - self_attn.o
+  - ffn.0
+  - ffn.2
+  trainable_modules: []
+  checkpoint_mode: adapter
+  resume_adapter: null
+  base_checkpoint: null
+bottleneck_adapter:
+  enabled: false
+  experts:
+  - video
+  - action
+  sites:
+  - self_attn
+  - ffn
+  bottleneck_dims:
+    video: 77
+    action: 103
+  activation: gelu_tanh
+  dropout: 0.0
+  residual_scale: 1.0
+  init_seed: 0
+  trainable_modules: []
+  checkpoint_mode: delta
+  resume_delta: null
+  base_checkpoint: null
+resume: ${paths.resume}
+resume_mot_skip_prefixes: []
+resume_skip_proprio_encoder: false
+resume_step: 0
+wandb:
+  enabled: false
+  project: OpenHumanScale
+  name: ia_relative_action_control
+data:
+  train:
+    _target_: humanwam.datasets.lerobot.robot_video_dataset.RobotVideoDataset
+    dataset_dirs:
+    - ${paths.data__train__dataset_dirs__0}
+    - ${paths.data__train__dataset_dirs__1}
+    - ${paths.data__train__dataset_dirs__2}
+    - ${paths.data__train__dataset_dirs__3}
+    - ${paths.data__train__dataset_dirs__4}
+    - ${paths.data__train__dataset_dirs__5}
+    - ${paths.data__train__dataset_dirs__6}
+    - ${paths.data__train__dataset_dirs__7}
+    - ${paths.data__train__dataset_dirs__8}
+    - ${paths.data__train__dataset_dirs__9}
+    - ${paths.data__train__dataset_dirs__10}
+    - ${paths.data__train__dataset_dirs__11}
+    - ${paths.data__train__dataset_dirs__12}
+    - ${paths.data__train__dataset_dirs__13}
+    - ${paths.data__train__dataset_dirs__14}
+    - ${paths.data__train__dataset_dirs__15}
+    - ${paths.data__train__dataset_dirs__16}
+    - ${paths.data__train__dataset_dirs__17}
+    - ${paths.data__train__dataset_dirs__18}
+    - ${paths.data__train__dataset_dirs__19}
+    - ${paths.data__train__dataset_dirs__20}
+    - ${paths.data__train__dataset_dirs__21}
+    - ${paths.data__train__dataset_dirs__22}
+    - ${paths.data__train__dataset_dirs__23}
+    - ${paths.data__train__dataset_dirs__24}
+    - ${paths.data__train__dataset_dirs__25}
+    - ${paths.data__train__dataset_dirs__26}
+    - ${paths.data__train__dataset_dirs__27}
+    - ${paths.data__train__dataset_dirs__28}
+    - ${paths.data__train__dataset_dirs__29}
+    - ${paths.data__train__dataset_dirs__30}
+    - ${paths.data__train__dataset_dirs__31}
+    - ${paths.data__train__dataset_dirs__32}
+    - ${paths.data__train__dataset_dirs__33}
+    - ${paths.data__train__dataset_dirs__34}
+    - ${paths.data__train__dataset_dirs__35}
+    - ${paths.data__train__dataset_dirs__36}
+    - ${paths.data__train__dataset_dirs__37}
+    - ${paths.data__train__dataset_dirs__38}
+    - ${paths.data__train__dataset_dirs__39}
+    - ${paths.data__train__dataset_dirs__40}
+    - ${paths.data__train__dataset_dirs__41}
+    - ${paths.data__train__dataset_dirs__42}
+    - ${paths.data__train__dataset_dirs__43}
+    - ${paths.data__train__dataset_dirs__44}
+    - ${paths.data__train__dataset_dirs__45}
+    - ${paths.data__train__dataset_dirs__46}
+    - ${paths.data__train__dataset_dirs__47}
+    - ${paths.data__train__dataset_dirs__48}
+    - ${paths.data__train__dataset_dirs__49}
+    shape_meta:
+      images:
+      - key: cam_high
+        raw_shape:
+        - 3
+        - 480
+        - 640
+        shape:
+        - 3
+        - 256
+        - 352
+      action:
+      - key: default
+        raw_shape: 16
+        shape: 16
+      state:
+      - key: default
+        raw_shape: 16
+        shape: 16
+    num_frames: 33
+    global_sample_stride: 1
+    action_video_freq_ratio: 4
+    video_size:
+    - 256
+    - 352
+    camera_key: cam_high
+    val_set_proportion: 0.0
+    is_training_set: true
+    pretrained_norm_stats: ${paths.data__train__pretrained_norm_stats}
+    skip_padding_as_possible: false
+    concat_multi_camera: null
+    goal_supervision: false
+    processor:
+      _target_: humanwam.datasets.lerobot.processors.fastwam_processor.FastWAMProcessor
+      shape_meta:
+        images:
+        - key: cam_high
+          raw_shape:
+          - 3
+          - 480
+          - 640
+          shape:
+          - 3
+          - 256
+          - 352
+        action:
+        - key: default
+          raw_shape: 16
+          shape: 16
+        state:
+        - key: default
+          raw_shape: 16
+          shape: 16
+      num_obs_steps: 33
+      num_output_cameras: 1
+      action_output_dim: 16
+      proprio_output_dim: 16
+      action_state_transforms:
+      - _target_: humanwam.datasets.lerobot.transforms.pose_frame.DualArmWorldToCameraTransform
+        num_arms: 2
+        category_keys:
+          action:
+          - default
+          state:
+          - default
+        cam2world:
+        - - 1.0
+          - 0.0
+          - 0.0
+          - -0.032
+        - - 0.0
+          - 0.8
+          - -0.6
+          - -0.45
+        - - 0.0
+          - 0.6
+          - 0.8
+          - 1.35
+        - - 0.0
+          - 0.0
+          - 0.0
+          - 1.0
+      - _target_: humanwam.datasets.lerobot.transforms.ego_alignment.DualArmRelativePoseTransform
+        num_arms: 2
+        mode: world
+        reference: anchor
+        category_keys:
+          action:
+          - default
+      use_stepwise_action_norm: false
+      norm_default_mode: z-score
+      norm_exception_mode: null
+      action_state_merger:
+        _target_: humanwam.datasets.lerobot.transforms.action_state_merger.ConcatLeftAlign
+      train_transforms:
+      - _target_: humanwam.datasets.lerobot.transforms.image.ToTensor
+      - _target_: torchvision.transforms.Resize
+        size:
+        - 256
+        - 352
+        antialias: true
+      val_transforms:
+      - _target_: humanwam.datasets.lerobot.transforms.image.ToTensor
+      - _target_: torchvision.transforms.Resize
+        size:
+        - 256
+        - 352
+        antialias: true
+      post_normalization_clips: null
+    text_embedding_cache_dir: ${paths.data__train__text_embedding_cache_dir}
+    text_context_cache_size: 0
+    context_len: 128
+    preload_video_cache: false
+    preload_cache_workers: 16
+    video_cache_dir: ./data/video_cache
+    merged_video_cache_dir: null
+    _recursive_: false
+    norm_stats_weighting: loss
+    merged_video_cache_dtype: float32
+    video_latent_cache_dir: null
+    video_backend: pyav
+    lazy_parquet_loading: true
+    action_time_offset_frames: 0
+    object_conditioned_instruction_manifest: ${paths.data__train__object_conditioned_instruction_manifest}
+    object_conditioned_instruction_sampling: per_draw
+    object_conditioned_instruction_seed: 20260903
+    text_embedding_fallback_cache_dirs:
+    - ${paths.data__train__text_embedding_fallback_cache_dirs__0}
+    - ${paths.data__train__text_embedding_fallback_cache_dirs__1}
+    - ${paths.data__train__text_embedding_fallback_cache_dirs__2}
+    - ${paths.data__train__text_embedding_fallback_cache_dirs__3}
+model:
+  _target_: humanwam.runtime.create_fastwam
+  model_id: Wan-AI/Wan2.2-TI2V-5B
+  tokenizer_model_id: Wan-AI/Wan2.1-T2V-1.3B
+  tokenizer_max_len: 128
+  load_text_encoder: false
+  proprio_dim: 16
+  redirect_common_files: false
+  mot_checkpoint_mixed_attn: false
+  mot_checkpoint_post: false
+  mot_compile_blocks: true
+  mot_compile_dynamic: false
+  mot_compile_mode: default
+  action_dit_pretrained_path: ${paths.model__action_dit_pretrained_path}
+  skip_dit_load_from_pretrain: false
+  vae_encode_batched: true
+  vae_encode_chunk_frames: 0
+  vae_compile_encoder: true
+  vae_compile_dynamic: false
+  vae_compile_mode: default
+  vae_enable_channels_last_3d: true
+  video_vae_layout: pixel
+  robotwin_latent_tshape_head_size:
+  - 256
+  - 320
+  robotwin_latent_tshape_wrist_size:
+  - 128
+  - 160
+  latent_tshape_head_resize_mode: cover_crop
+  latent_tshape_premerged_input: false
+  latent_tshape_future_wrist_loss_weight: 0.5
+  latent_tshape_head_reads_wrist0: true
+  latent_tshape_action_reads_wrist0: true
+  wrist_view_mask_prob: 0.0
+  robotwin_multiview_head_size:
+  - 256
+  - 448
+  robotwin_multiview_wrist_size:
+  - 128
+  - 224
+  wrist_attention_gate_ramp_steps: 0
+  wrist_video_loss_ramp_steps: 0
+  wrist_video_loss_max_weight: 1.0
+  head_only_replay_start_ratio: 0.0
+  head_only_replay_end_ratio: 0.0
+  head_only_replay_decay_steps: 0
+  robotwin_packed_head_size:
+  - 256
+  - 448
+  robotwin_packed_wrist_size:
+  - 128
+  - 160
+  packed_head_reads_wrist0: false
+  packed_wrist_encode_separately: false
+  goal_enabled: false
+  goal_targets: both
+  goal_encode_mode: pseudo_video
+  goal_mix_video_ratio: 0.0
+  goal_long_loss_weight: 1.0
+  goal_short_rope_index: null
+  video_dit_config:
+    has_image_input: false
+    patch_size:
+    - 1
+    - 2
+    - 2
+    in_dim: 48
+    hidden_dim: 3072
+    ffn_dim: 14336
+    freq_dim: 256
+    text_dim: 4096
+    out_dim: 48
+    num_heads: 24
+    attn_head_dim: 128
+    num_layers: 30
+    eps: 1.0e-06
+    seperated_timestep: true
+    require_clip_embedding: false
+    require_vae_embedding: false
+    fuse_vae_embedding_in_latents: true
+    use_gradient_checkpointing: false
+    video_attention_mask_mode: first_frame_causal
+    action_conditioned: false
+    action_dim: 16
+    action_group_causal_mask_mode: group_diagonal
+    action_cross_attention: true
+    action_adaln: false
+    action_adaln_hidden_dim: 512
+    num_view_embeddings: 0
+    camera_pose_conditioning: false
+    camera_pose_hidden_dim: 256
+    camera_pose_translation_tolerance_m: 0.005
+    camera_pose_rotation_tolerance_deg: 0.5
+    camera_pose_representation: euler6
+    camera_pose_dropout: 0.1
+    camera_pose_local_translation_scale_m: 0.02
+    camera_pose_local_rotation_scale_rad: 0.05
+  action_dit_config:
+    action_dim: 16
+    separate_ego_action_tokenizer: true
+    action_tokenizer_sources: []
+    default_action_tokenizer_source: null
+    hidden_dim: 1024
+    ffn_dim: 4096
+    num_heads: 24
+    attn_head_dim: 128
+    num_layers: 30
+    text_dim: 4096
+    freq_dim: 256
+    eps: 1.0e-06
+    use_gradient_checkpointing: false
+  video_scheduler:
+    train_shift: 5.0
+    infer_shift: 5.0
+    num_train_timesteps: 1000
+  action_scheduler:
+    train_shift: 1.0
+    infer_shift: 1.0
+    num_train_timesteps: 1000
+  loss:
+    lambda_action: 1.0
+    component_weights:
+      position: 1.0
+      rotation: 1.0
+      gripper: 1.0
+  action_component_num_arms: 2
+  model_class: humanwam.models.wan22.fastwam.FastWAM
+paths:
+  output_dir: ???
+  resume: ???
+  data__train__dataset_dirs__0: ???
+  data__train__dataset_dirs__1: ???
+  data__train__dataset_dirs__2: ???
+  data__train__dataset_dirs__3: ???
+  data__train__dataset_dirs__4: ???
+  data__train__dataset_dirs__5: ???
+  data__train__dataset_dirs__6: ???
+  data__train__dataset_dirs__7: ???
+  data__train__dataset_dirs__8: ???
+  data__train__dataset_dirs__9: ???
+  data__train__dataset_dirs__10: ???
+  data__train__dataset_dirs__11: ???
+  data__train__dataset_dirs__12: ???
+  data__train__dataset_dirs__13: ???
+  data__train__dataset_dirs__14: ???
+  data__train__dataset_dirs__15: ???
+  data__train__dataset_dirs__16: ???
+  data__train__dataset_dirs__17: ???
+  data__train__dataset_dirs__18: ???
+  data__train__dataset_dirs__19: ???
+  data__train__dataset_dirs__20: ???
+  data__train__dataset_dirs__21: ???
+  data__train__dataset_dirs__22: ???
+  data__train__dataset_dirs__23: ???
+  data__train__dataset_dirs__24: ???
+  data__train__dataset_dirs__25: ???
+  data__train__dataset_dirs__26: ???
+  data__train__dataset_dirs__27: ???
+  data__train__dataset_dirs__28: ???
+  data__train__dataset_dirs__29: ???
+  data__train__dataset_dirs__30: ???
+  data__train__dataset_dirs__31: ???
+  data__train__dataset_dirs__32: ???
+  data__train__dataset_dirs__33: ???
+  data__train__dataset_dirs__34: ???
+  data__train__dataset_dirs__35: ???
+  data__train__dataset_dirs__36: ???
+  data__train__dataset_dirs__37: ???
+  data__train__dataset_dirs__38: ???
+  data__train__dataset_dirs__39: ???
+  data__train__dataset_dirs__40: ???
+  data__train__dataset_dirs__41: ???
+  data__train__dataset_dirs__42: ???
+  data__train__dataset_dirs__43: ???
+  data__train__dataset_dirs__44: ???
+  data__train__dataset_dirs__45: ???
+  data__train__dataset_dirs__46: ???
+  data__train__dataset_dirs__47: ???
+  data__train__dataset_dirs__48: ???
+  data__train__dataset_dirs__49: ???
+  data__train__pretrained_norm_stats: ???
+  data__train__text_embedding_cache_dir: ???
+  data__train__object_conditioned_instruction_manifest: ???
+  data__train__text_embedding_fallback_cache_dirs__0: ???
+  data__train__text_embedding_fallback_cache_dirs__1: ???
+  data__train__text_embedding_fallback_cache_dirs__2: ???
+  data__train__text_embedding_fallback_cache_dirs__3: ???
+  model__action_dit_pretrained_path: ???
+release:
+  profile: ia_relative_action_control
+  purpose: historical_reference
+  runtime_verified: false

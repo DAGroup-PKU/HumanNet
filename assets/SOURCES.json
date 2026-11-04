@@ -1,0 +1,56 @@
+{
+  "ego_scaling_ia.png": {
+    "source": "figs/study/scaling/hours_default.pdf",
+    "manuscript_revision": "3069a9e8166b72df04e0d31c71af4a0b41cc7b94",
+    "source_sha256": "a08a05294d619de841a962c56b3effc31f960424247d981dd3103aab4c06485f",
+    "rendering": "First PDF page rendered at 1800 px width; no content edits"
+  },
+  "ego_scaling_idm.png": {
+    "source": "figs/study/scaling/hours_idm.pdf",
+    "manuscript_revision": "3069a9e8166b72df04e0d31c71af4a0b41cc7b94",
+    "source_sha256": "466a5547741c12dab0ac651b9329d89584a9867f3f7b56506a63fd385dba06e0",
+    "rendering": "First PDF page rendered at 1800 px width; no content edits"
+  },
+  "zero_shot_robotwin_success.png": {
+    "source": "figs/robot_human/wam-success-chart-combined-ge2.pdf",
+    "manuscript_revision": "3069a9e8166b72df04e0d31c71af4a0b41cc7b94",
+    "source_sha256": "71a1f43366e905d8c6032bdea826843c6ad7374da3bd5a2fc83b7397d7a6141a",
+    "rendering": "First PDF page rendered at 1800 px width; no content edits"
+  },
+  "zero_shot_robotwin_coverage.png": {
+    "source": "figs/robot_human/wam-coverage-chart-combined-ge2.pdf",
+    "manuscript_revision": "3069a9e8166b72df04e0d31c71af4a0b41cc7b94",
+    "source_sha256": "e3a3315e3ce19bcce1bc749e242d9c579a8a3f988f8edf91976b3a352a22f8d5",
+    "rendering": "First PDF page rendered at 1800 px width; no content edits"
+  },
+  "zero_shot_real_robot_scaling.png": {
+    "source": "figs/robot_human/real_robot_zero_shot_difficulty_scaling.pdf",
+    "manuscript_revision": "3069a9e8166b72df04e0d31c71af4a0b41cc7b94",
+    "source_sha256": "db4291ed49770561755de3ee870656cfda113087e116c8e7ddcffd8cf22d591c",
+    "rendering": "First PDF page rendered at 1800 px width; no content edits"
+  },
+  "zero_shot_real_robot_tasks.png": {
+    "source": "figs/robot_human/real_robot_zero_shot_comparison_expanded.pdf",
+    "manuscript_revision": "3069a9e8166b72df04e0d31c71af4a0b41cc7b94",
+    "source_sha256": "3ef12d4cd5e15dfefe4fbbcac1e5c6b7393deb68a0a64d1cb19a710a90da92d3",
+    "rendering": "First PDF page rendered at 2400 px width; no content edits"
+  },
+  "teaser.png": {
+    "source": "figs/fig/teaser.pdf",
+    "rendering": "First PDF page rendered at 2600 px width; no content edits",
+    "source_sha256": "4070fc1a02a251f70e17dc8f651d660ea847e0b9f52f41dfe0d397b765c57c90",
+    "manuscript_revision": "3069a9e8166b72df04e0d31c71af4a0b41cc7b94"
+  },
+  "hybrid_posttraining_scaling.png": {
+    "source": "figs/robot_human/robotwin_posttraining_scaling.pdf",
+    "rendering": "First PDF page rendered at 1800 px width; no content edits",
+    "source_sha256": "b0b1b3acb3efca1663fb1b800231aed57b3529249b44fc3c49c597661275400b",
+    "manuscript_revision": "3069a9e8166b72df04e0d31c71af4a0b41cc7b94"
+  },
+  "data_overview.png": {
+    "source": "figs/data/data_overview.pdf",
+    "manuscript_revision": "8ef4086e9252b2a17599a861dd0c368403efc3a2",
+    "source_sha256": "314e9000de51ad64f83bfc5d4e4263888c849b8217e0e5569370dc67bfa10af9",
+    "rendering": "First PDF page rendered at 2400 px width; no content edits"
+  }
+}

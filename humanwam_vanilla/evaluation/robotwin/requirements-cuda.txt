@@ -1,0 +1,3 @@
+# Install after requirements-sim.txt, with --no-build-isolation and a CUDA toolkit.
+# CuRobo v0.7.8; RGB evaluation does not require the optional PyTorch3D path.
+nvidia-curobo @ git+https://github.com/NVlabs/curobo.git@d64c4b005459db10c5dd867d8b30a87d5bda9bdb
