@@ -136,7 +136,7 @@ hf download DAGroup-PKU/HumanWAM-Goal-RoboTwin goal_cache.tar --local-dir downlo
 tar -xf downloads/goal_cache.tar -C downloads   # -> downloads/goal_cache/
 export GOAL_CACHE=$PWD/downloads/goal_cache
 python -m goalwam.robotwin.goal_cache --root "$GOAL_CACHE" \
-  --manifest-sha256 bd9bd288bedeeec7ecea951240bb8ddd0fe0c15665f15fa1192b86e2d2599eb1 \
+  --manifest-sha256 a80be2cec8fa6f42879ec9d27a113b6b3475e69ae0e9af25cd75f70dfe5cf6ad \
   --profile configs/robotwin.yaml --verify-artifacts
 ```
 

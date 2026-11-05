@@ -21,14 +21,14 @@
           "path": ".",
           "group": "main_result",
           "contents": "Inference export: transformer/, vae/, text_tokenizer/, processor.json, sampling.json, robot.json, export.json (SHA-256 of every file)",
-          "export_sha256": "97426f10722debf5b29f85006bbf73a05e5739816d90a6796668096b538ffdd4"
+          "export_sha256": "903619c7687a1cc01a4396d465638e8938639bbc8686189f8c6c10ad841482d6"
         },
         {
           "path": "goal_cache.tar",
           "group": "robotwin_goal_cache",
           "contents": "robotwin_official_goal_cache_v1 (extracts to goal_cache/)",
-          "sha256": "d0c59e016f950d59b13eda9a414ed21c0c7c2aa3cae2b07e893b92a32a4324de",
-          "manifest_sha256": "bd9bd288bedeeec7ecea951240bb8ddd0fe0c15665f15fa1192b86e2d2599eb1"
+          "sha256": "ebc60f793c3357b8e4673917f22a6646ab740cb150a9c9887d4ffe3a15c7a6e2",
+          "manifest_sha256": "a80be2cec8fa6f42879ec9d27a113b6b3475e69ae0e9af25cd75f70dfe5cf6ad"
         }
       ]
     }
