@@ -13,7 +13,7 @@ code will be released separately.
 
 ## Getting Started
 
-- [Weight Download](#weight-download) — RoboTwin post-trained checkpoint; uploading.
+- [Weight Download](#weight-download) — RoboTwin post-trained checkpoint.
 - [Environment Setup](#environment-setup) — one Python 3.13 environment.
 - [Quick Start](#quick-start) — run the model on a sample observation.
 - [Inference](#inference) — Python API, HTTP server and [input format](docs/inputs.md).
@@ -27,7 +27,7 @@ See the project README for the [release plan](../README.md#release-plan),
 
 | Checkpoint | Clean2Clean | Clean2Random | Average | Status |
 | --- | ---: | ---: | ---: | --- |
-| HumanWAM-Goal · RoboTwin post-trained | **92.70%** | **84.60%** | **88.65%** | [HumanWAM-Goal-RoboTwin](https://huggingface.co/DAGroup-PKU/HumanWAM-Goal-RoboTwin) (uploading) |
+| HumanWAM-Goal · RoboTwin post-trained | **92.70%** | **84.60%** | **88.65%** | [HumanWAM-Goal-RoboTwin](https://huggingface.co/DAGroup-PKU/HumanWAM-Goal-RoboTwin) |
 
 [DAGroup-PKU/HumanWAM-Goal-RoboTwin](https://huggingface.co/DAGroup-PKU/HumanWAM-Goal-RoboTwin),
 part of the [Open-HumanScale Collection](https://huggingface.co/collections/DAGroup-PKU/open-humanscale),
