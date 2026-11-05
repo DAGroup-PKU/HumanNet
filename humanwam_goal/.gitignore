@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+outputs/
+checkpoints/
+examples/sample/
+*.safetensors
+*.pt
+*.pth
+*.npy
+*.npz
+.env

@@ -149,16 +149,17 @@ uses [PyTorch torchrun](https://docs.pytorch.org/docs/stable/elastic/run.html).
 <a id="goal-weight-download"></a>
 ### Weight Download
 
-Hybrid pretrained / zero-shot checkpoints and RoboTwin post-trained weights are
-being uploaded under Goal-specific paths in the same model repository, linked
-from the [Open-HumanScale Collection](https://huggingface.co/collections/DAGroup-PKU/open-humanscale).
+The RoboTwin post-trained checkpoint and its goal cache are released as
+[DAGroup-PKU/HumanWAM-Goal-RoboTwin](https://huggingface.co/DAGroup-PKU/HumanWAM-Goal-RoboTwin);
+hybrid pretrained / zero-shot checkpoints are being prepared. All are linked from the
+[Open-HumanScale Collection](https://huggingface.co/collections/DAGroup-PKU/open-humanscale).
 
 | Checkpoint | Clean2Clean | Clean2Random | Average | Status |
 | --- | ---: | ---: | ---: | --- |
-| HumanWAM-Goal · RoboTwin post-trained | **92.70%** | **84.60%** | **88.65%** | [Uploading](https://huggingface.co/collections/DAGroup-PKU/open-humanscale) |
+| HumanWAM-Goal · RoboTwin post-trained | **92.70%** | **84.60%** | **88.65%** | [HumanWAM-Goal-RoboTwin](https://huggingface.co/DAGroup-PKU/HumanWAM-Goal-RoboTwin) |
 
 Results are reported in the technical report under the official 10,000-episode
-protocol. Direct download paths are being prepared.
+protocol.
 
 Without target-task parameter updates, HumanWAM-Goal achieves **13.94% mean
 zero-shot success on RoboTwin** and **30.5% across 20 real-world tasks**.
@@ -171,17 +172,29 @@ zero-shot success on RoboTwin** and **30.5% across 20 real-world tasks**.
 <a id="goal-quick-start"></a>
 ### Environment Setup & Quick Start
 
-🚧 Work in progress.
+```bash
+cd humanwam_goal
+bash scripts/setup_environment.sh /path/to/new/environment   # Python 3.13, PyTorch 2.10, CUDA 12.8
+python examples/make_sample.py
+goalwam infer --checkpoint "$GOALWAM_CHECKPOINT" --sample examples/sample/observation.json
+```
+
+See [HumanWAM-Goal setup](humanwam_goal/README.md#environment-setup) for the requirements
+(Hopper GPU, GLIBC ≥ 2.34) and [Quick Start](humanwam_goal/README.md#quick-start).
 
 <a id="goal-inference"></a>
 ### Inference
 
-🚧 Work in progress.
+The Python API, HTTP server and observation format are documented in
+[HumanWAM-Goal inference](humanwam_goal/README.md#inference). RoboTwin 2.0 evaluation
+with the released goal cache, and bit-exact reproduction of the published actions, are in
+[RoboTwin 2.0 Evaluation](humanwam_goal/README.md#robotwin-20-evaluation).
 
 ## Release Plan
 
 - [ ] Open-HumanScale-50k corpus — uploading to Hugging Face; ModelScope pending.
-- [ ] Pretrained and RoboTwin post-trained weights — uploading.
+- [x] HumanWAM-Goal RoboTwin post-trained weights.
+- [ ] Pretrained and HumanWAM-Vanilla RoboTwin post-trained weights — uploading.
 - [ ] HumanWAM-Vanilla code, training, inference, and reproduction guide — in progress.
 - [ ] HumanWAM-Goal code, environment setup, and inference — in progress.
 
