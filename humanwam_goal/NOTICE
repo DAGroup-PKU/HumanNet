@@ -1,0 +1,17 @@
+GoalWAM
+
+Native transformer, rotary embedding and Wan image encoder components contain
+adaptations of NVIDIA Cosmos code.
+Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+These components are covered by the OpenMDW-1.1 license in LICENSE.
+Adaptations retain inference execution and omit unrelated runtime components.
+
+Robot coordinate conversion and UniPC inference helpers include Apache-2.0
+licensed components. See licenses/Apache-2.0.txt.
+
+Camera preprocessing and temporal position helpers include code from PhyAI.
+Copyright (c) 2026 phyai team.
+See licenses/phyai-MIT.txt.
+
+The optional PhyAI engine is distributed separately under its own license.
+Model weights are distributed separately; consult their accompanying license.
