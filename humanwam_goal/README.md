@@ -51,6 +51,7 @@ Linux with GLIBC ≥ 2.34.
 ```bash
 cd humanwam_goal
 bash scripts/setup_environment.sh /path/to/new/environment
+source /path/to/new/environment/bin/activate
 ```
 
 The script installs PyTorch 2.10.0+cu128, this package with its RoboTwin layer
@@ -92,9 +93,46 @@ commands), `relative_actions`, `action_valid_mask` and `normalized_actions`.
 for every observation field, the 49-D robot layout and the gripper conventions.
 [examples/infer.py](examples/infer.py) shows the Python API end to end.
 
-An optional [PhyAI](https://github.com/mingti-org/phyai) backend (`--backend phyai`,
-tensor parallelism over 1, 2 or 4 GPUs) uses the same weights; its package is not
-yet published at the pinned version.
+### PhyAI acceleration
+
+[PhyAI](https://github.com/mingti-org/phyai) accelerates HumanWAM-Goal on one GPU
+or with tensor parallelism across 2 or 4 NVLink-connected GPUs on one host.
+It uses the same checkpoint, observation format and Python API. TP=2/4 also
+requires the CUDA toolkit (`nvcc`) and roughly the single-GPU weight memory per GPU.
+
+To include PhyAI 0.2.0rc3 when creating the environment:
+
+```bash
+bash scripts/setup_environment.sh /path/to/new/environment --phyai
+source /path/to/new/environment/bin/activate
+export LD_PRELOAD="$VIRTUAL_ENV/runtime/cublaslt-12.8.3.14/libcublasLt.so.12"
+```
+
+For an existing environment created above, install the optional backend:
+
+```bash
+uv pip install -e '.[phyai]' \
+  --extra-index-url https://mingti-org.github.io/phyai/simple/ \
+  --extra-index-url https://nvidia-cosmos.github.io/cosmos-dependencies/v1.5.0 \
+  --index-strategy unsafe-best-match
+export LD_PRELOAD="$VIRTUAL_ENV/runtime/cublaslt-12.8.3.14/libcublasLt.so.12"
+```
+
+Run the sample from Quick Start with two GPUs:
+
+```bash
+CUDA_VISIBLE_DEVICES=0,1 goalwam infer \
+  --checkpoint "$GOALWAM_CHECKPOINT" --backend phyai --tp 2 \
+  --sample examples/sample/observation.json --output outputs/actions.npz
+```
+
+Use `CUDA_VISIBLE_DEVICES=0` with `--tp 1` for one GPU, or
+`CUDA_VISIBLE_DEVICES=0,1,2,3` with `--tp 4` for four. PhyAI starts the workers; do not
+wrap the command in `torchrun`. The same `--backend phyai --tp 2` options work
+with `goalwam serve`. In Python, pass `backend="phyai", tp=2` to `GoalWAM`.
+
+Both backends share Torch 2.10.0. Keep the cuBLASLt preload above when comparing
+their actions or reproducing the published results.
 
 ## RoboTwin 2.0 Evaluation
 

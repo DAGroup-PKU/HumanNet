@@ -23,11 +23,11 @@ dependencies = [
 
 [project.optional-dependencies]
 phyai = [
-    "phyai==0.2.0rc2",
-    "phyai-kernel==0.2.0rc2",
-    "phyai-utils-tools==0.2.0rc2",
-    "phyai-ext==0.2.0rc2",
-    "phyai-gateway==0.2.0rc2",
+    "phyai==0.2.0rc3",
+    "phyai-kernel==0.2.0rc3",
+    "phyai-utils-tools==0.2.0rc3",
+    "phyai-ext==0.2.0rc3",
+    "phyai-gateway==0.2.0rc3",
 ]
 robotwin = ["PyYAML==6.0.3", "scipy==1.17.1"]
 dev = ["build==1.6.1", "pytest==9.2.0", "ruff==0.17.3"]

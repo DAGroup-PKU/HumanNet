@@ -175,6 +175,7 @@ zero-shot success on RoboTwin** and **30.5% across 20 real-world tasks**.
 ```bash
 cd humanwam_goal
 bash scripts/setup_environment.sh /path/to/new/environment   # Python 3.13, PyTorch 2.10, CUDA 12.8
+source /path/to/new/environment/bin/activate
 python examples/make_sample.py
 goalwam infer --checkpoint "$GOALWAM_CHECKPOINT" --sample examples/sample/observation.json
 ```
@@ -189,6 +190,10 @@ The Python API, HTTP server and observation format are documented in
 [HumanWAM-Goal inference](humanwam_goal/README.md#inference). RoboTwin 2.0 evaluation
 with the released goal cache, and bit-exact reproduction of the published actions, are in
 [RoboTwin 2.0 Evaluation](humanwam_goal/README.md#robotwin-20-evaluation).
+
+For accelerated HumanWAM-Goal inference on one GPU or TP=2/4, see the optional
+[PhyAI backend](humanwam_goal/README.md#phyai-acceleration). It uses the same
+weights and Torch 2.10 environment.
 
 ## Release Plan
 

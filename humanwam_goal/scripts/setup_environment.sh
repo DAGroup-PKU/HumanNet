@@ -1,11 +1,25 @@
 #!/usr/bin/env bash
-# Usage: bash scripts/setup_environment.sh /path/to/new/environment
+# Usage: bash scripts/setup_environment.sh /path/to/new/environment [--phyai]
 # Prerequisites: uv, Linux with GLIBC >= 2.34 (FlashAttention-3), a CUDA 12.8 driver.
 # Installs Python 3.13, torch 2.10.0+cu128, HumanWAM-Goal with its RoboTwin layer,
 # and the cuBLASLt 12.8.3.14 library used to reproduce the published actions.
 set -euo pipefail
 
 target="${1:?Specify a new environment directory}"
+extras="robotwin,dev"
+phyai_index=()
+case "${2:-}" in
+  "") ;;
+  --phyai)
+    extras="$extras,phyai"
+    phyai_index=(--extra-index-url https://mingti-org.github.io/phyai/simple/)
+    ;;
+  *) echo "Usage: $0 /path/to/new/environment [--phyai]" >&2; exit 2 ;;
+esac
+if (( $# > 2 )); then
+  echo "Usage: $0 /path/to/new/environment [--phyai]" >&2
+  exit 2
+fi
 root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 if [[ -e "$target" ]]; then
   echo "Environment already exists: $target. Choose a new directory." >&2
@@ -17,7 +31,8 @@ uv venv --python "${PYTHON_BIN:-python3.13}" --seed "$target"
 python_bin="$(cd -- "$target" && pwd)/bin/python"
 "$python_bin" -c 'import sys; assert sys.version_info[:2] == (3, 13), "Use Python 3.13"'
 uv pip install --python "$python_bin" torch==2.10.0 --index-url https://download.pytorch.org/whl/cu128
-uv pip install --python "$python_bin" -e "$root[robotwin,dev]" \
+uv pip install --python "$python_bin" -e "$root[$extras]" \
+  "${phyai_index[@]}" \
   --extra-index-url https://download.pytorch.org/whl/cu128 \
   --extra-index-url https://nvidia-cosmos.github.io/cosmos-dependencies/v1.5.0 \
   --index-strategy unsafe-best-match
