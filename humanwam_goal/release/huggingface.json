@@ -14,8 +14,8 @@
       "repo_id": "DAGroup-PKU/HumanWAM-Goal-RoboTwin",
       "repo_type": "model",
       "url": "https://huggingface.co/DAGroup-PKU/HumanWAM-Goal-RoboTwin",
-      "state": "upload_pending",
-      "revision": null,
+      "state": "published",
+      "revision": "167dcd0a19e8bb5f275a947b8826d1f7c86cc770",
       "contents": [
         {
           "path": ".",
@@ -44,7 +44,7 @@
       "state": "pending"
     }
   ],
-  "weights_published": false,
+  "weights_published": true,
   "main_policy_reference": "paper_alignment.json",
   "scope": "HumanWAM-Goal RoboTwin post-trained checkpoint and its released goal cache",
   "release_type": "eval_only",

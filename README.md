@@ -156,7 +156,7 @@ hybrid pretrained / zero-shot checkpoints are being prepared. All are linked fro
 
 | Checkpoint | Clean2Clean | Clean2Random | Average | Status |
 | --- | ---: | ---: | ---: | --- |
-| HumanWAM-Goal · RoboTwin post-trained | **92.70%** | **84.60%** | **88.65%** | [HumanWAM-Goal-RoboTwin](https://huggingface.co/DAGroup-PKU/HumanWAM-Goal-RoboTwin) (uploading) |
+| HumanWAM-Goal · RoboTwin post-trained | **92.70%** | **84.60%** | **88.65%** | [HumanWAM-Goal-RoboTwin](https://huggingface.co/DAGroup-PKU/HumanWAM-Goal-RoboTwin) |
 
 Results are reported in the technical report under the official 10,000-episode
 protocol.
@@ -193,7 +193,8 @@ with the released goal cache, and bit-exact reproduction of the published action
 ## Release Plan
 
 - [ ] Open-HumanScale-50k corpus — uploading to Hugging Face; ModelScope pending.
-- [ ] Pretrained and RoboTwin post-trained weights — uploading.
+- [x] HumanWAM-Goal RoboTwin post-trained weights.
+- [ ] Pretrained and HumanWAM-Vanilla RoboTwin post-trained weights — uploading.
 - [ ] HumanWAM-Vanilla code, training, inference, and reproduction guide — in progress.
 - [ ] HumanWAM-Goal code, environment setup, and inference — in progress.
 
