@@ -1,0 +1,8 @@
+# RoboTwin 2.0 evaluation profile of the released HumanWAM-Goal checkpoint.
+# Model settings (224x288 cells, history, sampling, grippers) live in the
+# checkpoint's processor.json, sampling.json and robot.json.
+schema: humanwam_goal.robotwin.v1
+profile: midtrain52k20k
+action_type: qpos      # absolute joint targets: 6 joints + gripper openness per arm
+replan_steps: 32       # execute 32 of the 48 predicted steps, then query again
+generation_seed: 9000  # query q samples with seed 9000 + q

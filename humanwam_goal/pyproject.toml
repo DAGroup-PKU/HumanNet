@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openhumanscale-humanwam-goal"
+version = "0.1.0"
+description = "Open-HumanScale HumanWAM-Goal: goal-conditioned action inference and RoboTwin 2.0 evaluation"
+readme = "README.md"
+requires-python = ">=3.12,<3.14"
+license = "LicenseRef-OpenMDW-1.1 AND Apache-2.0 AND MIT"
+license-files = ["LICENSE", "NOTICE", "licenses/*.txt"]
+dependencies = [
+    "einops==0.8.2",
+    "flash-attn-3-nv==1.0.3+cu128.torch210",
+    "numpy==2.5.4",
+    "Pillow==13.0.0",
+    "safetensors==0.8.0",
+    "tokenizers==0.22.2",
+    "torch==2.10.0",
+    "transformers==5.8.1",
+]
+
+[project.optional-dependencies]
+phyai = [
+    "phyai==0.2.0rc2",
+    "phyai-kernel==0.2.0rc2",
+    "phyai-utils-tools==0.2.0rc2",
+    "phyai-ext==0.2.0rc2",
+    "phyai-gateway==0.2.0rc2",
+]
+robotwin = ["PyYAML==6.0.3", "scipy==1.17.1"]
+dev = ["build==1.6.1", "pytest==9.2.0", "ruff==0.17.3"]
+
+[project.scripts]
+goalwam = "goalwam.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
