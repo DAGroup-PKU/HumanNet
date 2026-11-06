@@ -61,15 +61,11 @@ cross-source alignment to a unified bimanual action representation.
 
 ![Construction of Open-HumanWAM-50K: five data sources, data curation, and cross-source action alignment](assets/data_overview.png)
 
-*Construction of Open-HumanWAM-50K. (a) Five data sources and their retained
-hours. (b) Curation by hand visibility, motion stability, and manipulation
-activity. (c) Alignment of camera frames, wrist axes, and gripper openness.*
+- **Hugging Face:** [Open-HumanWAM-50K](https://huggingface.co/datasets/DAGroup-PKU/Open-HumanWAM-50K) — uploading.
+- **ModelScope:** [Open-HumanWAM-50K](https://modelscope.cn/datasets/DAGroup-PKU/EgoCorpus-50kH-LeRobot-v3) — coming soon.
 
-- **Corpus:** [Hugging Face](https://huggingface.co/datasets/DAGroup-PKU/Open-HumanWAM-50K).
-- **Mirror:** [ModelScope](https://modelscope.cn/datasets/DAGroup-PKU/EgoCorpus-50kH-LeRobot-v3) — not uploaded yet.
-- **Format:** LeRobot v3, with compressed MP4 video and language annotations.
-
-The Hugging Face upload is in progress. Download instructions are being prepared.
+The corpus uses LeRobot v3, with compressed MP4 video and language annotations.
+Download instructions are being prepared.
 
 ## HumanWAM-Vanilla
 
