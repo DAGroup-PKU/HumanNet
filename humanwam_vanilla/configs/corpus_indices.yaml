@@ -1,7 +1,7 @@
 # Selection paths are relative to the corpus repository. Payload upload is separate.
 corpus_release:
-  repo_id: DAGroup-PKU/Open-HumanScale-50K
-  index_url: https://huggingface.co/datasets/DAGroup-PKU/Open-HumanScale-50K/tree/main/subsets
+  repo_id: DAGroup-PKU/Open-HumanWAM-50K
+  index_url: https://huggingface.co/datasets/DAGroup-PKU/Open-HumanWAM-50K/tree/main/subsets
   index_snapshot: '2026-11-05T16:05:39Z'
   format: LeRobot v3
   parts: indices/parts.parquet

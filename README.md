@@ -1,20 +1,20 @@
 <div align="center">
 
-<p><img src="assets/branding/wordmark-v3.svg" width="580" alt="Open-HumanScale"></p>
+<p><img src="assets/branding/wordmark-v3.svg" width="580" alt="Open-HumanWAM"></p>
 
 ### An Open Recipe for Scaling Human and Robot Experience<br>for Embodied Foundation Models
 
-[![arXiv](https://img.shields.io/badge/arXiv-Coming_soon-B31B1B?style=flat&logo=arxiv&logoColor=white)](#citation)
-[![Project Page](https://img.shields.io/badge/%F0%9F%8C%90-Project_Page-4285F4?style=flat)](https://jiankai-ss.github.io/open-humanscale/)
-[![Hugging Face Open-HumanScale-50k](https://img.shields.io/badge/Hugging_Face-Open--HumanScale--50k_%C2%B7_Coming_soon-FFD21E?style=flat&logo=huggingface)](https://huggingface.co/datasets/DAGroup-PKU/Open-HumanScale-50k)
-[![Hugging Face Models](https://img.shields.io/badge/Hugging_Face-Model_Collection-FFD21E?style=flat&logo=huggingface)](https://huggingface.co/collections/DAGroup-PKU/open-humanscale)
+[![arXiv](https://img.shields.io/badge/arXiv-2611.06817-B31B1B?style=flat&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2611.06817)
+[![Project Page](https://img.shields.io/badge/%F0%9F%8C%90-Project_Page-4285F4?style=flat)](https://dagroup-pku.github.io/open-humanwam/)
+[![Hugging Face Open-HumanWAM-50K](https://img.shields.io/badge/Hugging_Face-Open--HumanWAM--50K_%C2%B7_Coming_soon-FFD21E?style=flat&logo=huggingface)](https://huggingface.co/datasets/DAGroup-PKU/Open-HumanWAM-50K)
+[![Hugging Face Models](https://img.shields.io/badge/Hugging_Face-Model_Collection-FFD21E?style=flat&logo=huggingface)](https://huggingface.co/collections/DAGroup-PKU/open-humanwam)
 [![ModelScope Corpus](https://img.shields.io/badge/ModelScope-Corpus_%C2%B7_Coming_soon-624AFF?style=flat&logo=modelscope&logoColor=white)](https://modelscope.cn/datasets/DAGroup-PKU/EgoCorpus-50kH-LeRobot-v3)
 
 </div>
 
-![Open-HumanScale overview: 50k-hour egocentric corpus, pure and hybrid scaling, RoboTwin results, and zero-shot real-robot generalization](assets/teaser.png)
+![Open-HumanWAM overview: 50k-hour egocentric corpus, pure and hybrid scaling, RoboTwin results, and zero-shot real-robot generalization](assets/teaser.png)
 
-**Open-HumanScale** shows how scaling human experience improves robot
+**Open-HumanWAM** shows how scaling human experience improves robot
 **generalization, zero-shot execution, and post-training performance**.
 Scaling egocentric pretraining from **100 to 50,000 hours** raises Scene-OOD
 success from **49.1% to 73.2%**. Adding human data to a fixed robot corpus
@@ -28,14 +28,14 @@ https://github.com/user-attachments/assets/469f1f1b-cbe2-4f89-aaaf-6cbdb3a2e50e
 
 ## 🔥 News
 
-- **[2026/11/05]** We release the **Open-HumanScale technical report**!
-  [Model weights](https://huggingface.co/collections/DAGroup-PKU/open-humanscale)
-  and the [Open-HumanScale-50k corpus](https://huggingface.co/datasets/DAGroup-PKU/Open-HumanScale-50k)
+- **[2026/11/05]** We release the **[Open-HumanWAM technical report](https://arxiv.org/abs/2611.06817)**!
+  [Model weights](https://huggingface.co/collections/DAGroup-PKU/open-humanwam)
+  and the [Open-HumanWAM-50K corpus](https://huggingface.co/datasets/DAGroup-PKU/Open-HumanWAM-50K)
   are being uploaded. We are actively organizing the code and documentation.
 
 ## Table of Contents
 
-- [Open-HumanScale-50k Corpus](#open-humanscale-50k-corpus)
+- [Open-HumanWAM-50K Corpus](#open-humanwam-50k-corpus)
 - [HumanWAM-Vanilla](#humanwam-vanilla)
   - [Model Checkpoints](#vanilla-weight-download)
   - [Environment Setup](#vanilla-environment-setup)
@@ -51,21 +51,21 @@ https://github.com/user-attachments/assets/469f1f1b-cbe2-4f89-aaaf-6cbdb3a2e50e
 - [Citation](#citation)
 - [Acknowledgements](#acknowledgements)
 
-## Open-HumanScale-50k Corpus
+## Open-HumanWAM-50K Corpus
 
-**Open-HumanScale-50k: 50,000 hours · 35.9M clips · Video, hand motion, and language.**
+**Open-HumanWAM-50K: 50,000 hours · 35.9M clips · Video, hand motion, and language.**
 
 Curated from HumanNet, EgoSuite-Open100K, EgoDex, Gen-HumanEgo, and EgoVerse,
 with hand-visibility, motion-stability, and activity filtering, followed by
 cross-source alignment to a unified bimanual action representation.
 
-![Construction of Open-HumanScale-50k: five data sources, data curation, and cross-source action alignment](assets/data_overview.png)
+![Construction of Open-HumanWAM-50K: five data sources, data curation, and cross-source action alignment](assets/data_overview.png)
 
-*Construction of Open-HumanScale-50k. (a) Five data sources and their retained
+*Construction of Open-HumanWAM-50K. (a) Five data sources and their retained
 hours. (b) Curation by hand visibility, motion stability, and manipulation
 activity. (c) Alignment of camera frames, wrist axes, and gripper openness.*
 
-- **Corpus:** [Hugging Face](https://huggingface.co/datasets/DAGroup-PKU/Open-HumanScale-50k).
+- **Corpus:** [Hugging Face](https://huggingface.co/datasets/DAGroup-PKU/Open-HumanWAM-50K).
 - **Mirror:** [ModelScope](https://modelscope.cn/datasets/DAGroup-PKU/EgoCorpus-50kH-LeRobot-v3) — not uploaded yet.
 - **Format:** LeRobot v3, with compressed MP4 video and language annotations.
 
@@ -83,7 +83,7 @@ egocentric pretraining**, **mid-training**, and **RoboTwin / RoboDojo post-train
 
 | Checkpoint | Training stage | Download / status |
 | --- | --- | --- |
-| Exploration series | Scaling and ablation studies | [Collection](https://huggingface.co/collections/DAGroup-PKU/open-humanscale) · uploading |
+| Exploration series | Scaling and ablation studies | [Collection](https://huggingface.co/collections/DAGroup-PKU/open-humanwam) · uploading |
 | HumanWAM-Vanilla-Base | 50kh pretraining **pre40k**; W0 mid-training **mid10k** | [Base](https://huggingface.co/DAGroup-PKU/HumanWAM-Vanilla-Base) · weights available |
 | HumanWAM-Vanilla-RoboTwin | **post21k** · **92.08 / 68.88 / 80.48** | [RoboTwin](https://huggingface.co/DAGroup-PKU/HumanWAM-Vanilla-RoboTwin) · weights available |
 | HumanWAM-Vanilla-RoboDojo | 50kh → W0 → OpenWAM-style augmentation → **post50k** | [RoboDojo](https://huggingface.co/DAGroup-PKU/HumanWAM-Vanilla-RoboDojo) · model card only; weights pending |
@@ -234,7 +234,7 @@ We will provide a more detailed reproduction guide in a future update.
 
 For the exploration studies, see the per-series
 [HumanWAM-Vanilla configurations](humanwam_vanilla/README.md#experiment-configurations)
-and [published corpus subsets](https://huggingface.co/datasets/DAGroup-PKU/Open-HumanScale-50K/tree/main/subsets).
+and [published corpus subsets](https://huggingface.co/datasets/DAGroup-PKU/Open-HumanWAM-50K/tree/main/subsets).
 Pretraining and ablation integration are in progress.
 
 
@@ -246,7 +246,7 @@ Pretraining and ablation integration are in progress.
 The RoboTwin post-trained checkpoint and its goal cache are released as
 [DAGroup-PKU/HumanWAM-Goal-RoboTwin](https://huggingface.co/DAGroup-PKU/HumanWAM-Goal-RoboTwin);
 hybrid pretrained / zero-shot checkpoints are being prepared. All are linked from the
-[Open-HumanScale Collection](https://huggingface.co/collections/DAGroup-PKU/open-humanscale).
+[Open-HumanWAM Collection](https://huggingface.co/collections/DAGroup-PKU/open-humanwam).
 
 | Checkpoint | Clean2Clean | Clean2Random | Average | Status |
 | --- | ---: | ---: | ---: | --- |
@@ -286,7 +286,7 @@ with the released goal cache, and bit-exact reproduction of the published action
 
 ## Release Plan
 
-- [ ] Open-HumanScale-50k corpus — uploading to Hugging Face; ModelScope pending.
+- [ ] Open-HumanWAM-50K corpus — uploading to Hugging Face; ModelScope pending.
 - [x] HumanWAM-Goal RoboTwin post-trained weights.
 - [x] HumanWAM-Vanilla Base pre40k / W0 mid10k and RoboTwin post21k weights.
 - [ ] Exploration-series and RoboDojo weights, training resources, and remaining statistics.
@@ -295,13 +295,13 @@ with the released goal cache, and bit-exact reproduction of the published action
 
 ## License
 
-Open-HumanScale is released under the [Apache License 2.0](Apache-2.0.txt).
+Open-HumanWAM is released under the [Apache License 2.0](Apache-2.0.txt).
 Existing component notices and license terms remain applicable. Corpus and
 checkpoint terms will be specified in their release cards.
 
 ## Citation
 
-If you find Open-HumanScale useful, please cite our technical report.
+If you find Open-HumanWAM useful, please cite our technical report.
 Citation details are coming soon.
 
 ## Acknowledgements
