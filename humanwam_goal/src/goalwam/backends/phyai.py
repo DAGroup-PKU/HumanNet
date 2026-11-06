@@ -22,7 +22,8 @@ class PhyAIBackend:
             )
         except ImportError as error:
             raise ImportError(
-                "Install the HumanWAM-Goal phyai extra with PhyAI 0.2.0rc3 to use this backend"
+                "Create and activate a PhyAI environment with "
+                "scripts/setup_environment.sh /path/to/new/environment --phyai"
             ) from error
         self.observation_type = HumanWAMGoalObservationRequest
         self.text_type = HumanWAMGoalTextRequest

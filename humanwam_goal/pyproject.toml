@@ -14,14 +14,18 @@ dependencies = [
     "einops==0.8.2",
     "flash-attn-3-nv==1.0.3+cu128.torch210",
     "numpy==2.5.4",
-    "Pillow==13.0.0",
+    "Pillow>=12.3.0",
     "safetensors==0.8.0",
     "tokenizers==0.22.2",
-    "torch==2.10.0",
+    "torch>=2.10.0",
     "transformers==5.8.1",
 ]
 
 [project.optional-dependencies]
+native = [
+    "Pillow==13.0.0",
+    "torch==2.10.0",
+]
 phyai = [
     "phyai==0.2.0rc3",
     "phyai-kernel==0.2.0rc3",

@@ -193,7 +193,7 @@ with the released goal cache, and bit-exact reproduction of the published action
 
 For accelerated HumanWAM-Goal inference on one GPU or TP=2/4, see the optional
 [PhyAI backend](humanwam_goal/README.md#phyai-acceleration). It uses the same
-weights and Torch 2.10 environment.
+weights.
 
 ## Release Plan
 

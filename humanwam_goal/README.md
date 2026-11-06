@@ -14,7 +14,7 @@ code will be released separately.
 ## Getting Started
 
 - [Weight Download](#weight-download) — RoboTwin post-trained checkpoint.
-- [Environment Setup](#environment-setup) — one Python 3.13 environment.
+- [Environment Setup](#environment-setup) — native or PhyAI environment installation.
 - [Quick Start](#quick-start) — run the model on a sample observation.
 - [Inference](#inference) — Python API, HTTP server and [input format](docs/inputs.md).
 - [RoboTwin 2.0 Evaluation](#robotwin-20-evaluation) — released goals and the evaluation session.
@@ -45,19 +45,32 @@ export GOALWAM_CHECKPOINT=$PWD/checkpoints/HumanWAM-Goal-RoboTwin
 
 ## Environment Setup
 
-Requirements: Python 3.13, PyTorch 2.10 with CUDA 12.8, a Hopper GPU (SM90), and
-Linux with GLIBC ≥ 2.34.
+Requirements: Python 3.13, CUDA 12.8, a Hopper GPU (SM90), and Linux with GLIBC ≥ 2.34.
+Native inference uses PyTorch 2.10; PhyAI uses PyTorch 2.11.
 
 ```bash
 cd humanwam_goal
-bash scripts/setup_environment.sh /path/to/new/environment
-source /path/to/new/environment/bin/activate
 ```
 
-The script installs PyTorch 2.10.0+cu128, this package with its RoboTwin layer
-(`.[robotwin,dev]`, exact pins), and the cuBLASLt library needed for
+Choose an installation option:
+
+```bash
+# Option 1: Native inference
+bash scripts/setup_environment.sh /path/to/native-env
+source /path/to/native-env/bin/activate
+```
+
+```bash
+# Option 2: PhyAI inference
+bash scripts/setup_environment.sh /path/to/phyai-env --phyai
+source /path/to/phyai-env/bin/activate
+```
+
+The native option installs PyTorch 2.10.0+cu128, this package with its RoboTwin layer
+(`.[native,robotwin,dev]`, exact pins), and the cuBLASLt library needed for
 [bit-exact reproduction](#reproducing-published-results), then checks the
 environment (`scripts/check_environment.py`).
+The PhyAI option installs PyTorch 2.11.0+cu128 and PhyAI 0.2.0rc3 in its own environment.
 
 GLIBC ≥ 2.34 is needed only by the prebuilt FlashAttention-3 extension
 (`flash-attn-3-nv`). Its wheel installs on older systems but then fails to import
@@ -100,25 +113,7 @@ or with tensor parallelism across 2 or 4 NVLink-connected GPUs on one host.
 It uses the same checkpoint, observation format and Python API. TP=2/4 also
 requires the CUDA toolkit (`nvcc`) and roughly the single-GPU weight memory per GPU.
 
-To include PhyAI 0.2.0rc3 when creating the environment:
-
-```bash
-bash scripts/setup_environment.sh /path/to/new/environment --phyai
-source /path/to/new/environment/bin/activate
-export LD_PRELOAD="$VIRTUAL_ENV/runtime/cublaslt-12.8.3.14/libcublasLt.so.12"
-```
-
-For an existing environment created above, install the optional backend:
-
-```bash
-uv pip install -e '.[phyai]' \
-  --extra-index-url https://mingti-org.github.io/phyai/simple/ \
-  --extra-index-url https://nvidia-cosmos.github.io/cosmos-dependencies/v1.5.0 \
-  --index-strategy unsafe-best-match
-export LD_PRELOAD="$VIRTUAL_ENV/runtime/cublaslt-12.8.3.14/libcublasLt.so.12"
-```
-
-Run the sample from Quick Start with two GPUs:
+Run the sample from Quick Start with PhyAI on two GPUs:
 
 ```bash
 CUDA_VISIBLE_DEVICES=0,1 goalwam infer \
@@ -130,9 +125,6 @@ Use `CUDA_VISIBLE_DEVICES=0` with `--tp 1` for one GPU, or
 `CUDA_VISIBLE_DEVICES=0,1,2,3` with `--tp 4` for four. PhyAI starts the workers; do not
 wrap the command in `torchrun`. The same `--backend phyai --tp 2` options work
 with `goalwam serve`. In Python, pass `backend="phyai", tp=2` to `GoalWAM`.
-
-Both backends share Torch 2.10.0. Keep the cuBLASLt preload above when comparing
-their actions or reproducing the published results.
 
 ## RoboTwin 2.0 Evaluation
 
