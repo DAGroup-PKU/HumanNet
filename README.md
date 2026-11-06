@@ -79,27 +79,14 @@ egocentric pretraining**, **mid-training**, and **RoboTwin / RoboDojo post-train
 
 | Checkpoint | Training stage | Download |
 | --- | --- | --- |
-| Exploration series | Scaling and ablation studies | [Collection](https://huggingface.co/collections/DAGroup-PKU/open-humanwam) · uploading |
-| HumanWAM-Vanilla-Base | Pretrained weights | [Hugging Face](https://huggingface.co/DAGroup-PKU/HumanWAM-Vanilla-Base) |
-| HumanWAM-Vanilla-RoboTwin<br>**92.08 / 68.88 / 80.48** | RoboTwin post-training | [Hugging Face](https://huggingface.co/DAGroup-PKU/HumanWAM-Vanilla-RoboTwin) |
-| HumanWAM-Vanilla-RoboDojo<br>**14.17 / 19.00** | RoboDojo post-training | [Hugging Face](https://huggingface.co/DAGroup-PKU/HumanWAM-Vanilla-RoboDojo) · weights pending |
+| Exploration series | Scaling and ablation studies | [Hugging Face](https://huggingface.co/DAGroup-PKU/HumanWAM-Vanilla-Exploration/tree/main) |
+| HumanWAM-Vanilla-Base | Pretrained weights | [Hugging Face](https://huggingface.co/DAGroup-PKU/HumanWAM-Vanilla-Base/tree/main) |
+| HumanWAM-Vanilla-RoboTwin<br>**92.08 / 68.88 / 80.48** | RoboTwin post-training | [Hugging Face](https://huggingface.co/DAGroup-PKU/HumanWAM-Vanilla-RoboTwin/tree/main) |
+| HumanWAM-Vanilla-RoboDojo<br>**14.17 / 19.00** | RoboDojo post-training | [Hugging Face](https://huggingface.co/DAGroup-PKU/HumanWAM-Vanilla-RoboDojo/tree/main) · weights pending |
 
 RoboTwin: Clean / Random / average success (%). RoboDojo: success (%) / progress.
 RoboTwin scores use 50 episodes per task, while the report specifies 100.
 RoboDojo scores are from the report and are not yet verified against a released checkpoint.
-
-Download the available weights after [installing the environment](#vanilla-environment-setup):
-
-```bash
-# From humanwam_vanilla/, with the training environment activated.
-huggingface-cli download DAGroup-PKU/HumanWAM-Vanilla-Base \
-  pretrained/step_040000.pt midtrained/step_010000.pt --local-dir ../checkpoints/vanilla-base
-huggingface-cli download DAGroup-PKU/HumanWAM-Vanilla-RoboTwin \
-  model.pt config.yaml dataset_stats.json --local-dir ../checkpoints/vanilla-robotwin
-```
-
-The RoboTwin release includes its evaluation configuration and normalization
-statistics. Training data and cache preparation are being organized.
 
 Scaling human pretraining from 100 to 50,000 hours improves Scene-OOD success
 from **49.1% to 73.2%** in the controlled IDM study:
