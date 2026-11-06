@@ -1,12 +1,12 @@
 {
   "namespace": "DAGroup-PKU",
-  "structure": "One model repository per released checkpoint, linked from the Open-HumanScale collection",
+  "structure": "One model repository per released checkpoint, linked from the Open-HumanWAM collection",
   "repository_count": 1,
   "collections": [
     {
-      "title": "OpenHumanScale",
+      "title": "Open-HumanWAM",
       "repo_ids": ["DAGroup-PKU/HumanWAM-Goal-RoboTwin"],
-      "url": "https://huggingface.co/collections/DAGroup-PKU/open-humanscale"
+      "url": "https://huggingface.co/collections/DAGroup-PKU/open-humanwam"
     }
   ],
   "repositories": [

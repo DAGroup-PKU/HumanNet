@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "openhumanscale-humanwam-goal"
 version = "0.1.0"
-description = "Open-HumanScale HumanWAM-Goal: goal-conditioned action inference and RoboTwin 2.0 evaluation"
+description = "Open-HumanWAM HumanWAM-Goal: goal-conditioned action inference and RoboTwin 2.0 evaluation"
 readme = "README.md"
 requires-python = ">=3.12,<3.14"
 license = "LicenseRef-OpenMDW-1.1 AND Apache-2.0 AND MIT"
