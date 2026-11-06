@@ -191,10 +191,6 @@ The Python API, HTTP server and observation format are documented in
 with the released goal cache, and bit-exact reproduction of the published actions, are in
 [RoboTwin 2.0 Evaluation](humanwam_goal/README.md#robotwin-20-evaluation).
 
-For accelerated HumanWAM-Goal inference on one GPU or TP=2/4, see the optional
-[PhyAI backend](humanwam_goal/README.md#phyai-acceleration). It uses the same
-weights.
-
 ## Release Plan
 
 - [ ] Open-HumanScale-50k corpus — uploading to Hugging Face; ModelScope pending.
