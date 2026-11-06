@@ -1,6 +1,6 @@
 # HumanWAM-Goal
 
-The goal-conditioned HumanWAM model for [Open-HumanScale](../README.md),
+The goal-conditioned HumanWAM model for [Open-HumanWAM](../README.md),
 supporting zero-shot robot execution through hybrid human–robot training and visual goals.
 
 HumanWAM-Goal predicts a 48-step action chunk from a text instruction, a goal
@@ -30,7 +30,7 @@ See the project README for the [release plan](../README.md#release-plan),
 | HumanWAM-Goal · RoboTwin post-trained | **92.70%** | **84.60%** | **88.65%** | [HumanWAM-Goal-RoboTwin](https://huggingface.co/DAGroup-PKU/HumanWAM-Goal-RoboTwin) |
 
 [DAGroup-PKU/HumanWAM-Goal-RoboTwin](https://huggingface.co/DAGroup-PKU/HumanWAM-Goal-RoboTwin),
-part of the [Open-HumanScale Collection](https://huggingface.co/collections/DAGroup-PKU/open-humanscale),
+part of the [Open-HumanWAM Collection](https://huggingface.co/collections/DAGroup-PKU/open-humanwam),
 holds the checkpoint at its root (`transformer/`, `vae/`, `text_tokenizer/`,
 `processor.json`, `sampling.json`, `robot.json` and `export.json`, which records
 provenance and the SHA-256 of every file) and the RoboTwin goal cache as

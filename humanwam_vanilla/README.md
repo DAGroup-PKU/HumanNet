@@ -49,7 +49,7 @@ The `multiview/` configs describe the exploration ablations.
   override inherited values, and command-line overrides apply last.
 - `paths` contains local data, checkpoint, statistics, cache, and output paths.
 - [`corpus_indices.yaml`](configs/corpus_indices.yaml) maps corpus sizes to the
-  [published subset tables](https://huggingface.co/datasets/DAGroup-PKU/Open-HumanScale-50K/tree/main/subsets).
+  [published subset tables](https://huggingface.co/datasets/DAGroup-PKU/Open-HumanWAM-50K/tree/main/subsets).
 
 Use the matching dataset selection and normalization statistics for each setting.
 Demonstration-efficiency experiments use the specified per-task subset, and the
