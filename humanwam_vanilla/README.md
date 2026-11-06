@@ -68,3 +68,9 @@ and EgoPro multi-view selections are also pending.
 🚧 Pretraining loaders, some ablation processors, and exploration
 evaluation are still being prepared. Unfinished bindings remain `???`.
 Source-mix alignment and real-robot pretraining are outside this configuration index.
+
+## Additional Notes
+
+- [Environment compatibility and troubleshooting](docs/environment.md)
+- [Post-training data and action conventions](docs/post_training.md)
+- [RoboTwin evaluation protocol](docs/robotwin_evaluation.md)

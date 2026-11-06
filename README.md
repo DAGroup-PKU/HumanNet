@@ -179,7 +179,7 @@ adjust `batch_size × total GPUs × gradient_accumulation_steps` together.
 Follow the [RoboTwin repository](https://github.com/RoboTwin-Platform/RoboTwin)
 for simulator installation and assets. Our [environment setup](#vanilla-environment-setup)
 provides the pinned simulator checkout and policy dependencies.
-For Blackwell GPUs, apply the [OIDN compatibility setup](docs/environment.md#blackwell-rendering).
+For Blackwell GPUs, apply the [OIDN compatibility setup](humanwam_vanilla/docs/environment.md#blackwell-rendering).
 
 Download the W0 policy, its configuration, and normalization statistics.
 Run from `humanwam_vanilla/`:
