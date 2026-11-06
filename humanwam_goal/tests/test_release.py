@@ -54,7 +54,7 @@ def test_public_references_are_allowed():
     sample = "\n".join(
         [
             "./checkpoints/humanwam-goal",
-            "https://huggingface.co/collections/DAGroup-PKU/open-humanscale",
+            "https://huggingface.co/collections/DAGroup-PKU/open-humanwam",
             "/proc/self/maps",
             "/usr/local/cuda",
             "${target}/runtime",

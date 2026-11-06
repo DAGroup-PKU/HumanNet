@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "project_name": "Open-HumanScale",
+  "project_name": "Open-HumanWAM",
   "policy_name": "HumanWAM-Goal",
   "model": "HumanWAM-Goal",
   "source_profile": "midtrain52k20k",
