@@ -24,7 +24,7 @@ improves zero-shot success from **11.48% to 13.94% on RoboTwin** and from
 > 🏆 **[RoboTwin 2.0 Benchmark — Rank #1](https://robotwin-platform.github.io/leaderboard).**
 > **HumanWAM-Goal** achieves **88.65% average success**, with **92.70% Clean / 84.60% Random**.
 
-https://github.com/user-attachments/assets/469f1f1b-cbe2-4f89-aaaf-6cbdb3a2e50e
+[https://github.com/user-attachments/assets/469f1f1b-cbe2-4f89-aaaf-6cbdb3a2e50e](https://github.com/user-attachments/assets/325e62b9-c650-48c5-a218-17274a9ecf67)
 
 ## 🔥 News
 
