@@ -77,18 +77,16 @@ pretraining exploration studies** in our [technical report](https://arxiv.org/ab
 together with the final **HumanWAM-Vanilla** checkpoints from **50,000-hour
 egocentric pretraining**, **mid-training**, and **RoboTwin / RoboDojo post-training**.
 
-| Checkpoint | Training stage | Download / status |
+| Checkpoint | Training stage | Download |
 | --- | --- | --- |
 | Exploration series | Scaling and ablation studies | [Collection](https://huggingface.co/collections/DAGroup-PKU/open-humanwam) · uploading |
-| HumanWAM-Vanilla-Base | 50kh pretraining **pre40k**; W0 mid-training **mid10k** | [Base](https://huggingface.co/DAGroup-PKU/HumanWAM-Vanilla-Base) · weights available |
-| HumanWAM-Vanilla-RoboTwin | **post21k** · **92.08 / 68.88 / 80.48** | [RoboTwin](https://huggingface.co/DAGroup-PKU/HumanWAM-Vanilla-RoboTwin) · weights available |
-| HumanWAM-Vanilla-RoboDojo | 50kh → W0 → OpenWAM-style augmentation → **post50k** | [RoboDojo](https://huggingface.co/DAGroup-PKU/HumanWAM-Vanilla-RoboDojo) · model card only; weights pending |
+| HumanWAM-Vanilla-Base | Pretrained weights | [Hugging Face](https://huggingface.co/DAGroup-PKU/HumanWAM-Vanilla-Base) |
+| HumanWAM-Vanilla-RoboTwin<br>**92.08 / 68.88 / 80.48** | RoboTwin post-training | [Hugging Face](https://huggingface.co/DAGroup-PKU/HumanWAM-Vanilla-RoboTwin) |
+| HumanWAM-Vanilla-RoboDojo<br>**14.17 / 19.00** | RoboDojo post-training | [Hugging Face](https://huggingface.co/DAGroup-PKU/HumanWAM-Vanilla-RoboDojo) · weights pending |
 
-RoboTwin scores are Clean / Random / average success (%), from the archived
-**50-episode-per-task** evaluation. The manuscript describes 100 episodes per task;
-this protocol difference remains under review. Its checkpoint uses **unaligned
-native wrists**. RoboDojo's manuscript scores (**14.17% success / 19.00 progress**)
-are not yet bound to a released checkpoint; they are not a verified post50k result.
+RoboTwin: Clean / Random / average success (%). RoboDojo: success (%) / progress.
+RoboTwin scores use 50 episodes per task, while the report specifies 100.
+RoboDojo scores are from the report and are not yet verified against a released checkpoint.
 
 Download the available weights after [installing the environment](#vanilla-environment-setup):
 
