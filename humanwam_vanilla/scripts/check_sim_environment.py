@@ -10,10 +10,44 @@ from pathlib import Path
 import sys
 
 
+def check_oidn_device():
+    """Fail before rendering when SAPIEN's OIDN cannot create a CUDA device.
+
+SAPIEN logs native denoiser errors without raising a Python exception, so valid
+RGB shapes alone do not prove that denoising worked.
+"""
+    import sapien  # Load the exact OIDN libraries selected by SAPIEN.
+    del sapien
+    library = ctypes.CDLL('libOpenImageDenoise.so.2')
+    library.oidnNewDevice.argtypes = [ctypes.c_int]
+    library.oidnNewDevice.restype = ctypes.c_void_p
+    library.oidnCommitDevice.argtypes = [ctypes.c_void_p]
+    library.oidnGetDeviceError.argtypes = [ctypes.c_void_p, ctypes.POINTER(ctypes.c_char_p)]
+    library.oidnGetDeviceError.restype = ctypes.c_int
+    library.oidnReleaseDevice.argtypes = [ctypes.c_void_p]
+    device = library.oidnNewDevice(3)  # OIDN_DEVICE_TYPE_CUDA
+    try:
+        if device:
+            library.oidnCommitDevice(device)
+        message = ctypes.c_char_p()
+        code = library.oidnGetDeviceError(device, ctypes.byref(message))
+        if code or not device:
+            raise RuntimeError(f'OIDN CUDA initialization failed ({code}): '
+                               f'{message.value.decode() if message.value else "no device"}')
+        mapped = Path('/proc/self/maps')
+        libraries = sorted({line.split()[-1] for line in mapped.read_text().splitlines()
+                            if 'libOpenImageDenoise' in line}) if mapped.exists() else []
+        return {'cuda_device_created': True, 'loaded_libraries': libraries}
+    finally:
+        if device:
+            library.oidnReleaseDevice(device)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--render", action="store_true", help="Also render on logical cuda:0; select an idle GPU with CUDA_VISIBLE_DEVICES")
+    parser.add_argument("--denoiser", choices=['optix', 'oidn'], default='optix')
     args = parser.parse_args()
     if not args.render:
         os.environ["CUDA_VISIBLE_DEVICES"] = ""
@@ -66,7 +100,9 @@ def main():
         sapien.render.set_camera_shader_dir("rt")
         sapien.render.set_ray_tracing_samples_per_pixel(32)
         sapien.render.set_ray_tracing_path_depth(8)
-        sapien.render.set_ray_tracing_denoiser("optix")
+        if args.denoiser == 'oidn':
+            check_oidn_device()
+        sapien.render.set_ray_tracing_denoiser(args.denoiser)
         device = sapien.Device("cuda:0")
         assert device.can_render(), str(device)
         renderer = sapien.render.SapienRenderer(device)
@@ -90,12 +126,13 @@ def main():
         assert color.shape == (64, 64, 4) and np.isfinite(color).all()
         assert float(color[:, :, :3].std()) > 0.01
         return {"device": str(device), "pci": device.pci_string, "cuda_id": device.cuda_id,
-                "shader": "rt", "denoiser": "optix", "samples_per_pixel": 32,
+                "shader": "rt", "denoiser": args.denoiser, "samples_per_pixel": 32,
                 "path_depth": 8, "image_shape": list(color.shape), "rgb_std": float(color[:, :, :3].std())}
 
     if args.render:
-        check("optix_headless_render", headless_render)
-        report["renderer_tested"] = report["checks"]["optix_headless_render"]["passed"]
+        name = args.denoiser + '_headless_render'
+        check(name, headless_render)
+        report["renderer_tested"] = report["checks"][name]["passed"]
         report["gpu_tested"] = report["renderer_tested"]
     report["versions"] = {}
     for package in ("sapien", "mplib", "open3d", "torch", "warp-lang", "numpy", "scipy", "nvidia-curobo"):

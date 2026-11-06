@@ -44,6 +44,164 @@ from accelerate import PartialState
 logger = get_logger(__name__)
 
 
+def _canonical_transform_provenance(value):
+    if isinstance(value, dict):
+        return {k: (v.replace("humanwam.", "fastwam.", 1)
+                    if k == "_target_" and isinstance(v, str) and v.startswith("humanwam.")
+                    else _canonical_transform_provenance(v)) for k, v in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_canonical_transform_provenance(v) for v in value]
+    return value
+
+
+def _validate_norm_stats_provenance(
+    stats: dict,
+    *,
+    stats_path: str | Path,
+    dataset_dirs: list[str],
+    episode_exclusion_manifest: Optional[str | Path],
+    episode_segment_manifest: Optional[str | Path] = None,
+    shape_meta: dict,
+    action_state_transforms: Optional[list],
+    norm_stats_weighting: str,
+    expected_episodes: int,
+    expected_frames: int,
+    temporal_resampling_provenance: Optional[dict] = None,
+    sampling_temporal_resampling_provenance: Optional[dict] = None,
+    expected_corpus_provenance: Optional[dict] = None,
+    expected_environment_sampling: Optional[dict] = None,
+    action_time_offset_frames: int = 0,
+    hand_action_dim: Optional[int] = None,
+) -> None:
+    """Fail closed when pinned statistics do not describe the configured corpus."""
+
+    metadata = stats.get("metadata") or {}
+    corpus = metadata.get("corpus") or {}
+    resolved_roots = [
+        str(Path(path).expanduser().resolve()) for path in dataset_dirs
+    ]
+    expected_roots_sha = hashlib.sha256(
+        "\n".join(resolved_roots).encode("utf-8")
+    ).hexdigest()
+    observed_manifest = metadata.get("episode_exclusion_manifest") or {}
+    expected_manifest = _manifest_provenance(episode_exclusion_manifest)
+    observed_segment_manifest = metadata.get("episode_segment_manifest") or {}
+    expected_segment_manifest = _manifest_provenance(episode_segment_manifest)
+    mismatches = []
+    if metadata.get("hand_action_dim") != hand_action_dim:
+        mismatches.append("hand_action_dim")
+    if int(stats.get("num_episodes", -1)) != int(expected_episodes):
+        mismatches.append("num_episodes")
+    if int(stats.get("num_transition", -1)) != int(expected_frames):
+        mismatches.append("num_transition")
+    if corpus.get("dataset_dirs_sha256") != expected_roots_sha:
+        mismatches.append("dataset_dirs_sha256")
+    if corpus.get("dataset_dirs") != resolved_roots:
+        mismatches.append("dataset_dirs")
+    if bool(observed_manifest.get("enabled")) != expected_manifest["enabled"]:
+        mismatches.append("episode_exclusion_manifest.enabled")
+    if observed_manifest.get("sha256") != expected_manifest["sha256"]:
+        mismatches.append("episode_exclusion_manifest.sha256")
+    if bool(observed_segment_manifest.get("enabled")) != expected_segment_manifest["enabled"]:
+        mismatches.append("episode_segment_manifest.enabled")
+    if observed_segment_manifest.get("sha256") != expected_segment_manifest["sha256"]:
+        mismatches.append("episode_segment_manifest.sha256")
+    if _plain_provenance_value(metadata.get("resolved_shape_meta")) != shape_meta:
+        mismatches.append("resolved_shape_meta")
+    if (
+        _canonical_transform_provenance(metadata.get("action_state_transforms"))
+        != _canonical_transform_provenance(action_state_transforms)
+    ):
+        mismatches.append("action_state_transforms")
+    if str(metadata.get("norm_stats_weighting", "")) != norm_stats_weighting:
+        mismatches.append("norm_stats_weighting")
+    observed_action_offset = int(
+        (metadata.get("settings") or {}).get("action_time_offset_frames", 0)
+    )
+    if observed_action_offset != int(action_time_offset_frames):
+        mismatches.append("settings.action_time_offset_frames")
+    if (
+        expected_environment_sampling is not None
+        and expected_environment_sampling.get("active_axis") is not None
+    ):
+        observed_environment_sampling = _plain_provenance_value(
+            metadata.get("environment_sampling") or {}
+        )
+        for key, expected in expected_environment_sampling.items():
+            if observed_environment_sampling.get(key) != expected:
+                mismatches.append(f"environment_sampling.{key}")
+    if temporal_resampling_provenance is not None:
+        observed_temporal = metadata.get("temporal_resampling") or {}
+        if (
+            observed_temporal.get("version")
+            != temporal_resampling_provenance["version"]
+        ):
+            mismatches.append("temporal_resampling.version")
+        if (
+            _plain_provenance_value(observed_temporal.get("roots"))
+            != temporal_resampling_provenance["roots"]
+        ):
+            mismatches.append("temporal_resampling.roots")
+        if (
+            observed_temporal.get("sha256")
+            != temporal_resampling_provenance["sha256"]
+        ):
+            mismatches.append("temporal_resampling.sha256")
+    if sampling_temporal_resampling_provenance is not None:
+        observed_sampling_temporal = (
+            metadata.get("sampling_temporal_resampling") or {}
+        )
+        if (
+            observed_sampling_temporal.get("version")
+            != sampling_temporal_resampling_provenance["version"]
+        ):
+            mismatches.append("sampling_temporal_resampling.version")
+        if (
+            _plain_provenance_value(observed_sampling_temporal.get("roots"))
+            != sampling_temporal_resampling_provenance["roots"]
+        ):
+            mismatches.append("sampling_temporal_resampling.roots")
+        if (
+            observed_sampling_temporal.get("sha256")
+            != sampling_temporal_resampling_provenance["sha256"]
+        ):
+            mismatches.append("sampling_temporal_resampling.sha256")
+    if expected_corpus_provenance is not None:
+        for key in (
+            "num_roots",
+            "total_episodes",
+            "total_native_frames",
+            "total_virtual_frames",
+            "total_sampling_frames",
+        ):
+            if corpus.get(key) != expected_corpus_provenance[key]:
+                mismatches.append(f"corpus.{key}")
+        root_keys = (
+            "dataset_root",
+            "episodes",
+            "native_frames",
+            "virtual_frames",
+            "sampling_frames",
+            "temporal_resampling",
+            "sampling_temporal_resampling",
+        )
+        observed_roots = _plain_provenance_value(corpus.get("roots"))
+        if isinstance(observed_roots, list) and all(
+            isinstance(item, dict) for item in observed_roots
+        ):
+            observed_roots = [
+                {key: item.get(key) for key in root_keys}
+                for item in observed_roots
+            ]
+        if observed_roots != expected_corpus_provenance["roots"]:
+            mismatches.append("corpus.roots")
+    if mismatches:
+        raise ValueError(
+            f"Pinned normalization stats {Path(stats_path).expanduser().resolve()} "
+            f"do not match the configured corpus: {sorted(mismatches)}"
+        )
+
+
 DEFAULT_PROMPT = "A video recorded from a robot's point of view executing the following instruction: {task}"
 
 
@@ -772,6 +930,7 @@ class RobotVideoDataset(torch.utils.data.Dataset):
         context_len=128,
         pretrained_norm_stats=None,
         norm_stats_weighting: str = "legacy",
+        validate_norm_stats_provenance: bool = False,
         val_set_proportion=0.05,
         is_training_set=False,
         global_sample_stride=1,
@@ -825,6 +984,7 @@ class RobotVideoDataset(torch.utils.data.Dataset):
             action_tokenizer_source_rules,
         )
         resolved_shape_meta = OmegaConf.to_container(shape_meta, resolve=True)
+        provenance_shape_meta = copy.deepcopy(resolved_shape_meta)
         resolved_temporal_resampling = (
             OmegaConf.to_container(temporal_resampling, resolve=True)
             if OmegaConf.is_config(temporal_resampling)
@@ -1226,6 +1386,9 @@ class RobotVideoDataset(torch.utils.data.Dataset):
             args={"mean": 0.5, "std": 0.5},
         )
         if processor is not None:
+            processor_config = OmegaConf.to_container(processor, resolve=True) if isinstance(processor, DictConfig) else None
+            if validate_norm_stats_provenance and processor_config is None:
+                raise ValueError("Strict normalization provenance requires a processor configuration")
             if isinstance(processor, DictConfig):
                 processor = instantiate(processor)
             if self.eef_anchor_overlay is not None:
@@ -1252,6 +1415,22 @@ class RobotVideoDataset(torch.utils.data.Dataset):
                     dataset_stats = obj_list[0]
             else:
                 dataset_stats = load_dataset_stats_from_json(pretrained_norm_stats)
+                if validate_norm_stats_provenance:
+                    _validate_norm_stats_provenance(
+                        json.loads(Path(pretrained_norm_stats).read_text()), stats_path=pretrained_norm_stats,
+                        dataset_dirs=list(dataset_dirs),
+                        episode_exclusion_manifest=episode_exclusion_manifest,
+                        episode_segment_manifest=episode_segment_manifest,
+                        shape_meta=provenance_shape_meta,
+                        action_state_transforms=processor_config.get("action_state_transforms"),
+                        norm_stats_weighting=self.norm_stats_weighting,
+                        expected_episodes=self.lerobot_dataset.multi_dataset.num_episodes,
+                        expected_frames=len(self),
+                        temporal_resampling_provenance=temporal_provenance,
+                        sampling_temporal_resampling_provenance=sampling_provenance,
+                        action_time_offset_frames=action_time_offset_frames,
+                        hand_action_dim=processor_config.get("hand_action_dim"),
+                    )
                 logger.info(f"Using dataset stats: {pretrained_norm_stats}")
                 if PartialState().is_main_process:
                     work_dir = misc.get_work_dir()
@@ -1278,7 +1457,9 @@ class RobotVideoDataset(torch.utils.data.Dataset):
                 TShapeMp4FrameCache,
                 image_transforms_signature)
             merged_dtype = str(merged_video_cache_dtype).strip().lower()
+            from .robodojo_compact_cache import RoboDojoCompactCache
             cache_types = {
+                "robodojo_compact_u8": RoboDojoCompactCache,
                 "float32": MergedFrameCache,
                 "f32": MergedFrameCache,
                 "bfloat16": BFloat16MergedFrameCache,
@@ -1297,11 +1478,12 @@ class RobotVideoDataset(torch.utils.data.Dataset):
             transform_signature = image_transforms_signature(
                 processor_transforms,
                 selected_camera_keys,
+                historical_namespace=(merged_dtype == "robodojo_compact_u8"),
             )
             cache_hw = tuple(self.video_size)
             if self.concat_multi_camera in {
                 "robotwin_latent_tshape", "robotwin_multiview_tokens", "robotwin_packed_multiview",
-            }:
+            } and not getattr(cache_type, "SOURCE_RESIZE_SIGNATURE", False):
                 # Cache three full-resolution views; restore the view dimension
                 # before the existing model-side wrist resize and separate VAEs.
                 # Include the separate-view layout in the cache signature.
@@ -1321,6 +1503,8 @@ class RobotVideoDataset(torch.utils.data.Dataset):
                     camera_keys=selected_camera_keys,
                     transform_signature=transform_signature,
                 )
+                if merged_dtype == "robodojo_compact_u8" and not cache.is_complete():
+                    raise ValueError("RoboDojo compact cache is incomplete; source-video fallback is disabled")
                 def _merged_query(query_timestamps, ep_idx, _cache=cache):
                     # Stash only the frames the model consumes. LeRobot still requests
                     # the full 33-frame action-aligned window, but RoboTwin later
@@ -1643,7 +1827,7 @@ class RobotVideoDataset(torch.utils.data.Dataset):
 
         # uint8-on-GPU: ship the video to the trainer as uint8 (4x smaller IPC)
         # and let the model decode [0,255]->[-1,1] on GPU. Opt-in via env.
-        if video is not None and os.environ.get("UINT8_VIDEO", "0") == "1":
+        if video is not None and video.dtype != torch.uint8 and os.environ.get("UINT8_VIDEO", "0") == "1":
             video = ((video + 1.0) * 127.5).round().clamp_(0, 255).to(torch.uint8)
 
         # Proxy (from lerobot):

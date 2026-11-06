@@ -283,6 +283,7 @@ data:
     video_cache_dir: ./data/video_cache
     merged_video_cache_dir: ${paths.data__train__merged_video_cache_dir}
     _recursive_: false
+    validate_norm_stats_provenance: true
     norm_stats_weighting: loss
     merged_video_cache_dtype: tshape_mp4
     video_latent_cache_dir: null
@@ -528,7 +529,3 @@ paths:
   data__train__text_embedding_fallback_cache_dirs__1: ???
   data__train__text_embedding_fallback_cache_dirs__2: ???
   data__train__text_embedding_fallback_cache_dirs__3: ???
-release:
-  profile: idm_w0_a2_50kh
-  purpose: new_finetune
-  runtime_verified: false

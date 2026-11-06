@@ -1,0 +1,7 @@
+# Local full35 resources; use the W0 mid10k checkpoint for fresh post-training.
+output_dir: ./runs/robodojo
+resume: ???
+dataset_dirs: ???
+pretrained_norm_stats: ???
+text_embedding_cache_dir: ???
+merged_video_cache_dir: ???

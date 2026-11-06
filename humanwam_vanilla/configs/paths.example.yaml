@@ -1,6 +1,7 @@
-# Local resource bindings. See release/dataset_bindings.json for task identities.
+# Local resource bindings. Each data path is labeled with its RoboTwin task below.
 output_dir: ./runs/robotwin
-# Compatible full RoboTwin post-trained policy; no pretraining checkpoint.
+# Fresh post-training: HumanWAM-Vanilla-Base/midtrained/step_010000.pt.
+# For offline policy checks, instead supply the RoboTwin post21k model.pt.
 resume: ???
 # adjust_bottle-demo_clean_collect_200-50
 data__train__dataset_dirs__0: ???

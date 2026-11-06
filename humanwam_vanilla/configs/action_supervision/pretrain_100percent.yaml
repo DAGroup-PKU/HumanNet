@@ -1,0 +1,24 @@
+_base_:
+- ../_base_/pretrain_ia.yaml
+- ../corpus_indices.yaml
+gradient_accumulation_steps: 4
+corpus: ${corpus_indices.1000h}
+experiment:
+  name: action_supervision/pretrain_100percent
+  global_batch_size: 2048
+  hours: 1000
+  human_action_supervision_percent: 100
+  pretrain_checkpoints:
+  - 10000
+  - 20000
+  - 30000
+  post_normalization_gripper_clip:
+  - -1.0
+  - 1.0
+model:
+  loss:
+    lambda_action: 1.0
+    component_weights:
+      position: 1.0
+      rotation: 0.5
+      gripper: 0.1

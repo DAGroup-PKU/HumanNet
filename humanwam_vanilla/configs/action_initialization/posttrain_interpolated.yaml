@@ -1,0 +1,9 @@
+_base_: ../_base_/posttrain_idm.yaml
+experiment:
+  name: action_initialization/posttrain_interpolated
+  action_initialization: interpolated
+  pretrain_step: 20000
+  augmentation: photometric
+data:
+  train: ???
+# Work in progress: Exact photometric augmentation recipe and initializer bindings

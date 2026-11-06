@@ -1,0 +1,5 @@
+_base_: ../_base_/posttrain_idm.yaml
+experiment:
+  name: scaling_idm/posttrain
+  pretrain_checkpoint_interval: 10000
+  initializer: Use the selected checkpoint from this series via paths.resume; reset optimizer state.

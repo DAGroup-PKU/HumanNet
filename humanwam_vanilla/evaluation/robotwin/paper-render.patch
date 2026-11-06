@@ -1,0 +1,112 @@
+--- a/envs/_base_task.py
++++ b/envs/_base_task.py
+@@ -68,6 +68,17 @@
+         self.save_data = kwags.get("save_data", False)
+         self.dual_arm = kwags.get("dual_arm", True)
+         self.eval_mode = kwags.get("eval_mode", False)
++        self.render_only_at_policy_observation = kwags.get(
++            "render_only_at_policy_observation",
++            self.eval_mode
++            and os.environ.get("ROBOTWIN_RENDER_ONLY_ON_OBS", "1").strip().lower()
++            not in {"0", "false", "no", "off"},
++        )
++        if self.render_only_at_policy_observation:
++            # Evaluation has no interactive UI; get_obs() is the sole render trigger.
++            # This also prevents the default render_freq=10 viewer from rendering a
++            # second frame between policy observations.
++            self.render_freq = 0
+ 
+         self.need_topp = True  # TODO
+ 
+@@ -146,6 +157,12 @@
+                 except:
+                     print(f"{self.task_name} not in step limit file, set to 1000")
+                     self.step_lim = 1000
++            step_limit_override = os.environ.get("ROBOTWIN_EVAL_STEP_LIMIT")
++            if step_limit_override is not None:
++                self.step_lim = int(step_limit_override)
++                if self.step_lim <= 0:
++                    raise ValueError("ROBOTWIN_EVAL_STEP_LIMIT must be positive")
++                print(f"ROBOTWIN_EVAL_STEP_LIMIT={self.step_lim}", flush=True)
+ 
+         # info
+         self.info = dict()
+@@ -207,14 +224,36 @@
+         from sapien.render import set_global_config
+ 
+         set_global_config(max_num_materials=50000, max_num_textures=50000)
+-        self.renderer = sapien.render.SapienRenderer(sapien.Device(os.environ.get("ROBOTWIN_RENDER_DEVICE", "cuda:0")))
++        render_device_name = os.environ.get("ROBOTWIN_RENDER_DEVICE")
++        if render_device_name:
++            render_device = sapien.Device(render_device_name)
++            # The deprecated sapien.core.SapienRenderer wrapper discards constructor
++            # arguments in SAPIEN 3. Instantiate the renderer binding directly so the
++            # requested CUDA/Vulkan device is actually honored.
++            self.renderer = sapien.render.SapienRenderer(render_device)
++            print(
++                f"ROBOTWIN_RENDER_DEVICE={render_device_name} "
++                f"cuda_id={render_device.cuda_id} pci={render_device.pci_string}",
++                flush=True,
++            )
++        else:
++            self.renderer = sapien.SapienRenderer()
+         # give renderer to sapien sim
+         self.engine.set_renderer(self.renderer)
+ 
+-        sapien.render.set_camera_shader_dir("rt")
+-        sapien.render.set_ray_tracing_samples_per_pixel(32)
+-        sapien.render.set_ray_tracing_path_depth(8)
+-        sapien.render.set_ray_tracing_denoiser(os.environ.get("ROBOTWIN_RT_DENOISER", "oidn"))
++        camera_shader = os.environ.get("ROBOTWIN_CAMERA_SHADER", "rt")
++        rt_spp = int(os.environ.get("ROBOTWIN_RT_SPP", "32"))
++        rt_depth = int(os.environ.get("ROBOTWIN_RT_DEPTH", "8"))
++        rt_denoiser = os.environ.get("ROBOTWIN_RT_DENOISER", "oidn")
++        print(f"ROBOTWIN_CAMERA_SHADER={camera_shader}", flush=True)
++        print(f"ROBOTWIN_RT_SPP={rt_spp}", flush=True)
++        print(f"ROBOTWIN_RT_DEPTH={rt_depth}", flush=True)
++        print(f"ROBOTWIN_RT_DENOISER={rt_denoiser}", flush=True)
++        sapien.render.set_camera_shader_dir(camera_shader)
++        sapien.render.set_ray_tracing_samples_per_pixel(rt_spp)
++        sapien.render.set_ray_tracing_path_depth(rt_depth)
++        if rt_denoiser.lower() not in {"", "none", "off"}:
++            sapien.render.set_ray_tracing_denoiser(rt_denoiser)
+ 
+         # declare sapien scene
+         scene_config = sapien.SceneConfig()
+@@ -1487,8 +1526,10 @@
+         self.take_action_cnt += 1
+         print(f"step: \033[92m{self.take_action_cnt} / {self.step_lim}\033[0m", end="\r")
+ 
+-        self._update_render()
+-        if self.render_freq:
++        defer_eval_render = self.eval_mode and self.render_only_at_policy_observation
++        if not defer_eval_render:
++            self._update_render()
++        if self.render_freq and not defer_eval_render:
+             self.viewer.render()
+ 
+         actions = np.array([action])
+@@ -1652,17 +1693,19 @@
+                 now_right_id += 1
+ 
+             self.scene.step()
+-            self._update_render()
++            if not defer_eval_render:
++                self._update_render()
+                 
+             if self.check_success():
+                 self.eval_success = True
+-                self.get_obs() # update obs
+                 if (self.eval_video_path is not None):
++                    self.get_obs() # update the terminal video frame only when requested
+                     self.eval_video_ffmpeg.stdin.write(self.now_obs["observation"]["head_camera"]["rgb"].tobytes())
+                 return
+ 
+-        self._update_render()
+-        if self.render_freq:  # UI
++        if not defer_eval_render:
++            self._update_render()
++        if self.render_freq and not defer_eval_render:  # UI
+             self.viewer.render()
+ 
+ 

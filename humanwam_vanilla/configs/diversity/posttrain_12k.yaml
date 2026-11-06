@@ -1,0 +1,3 @@
+_base_: ../_base_/posttrain_ia.yaml
+experiment:
+  name: diversity/posttrain_12k

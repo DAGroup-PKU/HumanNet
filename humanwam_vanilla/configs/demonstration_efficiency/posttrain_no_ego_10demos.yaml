@@ -1,0 +1,14 @@
+_base_: ../_base_/posttrain_ia.yaml
+experiment:
+  name: demonstration_efficiency/posttrain_no_ego_10demos
+  initializer: no_ego
+  demonstrations_per_task: 10
+resume: null
+paths:
+  resume: null
+  robotwin_episode_exclusion_manifest: ???
+data:
+  train:
+    episode_exclusion_manifest: ${paths.robotwin_episode_exclusion_manifest}
+# Work in progress: Exact per-task demonstration selection and its normalization statistics
+# Work in progress: Checkpoint downloads and exploration evaluation integration

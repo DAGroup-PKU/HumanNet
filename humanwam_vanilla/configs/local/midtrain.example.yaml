@@ -1,0 +1,7 @@
+# Copy to midtrain.yaml and fill EgoPro resources once its public processor is available.
+_base_: ../midtrain.yaml
+paths:
+  output_dir: ./runs/midtrain
+  corpus_dataset_dirs: ???
+  corpus_norm_stats: ???
+  model__action_dit_pretrained_path: null

@@ -1,0 +1,24 @@
+_base_:
+- ../_base_/pretrain_idm.yaml
+- ../corpus_indices.yaml
+gradient_accumulation_steps: ???
+corpus: ${corpus_indices.egopro_multiview}
+experiment:
+  name: multiview/midtrain_idm_conditioning
+  global_batch_size: ???
+  hours: null
+  stage: midtrain
+  pretrain_step: 20000
+  input_views:
+  - head
+  - left_wrist
+  - right_wrist
+  predicted_views:
+  - head
+max_steps: ???
+resume: ${paths.resume}
+paths:
+  resume: ???
+model:
+  video_vae_layout: ???
+# Work in progress: EgoPro selection, multiview processor and historical mid-training schedule

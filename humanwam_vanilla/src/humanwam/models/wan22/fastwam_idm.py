@@ -122,6 +122,27 @@ class FastWAMIDM(FastWAMJoint):
             mask[cond_end:, noisy_end + w0] = False
         return mask
 
+    def _build_inference_attention_mask(self, video_pre, action_seq_len):
+        """Use the training layout, with action reading the denoised video branch."""
+        device = video_pre["tokens"].device
+        video_seq_len = video_pre["tokens"].shape[1]
+        if self.video_vae_layout == "robotwin_packed_multiview":
+            mask = self._build_packed_mot_attention_mask(
+                video_pre, action_seq_len, device,
+                head_reads_wrist0=self.packed_head_reads_wrist0)
+        elif self.video_vae_layout == "robotwin_latent_tshape":
+            mask = self._build_robotwin_latent_tshape_mot_attention_mask(
+                video_pre=video_pre, action_seq_len=action_seq_len, device=device)
+        else:
+            return self._build_mot_attention_mask(
+                video_seq_len=video_seq_len, action_seq_len=action_seq_len,
+                video_tokens_per_frame=int(video_pre["meta"]["tokens_per_frame"]), device=device)
+        mask[video_seq_len:, :video_seq_len] = True
+        if self.video_vae_layout == "robotwin_latent_tshape" and not self.latent_tshape_action_reads_wrist0:
+            wrist0 = torch.as_tensor(video_pre["meta"]["wrist0_token_indices"], device=device)
+            mask[video_seq_len:, wrist0] = False
+        return mask
+
     def training_loss(self, sample, tiled: bool = False):
         inputs = self.build_inputs(sample, tiled=tiled)
         input_latents = inputs["input_latents"]
@@ -447,10 +468,7 @@ class FastWAMIDM(FastWAMJoint):
                 "video is denoised in a standalone first stage."
             )
 
-        if input_image.ndim == 3:
-            input_image = input_image.unsqueeze(0)
-        _, _, height, width = input_image.shape
-        checked_h, checked_w, checked_t = self._check_resize_height_width(height, width, num_video_frames)
+        input_image, latent_h, latent_w = self._prepare_inference_input_image(input_image)
 
         if proprio is not None:
             if proprio.ndim == 1:
@@ -458,8 +476,6 @@ class FastWAMIDM(FastWAMJoint):
             proprio = proprio.to(device=self.device, dtype=self.torch_dtype)
 
         latent_t, temporal_index = self._build_inference_video_layout(num_video_frames)
-        latent_h = height // self.vae.upsampling_factor
-        latent_w = width // self.vae.upsampling_factor
 
         video_generator = None if seed is None else torch.Generator(device=rand_device).manual_seed(seed)
         action_generator = None if seed is None else torch.Generator(device=rand_device).manual_seed(seed)
@@ -477,7 +493,12 @@ class FastWAMIDM(FastWAMJoint):
         ).to(device=self.device, dtype=self.torch_dtype)
 
         input_image = input_image.to(device=self.device, dtype=self.torch_dtype)
-        first_frame_latents = self._encode_input_image_latents_tensor(input_image=input_image, tiled=tiled)
+        packed_wrist_latents = None
+        if self.video_vae_layout == "robotwin_packed_multiview":
+            first_frame_latents, packed_wrist_latents = self._encode_robotwin_packed_multiview(
+                input_image.unsqueeze(2 if self.latent_tshape_premerged_input else 3), tiled=tiled)
+        else:
+            first_frame_latents = self._encode_input_image_latents_tensor(input_image=input_image, tiled=tiled)
         latents_video[:, :, 0:1] = first_frame_latents.clone()
         fuse_flag = bool(getattr(self.video_expert, "fuse_vae_embedding_in_latents", False))
 
@@ -508,15 +529,27 @@ class FastWAMIDM(FastWAMJoint):
         )
         for step_t_video, step_delta_video in zip(infer_timesteps_video, infer_deltas_video):
             timestep_video = step_t_video.unsqueeze(0).to(dtype=latents_video.dtype, device=self.device)
-            pred_video = self.video_expert(
-                x=latents_video,
-                timestep=timestep_video,
-                context=context,
-                context_mask=context_mask,
-                action=None,
-                fuse_vae_embedding_in_latents=fuse_flag,
-                temporal_index=temporal_index,
-            )
+            if self.video_vae_layout in {"robotwin_packed_multiview", "robotwin_latent_tshape"}:
+                video_pre = self._video_pre_dit(
+                    x=latents_video, timestep=timestep_video, context=context,
+                    context_mask=context_mask, action=None,
+                    fuse_vae_embedding_in_latents=fuse_flag, temporal_index=temporal_index,
+                    packed_wrist_latents=packed_wrist_latents)
+                _, video_tokens = self.mot.prefill_video_cache(
+                    video_tokens=video_pre["tokens"], video_freqs=video_pre["freqs"],
+                    video_t_mod=video_pre["t_mod"],
+                    video_context_payload={"context": video_pre["context"], "mask": video_pre["context_mask"]},
+                    video_attention_mask=self._build_inference_attention_mask(video_pre, 0),
+                    return_tokens=True)
+                if self.video_vae_layout == "robotwin_packed_multiview":
+                    pred_video = self._packed_video_post_dit(video_tokens, video_pre)
+                else:
+                    pred_video = self.video_expert.post_dit(video_tokens, video_pre)
+            else:
+                pred_video = self.video_expert(
+                    x=latents_video, timestep=timestep_video, context=context,
+                    context_mask=context_mask, action=None,
+                    fuse_vae_embedding_in_latents=fuse_flag, temporal_index=temporal_index)
             latents_video = self.infer_video_scheduler.step(pred_video, step_delta_video, latents_video)
             latents_video[:, :, 0:1] = first_frame_latents.clone()
 
@@ -524,7 +557,7 @@ class FastWAMIDM(FastWAMJoint):
         timestep_video_cond = torch.zeros(
             (latents_video.shape[0],), dtype=latents_video.dtype, device=self.device
         )
-        video_pre_cond = self.video_expert.pre_dit(
+        video_pre_cond = self._video_pre_dit(
             x=latents_video,
             timestep=timestep_video_cond,
             context=context,
@@ -532,14 +565,10 @@ class FastWAMIDM(FastWAMJoint):
             action=None,
             fuse_vae_embedding_in_latents=fuse_flag,
             temporal_index=temporal_index,
+            packed_wrist_latents=packed_wrist_latents,
         )
         video_seq_len = int(video_pre_cond["tokens"].shape[1])
-        attention_mask = self._build_mot_attention_mask(
-            video_seq_len=video_seq_len,
-            action_seq_len=latents_action.shape[1],
-            video_tokens_per_frame=int(video_pre_cond["meta"]["tokens_per_frame"]),
-            device=video_pre_cond["tokens"].device,
-        )
+        attention_mask = self._build_inference_attention_mask(video_pre_cond, latents_action.shape[1])
         video_kv_cache = self.mot.prefill_video_cache(
             video_tokens=video_pre_cond["tokens"],
             video_freqs=video_pre_cond["freqs"],

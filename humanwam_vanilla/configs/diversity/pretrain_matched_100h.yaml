@@ -1,0 +1,18 @@
+_base_:
+- ../_base_/pretrain_ia.yaml
+- ../corpus_indices.yaml
+gradient_accumulation_steps: 1
+corpus: ${corpus_indices.matched_100h}
+experiment:
+  name: diversity/pretrain_matched_100h
+  global_batch_size: 512
+  hours: 100
+  post_normalization_gripper_clip:
+  - -1.0
+  - 1.0
+model:
+  loss:
+    component_weights:
+      position: 1.0
+      rotation: 0.5
+      gripper: 0.1

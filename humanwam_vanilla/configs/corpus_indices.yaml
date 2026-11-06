@@ -1,0 +1,103 @@
+# Selection paths are relative to the corpus repository. Payload upload is separate.
+corpus_release:
+  repo_id: DAGroup-PKU/Open-HumanScale-50K
+  index_url: https://huggingface.co/datasets/DAGroup-PKU/Open-HumanScale-50K/tree/main/subsets
+  index_snapshot: '2026-11-05T16:05:39Z'
+  format: LeRobot v3
+  parts: indices/parts.parquet
+  payload_status: uploading
+  selection_format: LeRobot clip selection table
+  manifest: subsets/manifest.json
+  columns:
+  - dataset_path
+  - episode_index
+  - start_frame
+  - end_frame
+  - source
+  - task
+  - hand
+  frame_interval: episode-local [start_frame, end_frame)
+  files: indices/files.parquet
+corpus_indices:
+  100h:
+    nominal_hours: 100
+    family: EgoStandard scaled-diversity
+    mapping_status: complete
+    selection_file: subsets/100h.parquet
+    config_name: 100h
+    note: Complete historical selection, including supplemental parts where needed.
+  500h:
+    nominal_hours: 500
+    family: EgoStandard scaled-diversity
+    mapping_status: complete
+    selection_file: subsets/500h.parquet
+    config_name: 500h
+    note: Complete historical selection, including supplemental parts where needed.
+  1000h:
+    nominal_hours: 1000
+    family: EgoStandard scaled-diversity
+    mapping_status: complete
+    selection_file: subsets/1000h.parquet
+    config_name: 1000h
+    note: Complete historical selection, including supplemental parts where needed.
+  5000h:
+    nominal_hours: 5000
+    family: EgoStandard scaled-diversity
+    mapping_status: complete
+    selection_file: subsets/5000h.parquet
+    config_name: 5000h
+    note: Complete historical selection, including supplemental parts where needed.
+  10000h:
+    nominal_hours: 10000
+    family: mixed-source historical corpus
+    mapping_status: complete
+    selection_file: subsets/10000h.parquet
+    config_name: 10000h
+    note: Frozen November 4, 2026; not yet bound to the historical report experiment.
+  20500h:
+    nominal_hours: 20500
+    family: mixed-source historical corpus
+    mapping_status: complete
+    selection_file: subsets/20500h.parquet
+    config_name: 20500h
+  50000h:
+    nominal_hours: 50000
+    family: mixed-source historical corpus
+    mapping_status: complete
+    selection_file: subsets/50000h.parquet
+    config_name: 50000h
+  historical_10000h:
+    nominal_hours: 10000
+    family: historical mixed-source IA scaling
+    mapping_status: pending
+    note: Do not substitute the November 4 10000h subset.
+    selection_file: null
+  matched_100h:
+    nominal_hours: 100
+    family: matched-diversity
+    mapping_status: pending
+    note: Exact matched-diversity selection is not in the published subsets.
+    selection_file: null
+  matched_500h:
+    nominal_hours: 500
+    family: matched-diversity
+    mapping_status: pending
+    note: Exact matched-diversity selection is not in the published subsets.
+    selection_file: null
+  matched_1000h:
+    nominal_hours: 1000
+    family: matched-diversity
+    mapping_status: pending
+    note: Exact matched-diversity selection is not in the published subsets.
+    selection_file: null
+  aligned_1000h:
+    nominal_hours: 1000
+    family: four-source aligned corpus
+    mapping_status: pending
+    note: Attention/action-initialization ablations; distinct from scaled-diversity
+      1000h.
+    selection_file: null
+  egopro_multiview:
+    family: EgoPro synchronized head and wrist views
+    mapping_status: pending
+    selection_file: null

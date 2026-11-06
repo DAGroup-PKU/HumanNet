@@ -216,10 +216,8 @@ data:
           - 0.0
           - 0.0
           - 1.0
-      - _target_: humanwam.datasets.lerobot.transforms.ego_alignment.DualArmRelativePoseTransform
+      - _target_: humanwam.datasets.lerobot.transforms.pose_frame.DualArmRelativePoseTransform
         num_arms: 2
-        mode: world
-        reference: anchor
         category_keys:
           action:
           - default
@@ -453,7 +451,3 @@ paths:
   data__train__text_embedding_fallback_cache_dirs__2: ???
   data__train__text_embedding_fallback_cache_dirs__3: ???
   model__action_dit_pretrained_path: ???
-release:
-  profile: ia_relative_action_control
-  purpose: historical_reference
-  runtime_verified: false

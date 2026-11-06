@@ -1,0 +1,31 @@
+# Main pre40k -> W0 mid10k recipe. EgoPro data/processor integration is pending.
+# This is separate from the exploration-series pre20k mid-training ablation.
+_base_: _base_/pretrain_idm.yaml
+experiment:
+  name: humanwam_vanilla/midtrain_w0
+  stage: midtrain
+  pretrain_step: 40000
+  selected_checkpoint_step: 10000
+  reference_world_size: 8
+  global_batch_size: 512
+max_steps: 10000
+num_epochs: 1000000
+batch_size: 64
+gradient_accumulation_steps: 1
+warmup_ratio: 0.05
+resume: ${paths.resume}
+paths:
+  output_dir: ./runs/midtrain
+  resume: ???
+model:
+  skip_dit_load_from_pretrain: true
+  video_vae_layout: robotwin_packed_multiview
+  robotwin_latent_tshape_head_size: [256, 352]
+  robotwin_latent_tshape_wrist_size: [128, 176]
+  latent_tshape_head_resize_mode: direct_resize
+  latent_tshape_premerged_input: true
+  latent_tshape_future_wrist_loss_weight: 0.0
+  latent_tshape_head_reads_wrist0: true
+  latent_tshape_action_reads_wrist0: true
+# data.train._target_ and processor remain ??? inherited from the base.
+# Do not substitute RoboTwin data or a different EgoPro processor to bypass this.

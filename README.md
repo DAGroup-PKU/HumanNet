@@ -37,10 +37,10 @@ https://github.com/user-attachments/assets/469f1f1b-cbe2-4f89-aaaf-6cbdb3a2e50e
 
 - [Open-HumanScale-50k Corpus](#open-humanscale-50k-corpus)
 - [HumanWAM-Vanilla](#humanwam-vanilla)
-  - [Weight Download](#vanilla-weight-download)
-  - [Environment Setup & Quick Start](#vanilla-quick-start)
+  - [Model Checkpoints](#vanilla-weight-download)
+  - [Environment Setup](#vanilla-environment-setup)
   - [Training](#vanilla-training)
-  - [Inference](#vanilla-inference)
+  - [Evaluation](#vanilla-evaluation)
   - [Reproduction Guide](#vanilla-reproduction-guide)
 - [HumanWAM-Goal](#humanwam-goal)
   - [Weight Download](#goal-weight-download)
@@ -74,75 +74,169 @@ The Hugging Face upload is in progress. Download instructions are being prepared
 ## HumanWAM-Vanilla
 
 <a id="vanilla-weight-download"></a>
-### Weight Download
+### Model Checkpoints
 
-Pretrained, RoboTwin post-trained, scaling, and ablation checkpoints are being
-uploaded to **one model repository**, organized under separate paths and linked
-from the [Open-HumanScale Collection](https://huggingface.co/collections/DAGroup-PKU/open-humanscale).
+We are releasing the **RoboTwin post-trained checkpoints for the egocentric
+pretraining exploration studies** in our [technical report](https://arxiv.org/abs/2611.06817),
+together with the final **HumanWAM-Vanilla** checkpoints from **50,000-hour
+egocentric pretraining**, **mid-training**, and **RoboTwin / RoboDojo post-training**.
 
-| Checkpoint | Clean2Clean | Clean2Random | Average | Status |
-| --- | ---: | ---: | ---: | --- |
-| HumanWAM-Vanilla · RoboTwin post-trained | **92.08%** | **68.88%** | **80.48%** | [Uploading](https://huggingface.co/collections/DAGroup-PKU/open-humanscale) |
-| HumanWAM-Vanilla · egocentric pretrained | — | — | — | [Uploading](https://huggingface.co/collections/DAGroup-PKU/open-humanscale) |
+| Checkpoint | Training stage | Download / status |
+| --- | --- | --- |
+| Exploration series | Scaling and ablation studies | [Collection](https://huggingface.co/collections/DAGroup-PKU/open-humanscale) · uploading |
+| HumanWAM-Vanilla-Base | 50kh pretraining **pre40k**; W0 mid-training **mid10k** | [Base](https://huggingface.co/DAGroup-PKU/HumanWAM-Vanilla-Base) · weights available |
+| HumanWAM-Vanilla-RoboTwin | **post21k** · **92.08 / 68.88 / 80.48** | [RoboTwin](https://huggingface.co/DAGroup-PKU/HumanWAM-Vanilla-RoboTwin) · weights available |
+| HumanWAM-Vanilla-RoboDojo | 50kh → W0 → OpenWAM-style augmentation → **post50k** | [RoboDojo](https://huggingface.co/DAGroup-PKU/HumanWAM-Vanilla-RoboDojo) · model card only; weights pending |
 
-Results are reported in the technical report; both RoboTwin settings use the
-same post-trained checkpoint. Direct download paths are being prepared.
+RoboTwin scores are Clean / Random / average success (%), from the archived
+**50-episode-per-task** evaluation. The manuscript describes 100 episodes per task;
+this protocol difference remains under review. Its checkpoint uses **unaligned
+native wrists**. RoboDojo's manuscript scores (**14.17% success / 19.00 progress**)
+are not yet bound to a released checkpoint; they are not a verified post50k result.
+
+Download the available weights after [installing the environment](#vanilla-environment-setup):
+
+```bash
+# From humanwam_vanilla/, with the training environment activated.
+huggingface-cli download DAGroup-PKU/HumanWAM-Vanilla-Base \
+  pretrained/step_040000.pt midtrained/step_010000.pt --local-dir ../checkpoints/vanilla-base
+huggingface-cli download DAGroup-PKU/HumanWAM-Vanilla-RoboTwin \
+  model.pt config.yaml dataset_stats.json --local-dir ../checkpoints/vanilla-robotwin
+```
+
+The RoboTwin release includes its evaluation configuration and normalization
+statistics. Training data and cache preparation are being organized.
 
 Scaling human pretraining from 100 to 50,000 hours improves Scene-OOD success
 from **49.1% to 73.2%** in the controlled IDM study:
 
 ![Egocentric scaling under inverse-dynamics attention](assets/ego_scaling_idm.png)
 
-<a id="vanilla-quick-start"></a>
-### Environment Setup & Quick Start
+<a id="vanilla-environment-setup"></a>
+### Environment Setup
 
-🚧 Work in progress.
+**1. Install**
+
+Clone the repository and install the training and RoboTwin simulation environments.
+
+```bash
+git clone --branch open-humanscale https://github.com/DAGroup-PKU/HumanNet.git
+cd HumanNet/humanwam_vanilla
+bash scripts/setup_environment.sh train
+bash scripts/setup_environment.sh sim
+```
+
+**2. Prepare Wan and RoboTwin**
+
+From `humanwam_vanilla/`, download the Wan components and set up RoboTwin with its simulation assets.
+
+```bash
+bash scripts/prepare_resources.sh wan
+bash scripts/prepare_resources.sh robotwin
+```
 
 <a id="vanilla-training"></a>
 ### Training
 
-The portable launcher runs directly on your own CUDA server. Checkpoint downloads
-and data/cache preparation are still being organized; the commands below require
-a compatible full RoboTwin policy, task data, normalization statistics, text
-embeddings, and merged-video caches.
+Run from `humanwam_vanilla/`. Set the data, statistics, cache, and output
+paths in the selected config.
 
-After installing the environment, start from the repository root:
+#### Pretrain
+
+Example: **50K-hour IDM pretraining**, using absolute camera-frame actions.
 
 ```bash
-cd humanwam_vanilla
-cp configs/paths.example.yaml configs/paths.local.yaml
-# Fill in your local resource paths, then inspect the resolved configuration.
-python scripts/train.py --paths configs/paths.local.yaml --print-config
-
-# Single GPU (subject to available GPU memory).
-NPROC_PER_NODE=1 bash scripts/train.sh --paths configs/paths.local.yaml batch_size=1
-
-# Four GPUs on one server; uses the existing whole-model FSDP implementation.
-NPROC_PER_NODE=4 bash scripts/train.sh --paths configs/paths.local.yaml \
-  batch_size=1 gradient_accumulation_steps=16
+bash scripts/train.sh --config configs/scaling_idm/pretrain_50000h.yaml
 ```
 
-`batch_size` is **per GPU**. Effective batch size is
-`batch_size × total GPUs × gradient_accumulation_steps`; adjust it for your
-hardware and experiment. These examples illustrate launching, not paper-result
-reproduction. Add `--print-config` to the launcher to display its resolved settings
-without training.
+Select other settings from the per-series [experiment configurations](humanwam_vanilla/README.md#experiment-configurations),
+such as `scaling_ia/pretrain_1000h.yaml` or `scaling_idm/pretrain_5000h.yaml`.
 
-For multiple servers, run the same command on each server with `NNODES`, a unique
-`NODE_RANK` (starting at 0), and the same `MASTER_ADDR` and `MASTER_PORT` set.
-All servers must have the environment and required files at the configured paths;
-use a shared output directory for distributed checkpoint saving. The launcher
-uses [PyTorch torchrun](https://docs.pytorch.org/docs/stable/elastic/run.html).
+#### Mid-train
 
-<a id="vanilla-inference"></a>
-### Inference
+Adapt the pretrained model to **W0 multi-view conditioning** with **10k steps
+on EgoPro**. Head and wrist observations condition action prediction, while
+future video prediction uses only the head view.
 
-🚧 Work in progress.
+```bash
+bash scripts/train.sh --config configs/midtrain.yaml \
+  --init-checkpoint /path/to/pretrained.pt
+```
+
+#### Post-train
+
+**RoboTwin exploration — 12k steps, without data augmentation.**
+
+```bash
+bash scripts/train.sh --config configs/scaling_ia/posttrain.yaml --init-checkpoint /path/to/pretrained.pt # Isolated attention, head-only
+bash scripts/train.sh --config configs/scaling_idm/posttrain.yaml --init-checkpoint /path/to/pretrained.pt # IDM, head-only
+bash scripts/train.sh --config configs/multiview/posttrain_idm_conditioning_midtrained.yaml --init-checkpoint /path/to/midtrained.pt # W0, multi-view
+```
+
+**RoboTwin final model — W0 multi-view + augmentation, 24k steps.**
+
+```bash
+bash scripts/train.sh --config configs/robotwin.yaml \
+  --init-checkpoint ../checkpoints/vanilla-base/midtrained/step_010000.pt
+```
+
+**RoboDojo — W0 multi-view + augmentation.
+
+```bash
+bash scripts/train.sh --config configs/robodojo.yaml \
+  --init-checkpoint ../checkpoints/vanilla-base/midtrained/step_010000.pt
+```
+
+Set `NPROC_PER_NODE` to your GPU count. To preserve the effective batch size,
+adjust `batch_size × total GPUs × gradient_accumulation_steps` together.
+
+<a id="vanilla-evaluation"></a>
+### Evaluation
+
+#### RoboTwin 2.0
+
+Follow the [RoboTwin repository](https://github.com/RoboTwin-Platform/RoboTwin)
+for simulator installation and assets. Our [environment setup](#vanilla-environment-setup)
+provides the pinned simulator checkout and policy dependencies.
+For Blackwell GPUs, apply the [OIDN compatibility setup](docs/environment.md#blackwell-rendering).
+
+Download the W0 policy, its configuration, and normalization statistics.
+Run from `humanwam_vanilla/`:
+
+```bash
+../.venv/train/bin/huggingface-cli download DAGroup-PKU/HumanWAM-Vanilla-RoboTwin \
+  model.pt config.yaml dataset_stats.json --local-dir ../checkpoints/vanilla-robotwin
+```
+
+Evaluate all 50 tasks with 50 episodes per task in each setting:
+
+```bash
+bash scripts/eval_robotwin.sh ../checkpoints/vanilla-robotwin clean ../runs/robotwin-clean
+bash scripts/eval_robotwin.sh ../checkpoints/vanilla-robotwin random ../runs/robotwin-random
+../.venv/train/bin/python scripts/summarize_robotwin.py ../runs/robotwin-{clean,random}/shard-* \
+  --output ../runs/robotwin-summary.json
+```
+
+Each run saves `result.json` and `policy.log` per shard. These commands evaluate
+**HumanWAM-Vanilla-RoboTwin (W0)** under the archived protocol.
+Exploration checkpoints and Scene-OOD evaluation are being integrated.
+
+#### RoboDojo
+
+Follow [RoboDojo](https://github.com/RoboDojo-Benchmark/RoboDojo) and
+[XPolicyLab](https://github.com/XPolicyLab/XPolicyLab) for the Isaac Sim environment
+and assets. RoboDojo weights and public evaluation commands are coming soon.
 
 <a id="vanilla-reproduction-guide"></a>
 ### Reproduction Guide
 
-🚧 Work in progress.
+We will provide a more detailed reproduction guide in a future update.
+
+For the exploration studies, see the per-series
+[HumanWAM-Vanilla configurations](humanwam_vanilla/README.md#experiment-configurations)
+and [published corpus subsets](https://huggingface.co/datasets/DAGroup-PKU/Open-HumanScale-50K/tree/main/subsets).
+Pretraining and ablation integration are in progress.
+
 
 ## HumanWAM-Goal
 
@@ -194,7 +288,8 @@ with the released goal cache, and bit-exact reproduction of the published action
 
 - [ ] Open-HumanScale-50k corpus — uploading to Hugging Face; ModelScope pending.
 - [x] HumanWAM-Goal RoboTwin post-trained weights.
-- [ ] Pretrained and HumanWAM-Vanilla RoboTwin post-trained weights — uploading.
+- [x] HumanWAM-Vanilla Base pre40k / W0 mid10k and RoboTwin post21k weights.
+- [ ] Exploration-series and RoboDojo weights, training resources, and remaining statistics.
 - [ ] HumanWAM-Vanilla code, training, inference, and reproduction guide — in progress.
 - [ ] HumanWAM-Goal code, environment setup, and inference — in progress.
 

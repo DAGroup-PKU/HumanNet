@@ -1,0 +1,9 @@
+_base_:
+- ../_base_/pretrain_ia.yaml
+- ../corpus_indices.yaml
+gradient_accumulation_steps: 2
+corpus: ${corpus_indices.500h}
+experiment:
+  name: scaling_ia/pretrain_500h
+  global_batch_size: 1024
+  hours: 500

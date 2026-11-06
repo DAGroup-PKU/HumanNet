@@ -1,0 +1,15 @@
+_base_:
+- ../_base_/pretrain_ia.yaml
+- ../corpus_indices.yaml
+gradient_accumulation_steps: 4
+corpus: ${corpus_indices.aligned_1000h}
+experiment:
+  name: attention/pretrain_mutual_relative
+  global_batch_size: 2048
+  hours: 1000
+  attention: mutual
+  action_representation: relative_camera_frame
+  pretrain_checkpoints:
+  - 20000
+model:
+  model_class: ???

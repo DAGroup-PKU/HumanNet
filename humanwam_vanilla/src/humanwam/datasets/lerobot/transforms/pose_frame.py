@@ -12,6 +12,44 @@ import torch
 from ..utils.rotation import quaternion_to_matrix, matrix_to_quaternion
 
 
+class DualArmRelativePoseTransform:
+    """Camera-frame action deltas relative to the first observed EEF pose.
+
+    Translation is p_target - p_anchor; rotation is R_target @ R_anchor.T.
+    State poses and absolute gripper targets are preserved.
+    """
+
+    def __init__(self, category_keys, num_arms=2):
+        self.category_keys = category_keys
+        self.num_arms = num_arms
+
+    def _run(self, batch, inverse):
+        for key in self.category_keys['action']:
+            actions = batch['action'][key]
+            anchors = batch['state'][key][..., :1, :]
+            block = actions.shape[-1] // self.num_arms
+            output = []
+            for pose, anchor in zip(actions.split(block, dim=-1), anchors.split(block, dim=-1)):
+                rotation = quaternion_to_matrix(pose[..., 3:7])
+                anchor_rotation = quaternion_to_matrix(anchor[..., 3:7])
+                if inverse:
+                    position = pose[..., :3] + anchor[..., :3]
+                    rotation = rotation @ anchor_rotation
+                else:
+                    position = pose[..., :3] - anchor[..., :3]
+                    rotation = rotation @ anchor_rotation.transpose(-1, -2)
+                output.append(torch.cat(
+                    [position, matrix_to_quaternion(rotation), pose[..., 7:]], dim=-1))
+            batch['action'][key] = torch.cat(output, dim=-1)
+        return batch
+
+    def forward(self, batch):
+        return self._run(batch, inverse=False)
+
+    def backward(self, batch):
+        return self._run(batch, inverse=True)
+
+
 class DualArmWristBasisTransform:
     """Map a RoboTwin local EEF basis into an explicitly named native basis.
 

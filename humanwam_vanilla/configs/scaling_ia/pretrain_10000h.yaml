@@ -1,0 +1,9 @@
+_base_:
+- ../_base_/pretrain_ia.yaml
+- ../corpus_indices.yaml
+gradient_accumulation_steps: 8
+corpus: ${corpus_indices.historical_10000h}
+experiment:
+  name: scaling_ia/pretrain_10000h
+  global_batch_size: 4096
+  hours: 10000

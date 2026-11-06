@@ -14,3 +14,9 @@ weights/
 *.pth
 *.safetensors
 *.log
+.runtime/
+/RoboTwin/
+/checkpoints/
+# Machine-specific stage configurations; keep the checked-in examples.
+humanwam_vanilla/configs/local/*.yaml
+!humanwam_vanilla/configs/local/*.example.yaml

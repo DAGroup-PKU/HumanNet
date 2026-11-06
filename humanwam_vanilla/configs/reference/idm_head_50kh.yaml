@@ -216,14 +216,14 @@ data:
           - 0.0
           - 0.0
           - 1.0
-      - _target_: humanwam.datasets.lerobot.transforms.ego_alignment.DualArmWristCanonicalizeTransform
+      - _target_: humanwam.datasets.lerobot.transforms.pose_frame.DualArmWristBasisTransform
         num_arms: 2
         category_keys:
           action:
           - default
           state:
           - default
-        C_left:
+        basis_left:
         - - 1.0
           - 0.0
           - 0.0
@@ -233,7 +233,7 @@ data:
         - - 0.0
           - 0.0
           - -1.0
-        C_right:
+        basis_right:
         - - 1.0
           - 0.0
           - 0.0
@@ -243,14 +243,6 @@ data:
         - - 0.0
           - 0.0
           - 1.0
-      - _target_: humanwam.datasets.lerobot.transforms.rotation.DualArmPoseRotationTransform
-        num_arms: 2
-        rotation_type: quaternion
-        category_keys:
-          action:
-          - default
-          state:
-          - default
       use_stepwise_action_norm: false
       norm_default_mode: z-score
       norm_exception_mode: null
@@ -482,7 +474,3 @@ paths:
   data__train__text_embedding_fallback_cache_dirs__2: ???
   data__train__text_embedding_fallback_cache_dirs__3: ???
   model__action_dit_pretrained_path: ???
-release:
-  profile: idm_head_50kh
-  purpose: historical_reference
-  runtime_verified: false

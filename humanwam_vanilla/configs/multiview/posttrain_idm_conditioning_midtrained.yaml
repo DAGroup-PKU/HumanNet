@@ -1,0 +1,5 @@
+_base_: posttrain_idm_conditioning.yaml
+experiment:
+  name: multiview/posttrain_idm_conditioning_midtrained
+  initializer: EgoPro mid-trained checkpoint
+  midtrain_config: midtrain_idm_conditioning.yaml

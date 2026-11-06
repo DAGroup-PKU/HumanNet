@@ -1,0 +1,14 @@
+_base_:
+- ../_base_/pretrain_idm.yaml
+- ../corpus_indices.yaml
+gradient_accumulation_steps: 16
+corpus: ${corpus_indices.50000h}
+experiment:
+  name: scaling_idm/pretrain_50000h
+  global_batch_size: 8192
+  hours: 50000
+  sampler: WebDataset; draws scale with valid anchor count, not a fixed eight per episode
+data:
+  wds:
+    draws_per_episode: 8
+    sampling_reference_anchors: 135.3679531470708

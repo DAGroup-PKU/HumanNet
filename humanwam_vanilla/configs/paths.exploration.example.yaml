@@ -1,0 +1,15 @@
+# Supply paths for the selected recipe only. robotwin_dataset_dirs is a list of 50 task roots.
+output_dir: ./outputs/my-experiment
+resume: ???
+model__action_dit_pretrained_path: ???
+robotwin_dataset_dirs: ???
+data__train__pretrained_norm_stats: ???
+data__train__text_embedding_cache_dir: ???
+data__train__object_conditioned_instruction_manifest: ???
+data__train__text_embedding_fallback_cache_dirs__0: null
+data__train__text_embedding_fallback_cache_dirs__1: null
+data__train__text_embedding_fallback_cache_dirs__2: null
+data__train__text_embedding_fallback_cache_dirs__3: null
+robotwin_episode_exclusion_manifest: ???
+corpus_dataset_dirs: ???
+corpus_norm_stats: ???

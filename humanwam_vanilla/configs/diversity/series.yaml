@@ -1,0 +1,56 @@
+scaled_pretraining:
+- ../scaling_ia/pretrain_100h.yaml
+- ../scaling_ia/pretrain_500h.yaml
+- ../scaling_ia/pretrain_1000h.yaml
+- ../scaling_ia/pretrain_5000h.yaml
+matched_pretraining:
+- pretrain_matched_100h.yaml
+- pretrain_matched_500h.yaml
+- pretrain_matched_1000h.yaml
+- ../scaling_ia/pretrain_5000h.yaml
+selected_checkpoints:
+- hours: 100
+  setting: clean
+  pretrain_step: 20000
+  posttrain_step: 12000
+  posttrain_config: posttrain_15k.yaml
+- hours: 500
+  setting: clean
+  pretrain_step: 30000
+  posttrain_step: 10000
+  posttrain_config: posttrain_15k.yaml
+- hours: 1000
+  setting: clean
+  pretrain_step: 50000
+  posttrain_step: 12000
+  posttrain_config: posttrain_12k.yaml
+- hours: 100
+  setting: scene-ood
+  pretrain_step: 40000
+  posttrain_step: 11000
+  posttrain_config: posttrain_12k.yaml
+- hours: 500
+  setting: scene-ood
+  pretrain_step: 40000
+  posttrain_step: 11000
+  posttrain_config: posttrain_12k.yaml
+- hours: 1000
+  setting: scene-ood
+  pretrain_step: 50000
+  posttrain_step: 9000
+  posttrain_config: posttrain_12k.yaml
+- hours: 100
+  setting: random
+  pretrain_step: 30000
+  posttrain_step: 12000
+  posttrain_config: posttrain_12k.yaml
+- hours: 500
+  setting: random
+  pretrain_step: 50000
+  posttrain_step: 10000
+  posttrain_config: posttrain_12k.yaml
+- hours: 1000
+  setting: random
+  pretrain_step: 50000
+  posttrain_step: 11000
+  posttrain_config: posttrain_12k.yaml

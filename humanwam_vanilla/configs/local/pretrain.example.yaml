@@ -1,0 +1,7 @@
+# Copy to pretrain.yaml and fill local paths once the public loader is available.
+_base_: ../pretrain.yaml
+paths:
+  output_dir: ./runs/pretrain
+  corpus_dataset_dirs: ???
+  corpus_norm_stats: ???
+  model__action_dit_pretrained_path: ???
