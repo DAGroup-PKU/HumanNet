@@ -1,0 +1,8 @@
+# Copy to robodojo.yaml and fill these paths. Pass W0 mid10k via --init-checkpoint.
+_base_: ../robodojo.yaml
+paths:
+  output_dir: ./runs/robodojo
+  dataset_dirs: ???
+  pretrained_norm_stats: ???
+  text_embedding_cache_dir: ???
+  merged_video_cache_dir: ???

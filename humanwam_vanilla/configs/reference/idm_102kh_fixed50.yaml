@@ -482,7 +482,3 @@ paths:
   data__train__text_embedding_fallback_cache_dirs__2: ???
   data__train__text_embedding_fallback_cache_dirs__3: ???
   model__action_dit_pretrained_path: ???
-release:
-  profile: idm_102kh_fixed50
-  purpose: historical_reference
-  runtime_verified: false

@@ -1,0 +1,53 @@
+output_dir: ${paths.output_dir}
+batch_size: 64
+num_workers: 12
+dataloader_timeout: 600
+dataloader_prefetch_factor: 2
+dataloader_persistent_workers: auto
+dataloader_in_order: true
+dataloader_non_blocking: true
+dataloader_rank_aware_strict: auto
+dataloader_require_merged_cache: false
+dataloader_fail_on_cache_miss: false
+dataloader_require_video_latent_cache: false
+dataloader_fail_on_latent_cache_miss: false
+lr_scheduler_type: cosine
+learning_rate: 0.0001
+warmup_ratio: 0.05
+num_epochs: 16
+max_steps: 12000
+log_every: 10
+save_every: 1000
+save_initial_checkpoint: false
+checkpoint_steps: []
+eval_every: 100000000
+eval_num_inference_steps: 10
+checkpoint_state_keep_last: 2
+checkpoint_weights_keep_local: 16
+gradient_accumulation_steps: 1
+mixed_precision: bf16
+seed: 42
+max_grad_norm: 1.0
+weight_decay: 0.01
+optimizer_fused: true
+optimizer_video_lr_scale: 1.0
+optimizer_action_lr_scale: 1.0
+optimizer_view_lr_scale: 1.0
+optimizer_video_freeze_steps: 0
+resume: ${paths.resume}
+resume_mot_skip_prefixes: []
+resume_skip_proprio_encoder: false
+resume_step: 0
+_base_: model_ia.yaml
+distributed:
+  strategy: auto
+  fsdp_sharding_strategy: SHARD_GRAD_OP
+wandb:
+  enabled: false
+  project: OpenHumanScale
+  name: ${experiment.name}
+paths:
+  output_dir: ???
+  resume: ???
+  model__action_dit_pretrained_path: ???
+# Work in progress.

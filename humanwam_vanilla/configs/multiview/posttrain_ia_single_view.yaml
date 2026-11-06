@@ -1,0 +1,5 @@
+_base_: ../_base_/posttrain_ia.yaml
+experiment:
+  name: multiview/posttrain_ia_single_view
+  pretrain_step: 20000
+  views: single_head

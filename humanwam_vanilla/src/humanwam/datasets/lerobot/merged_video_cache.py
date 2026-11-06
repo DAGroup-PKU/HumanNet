@@ -42,8 +42,16 @@ from .lerobot.datasets.video_utils import decode_video_frames
 logger = logging.getLogger(__name__)
 
 
-def image_transforms_signature(image_transforms, camera_keys) -> str:
+def image_transforms_signature(image_transforms, camera_keys, *, historical_namespace=False) -> str:
     """Return a stable signature for the selected cameras' image transforms."""
+    def describe(transform):
+        module = type(transform).__module__
+        # The frozen RoboDojo cache predates the public package rename. Only the
+        # module prefix changes; transform class, repr and camera order stay bound.
+        if historical_namespace and module.startswith("humanwam."):
+            module = "fastwam." + module[len("humanwam."):]
+        return f"{module}.{type(transform).__qualname__}:{transform!r}"
+
     entries = []
     for camera_key in camera_keys:
         camera_name = camera_key.removeprefix("observation.images.")
@@ -56,8 +64,7 @@ def image_transforms_signature(image_transforms, camera_keys) -> str:
             {
                 "camera_key": camera_key,
                 "transforms": [
-                    f"{type(transform).__module__}.{type(transform).__qualname__}:"
-                    f"{transform!r}"
+                    describe(transform)
                     for transform in transforms
                 ],
             }
@@ -520,8 +527,21 @@ class TShapeMp4FrameCache:
         return self.dir / f"episode_{int(ep):06d}.mp4"
 
     def ep_done(self, ep):
+        import av
+
         p = self._ep_path(ep)
-        return p.is_file() and p.stat().st_size == self._ep_nbytes(ep)
+        if not p.is_file():
+            return False
+        # Compressed MP4 size is variable; raw tensor byte counts do not apply.
+        try:
+            with av.open(str(p)) as container:
+                stream = container.streams.video[0]
+                return (stream.frames == self.ep_lengths[int(ep)]
+                        and (stream.height, stream.width) == (self.Ho, self.Wo)
+                        and stream.average_rate is not None
+                        and abs(float(stream.average_rate) - float(self.fps)) < 1e-6)
+        except (av.error.FFmpegError, OSError, IndexError):
+            return False
 
     def missing_episodes(self, episodes=None):
         return [e for e in (self.episodes if episodes is None else episodes) if not self.ep_done(e)]

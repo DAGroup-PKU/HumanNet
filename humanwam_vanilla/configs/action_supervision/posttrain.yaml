@@ -1,0 +1,7 @@
+_base_: ../_base_/posttrain_ia.yaml
+experiment:
+  name: action_supervision/posttrain
+  note: Full robot action supervision for all three pretraining initializations.
+model:
+  loss:
+    lambda_action: 1.0

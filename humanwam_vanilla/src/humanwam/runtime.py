@@ -234,6 +234,9 @@ def _maybe_wrap_video_augmentation(cfg: DictConfig, train_ds):
     kwargs = OmegaConf.to_container(aug, resolve=True)
     kwargs.pop("enabled", None)
     kwargs.setdefault("seed", int(cfg.seed))
+    if kwargs.get("name") == "openwam_robodojo_compact":
+        from .datasets.openwam_compact_augmentation import OpenWAMCompactAugmentation
+        return OpenWAMCompactAugmentation(train_ds, **kwargs)
     wrapped = ClipLockedVideoAugmentation(train_ds, **kwargs)
     logger.info(
         "[video_augmentation] enabled: name=%s probability=%.3f seed=%d "

@@ -1,0 +1,8 @@
+# Main 50kh recipe. Public pretraining loader/processor integration is pending.
+_base_: scaling_idm/pretrain_50000h.yaml
+experiment:
+  name: humanwam_vanilla/pretrain_50kh
+  stage: pretrain
+  selected_checkpoint_step: 40000
+paths:
+  output_dir: ./runs/pretrain

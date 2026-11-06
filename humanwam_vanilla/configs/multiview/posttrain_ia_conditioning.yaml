@@ -1,0 +1,16 @@
+_base_: ../_base_/posttrain_ia.yaml
+experiment:
+  name: multiview/posttrain_ia_conditioning
+  pretrain_step: 20000
+  input_views:
+  - head
+  - left_wrist
+  - right_wrist
+  predicted_views:
+  - head
+data:
+  train: ???
+# Work in progress: Exact multiview data processor and model-layout binding from the corresponding historical run
+# Work in progress: Checkpoint downloads and exploration evaluation integration
+model:
+  video_vae_layout: ???

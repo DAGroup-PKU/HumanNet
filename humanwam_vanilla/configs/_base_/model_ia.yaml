@@ -1,0 +1,127 @@
+model:
+  _target_: humanwam.runtime.create_fastwam
+  model_id: Wan-AI/Wan2.2-TI2V-5B
+  tokenizer_model_id: Wan-AI/Wan2.1-T2V-1.3B
+  tokenizer_max_len: 128
+  load_text_encoder: false
+  proprio_dim: 16
+  redirect_common_files: false
+  mot_checkpoint_mixed_attn: false
+  mot_checkpoint_post: false
+  mot_compile_blocks: true
+  mot_compile_dynamic: false
+  mot_compile_mode: default
+  action_dit_pretrained_path: ${paths.model__action_dit_pretrained_path}
+  skip_dit_load_from_pretrain: false
+  vae_encode_batched: true
+  vae_encode_chunk_frames: 0
+  vae_compile_encoder: true
+  vae_compile_dynamic: false
+  vae_compile_mode: default
+  vae_enable_channels_last_3d: true
+  video_vae_layout: pixel
+  robotwin_latent_tshape_head_size:
+  - 256
+  - 320
+  robotwin_latent_tshape_wrist_size:
+  - 128
+  - 160
+  latent_tshape_head_resize_mode: cover_crop
+  latent_tshape_premerged_input: false
+  latent_tshape_future_wrist_loss_weight: 0.5
+  latent_tshape_head_reads_wrist0: true
+  latent_tshape_action_reads_wrist0: true
+  wrist_view_mask_prob: 0.0
+  robotwin_multiview_head_size:
+  - 256
+  - 448
+  robotwin_multiview_wrist_size:
+  - 128
+  - 224
+  wrist_attention_gate_ramp_steps: 0
+  wrist_video_loss_ramp_steps: 0
+  wrist_video_loss_max_weight: 1.0
+  head_only_replay_start_ratio: 0.0
+  head_only_replay_end_ratio: 0.0
+  head_only_replay_decay_steps: 0
+  robotwin_packed_head_size:
+  - 256
+  - 448
+  robotwin_packed_wrist_size:
+  - 128
+  - 160
+  packed_head_reads_wrist0: false
+  packed_wrist_encode_separately: false
+  goal_enabled: false
+  goal_targets: both
+  goal_encode_mode: pseudo_video
+  goal_mix_video_ratio: 0.0
+  goal_long_loss_weight: 1.0
+  goal_short_rope_index: null
+  video_dit_config:
+    has_image_input: false
+    patch_size:
+    - 1
+    - 2
+    - 2
+    in_dim: 48
+    hidden_dim: 3072
+    ffn_dim: 14336
+    freq_dim: 256
+    text_dim: 4096
+    out_dim: 48
+    num_heads: 24
+    attn_head_dim: 128
+    num_layers: 30
+    eps: 1.0e-06
+    seperated_timestep: true
+    require_clip_embedding: false
+    require_vae_embedding: false
+    fuse_vae_embedding_in_latents: true
+    use_gradient_checkpointing: false
+    video_attention_mask_mode: first_frame_causal
+    action_conditioned: false
+    action_dim: 16
+    action_group_causal_mask_mode: group_diagonal
+    action_cross_attention: true
+    action_adaln: false
+    action_adaln_hidden_dim: 512
+    num_view_embeddings: 0
+    camera_pose_conditioning: false
+    camera_pose_hidden_dim: 256
+    camera_pose_translation_tolerance_m: 0.005
+    camera_pose_rotation_tolerance_deg: 0.5
+    camera_pose_representation: euler6
+    camera_pose_dropout: 0.1
+    camera_pose_local_translation_scale_m: 0.02
+    camera_pose_local_rotation_scale_rad: 0.05
+  action_dit_config:
+    action_dim: 16
+    separate_ego_action_tokenizer: true
+    action_tokenizer_sources: []
+    default_action_tokenizer_source: null
+    hidden_dim: 1024
+    ffn_dim: 4096
+    num_heads: 24
+    attn_head_dim: 128
+    num_layers: 30
+    text_dim: 4096
+    freq_dim: 256
+    eps: 1.0e-06
+    use_gradient_checkpointing: false
+  video_scheduler:
+    train_shift: 5.0
+    infer_shift: 5.0
+    num_train_timesteps: 1000
+  action_scheduler:
+    train_shift: 1.0
+    infer_shift: 1.0
+    num_train_timesteps: 1000
+  loss:
+    lambda_action: 1.0
+    component_weights:
+      position: 1.0
+      rotation: 1.0
+      gripper: 1.0
+  action_component_num_arms: 2
+  model_class: humanwam.models.wan22.fastwam.FastWAM

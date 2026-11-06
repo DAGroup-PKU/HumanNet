@@ -1,0 +1,191 @@
+_base_:
+- runtime.yaml
+- model_idm.yaml
+data:
+  train:
+    _target_: humanwam.datasets.lerobot.robot_video_dataset.RobotVideoDataset
+    dataset_dirs: ${paths.robotwin_dataset_dirs}
+    shape_meta:
+      images:
+      - key: cam_high
+        raw_shape:
+        - 3
+        - 480
+        - 640
+        shape:
+        - 3
+        - 256
+        - 352
+      action:
+      - key: default
+        raw_shape: 16
+        shape: 16
+      state:
+      - key: default
+        raw_shape: 16
+        shape: 16
+    num_frames: 33
+    global_sample_stride: 1
+    action_video_freq_ratio: 4
+    video_size:
+    - 256
+    - 352
+    camera_key: cam_high
+    val_set_proportion: 0.0
+    is_training_set: true
+    pretrained_norm_stats: ${paths.data__train__pretrained_norm_stats}
+    skip_padding_as_possible: false
+    concat_multi_camera: null
+    goal_supervision: false
+    processor:
+      _target_: humanwam.datasets.lerobot.processors.fastwam_processor.FastWAMProcessor
+      shape_meta:
+        images:
+        - key: cam_high
+          raw_shape:
+          - 3
+          - 480
+          - 640
+          shape:
+          - 3
+          - 256
+          - 352
+        action:
+        - key: default
+          raw_shape: 16
+          shape: 16
+        state:
+        - key: default
+          raw_shape: 16
+          shape: 16
+      num_obs_steps: 33
+      num_output_cameras: 1
+      action_output_dim: 16
+      proprio_output_dim: 16
+      action_state_transforms:
+      - _target_: humanwam.datasets.lerobot.transforms.pose_frame.DualArmWorldToCameraTransform
+        num_arms: 2
+        category_keys:
+          action:
+          - default
+          state:
+          - default
+        cam2world:
+        - - 1.0
+          - 0.0
+          - 0.0
+          - -0.032
+        - - 0.0
+          - 0.8
+          - -0.6
+          - -0.45
+        - - 0.0
+          - 0.6
+          - 0.8
+          - 1.35
+        - - 0.0
+          - 0.0
+          - 0.0
+          - 1.0
+      - _target_: humanwam.datasets.lerobot.transforms.pose_frame.DualArmWristBasisTransform
+        num_arms: 2
+        category_keys:
+          action:
+          - default
+          state:
+          - default
+        basis_left:
+        - - 1.0
+          - 0.0
+          - 0.0
+        - - 0.0
+          - -1.0
+          - 0.0
+        - - 0.0
+          - 0.0
+          - -1.0
+        basis_right:
+        - - 1.0
+          - 0.0
+          - 0.0
+        - - 0.0
+          - 1.0
+          - 0.0
+        - - 0.0
+          - 0.0
+          - 1.0
+      use_stepwise_action_norm: false
+      norm_default_mode: z-score
+      norm_exception_mode: null
+      action_state_merger:
+        _target_: humanwam.datasets.lerobot.transforms.action_state_merger.ConcatLeftAlign
+      train_transforms:
+      - _target_: humanwam.datasets.lerobot.transforms.image.ToTensor
+      - _target_: torchvision.transforms.Resize
+        size:
+        - 256
+        - 352
+        antialias: true
+      val_transforms:
+      - _target_: humanwam.datasets.lerobot.transforms.image.ToTensor
+      - _target_: torchvision.transforms.Resize
+        size:
+        - 256
+        - 352
+        antialias: true
+      post_normalization_clips: null
+    text_embedding_cache_dir: ${paths.data__train__text_embedding_cache_dir}
+    text_context_cache_size: 0
+    context_len: 128
+    preload_video_cache: false
+    preload_cache_workers: 16
+    video_cache_dir: ./data/video_cache
+    merged_video_cache_dir: null
+    _recursive_: false
+    norm_stats_weighting: loss
+    merged_video_cache_dtype: float32
+    video_latent_cache_dir: null
+    video_backend: pyav
+    lazy_parquet_loading: true
+    action_time_offset_frames: 0
+    object_conditioned_instruction_manifest: ${paths.data__train__object_conditioned_instruction_manifest}
+    object_conditioned_instruction_sampling: per_draw
+    object_conditioned_instruction_seed: 20260903
+    text_embedding_fallback_cache_dirs:
+    - ${paths.data__train__text_embedding_fallback_cache_dirs__0}
+    - ${paths.data__train__text_embedding_fallback_cache_dirs__1}
+    - ${paths.data__train__text_embedding_fallback_cache_dirs__2}
+    - ${paths.data__train__text_embedding_fallback_cache_dirs__3}
+paths:
+  output_dir: ???
+  resume: ???
+  data__train__pretrained_norm_stats: ???
+  data__train__text_embedding_cache_dir: ???
+  data__train__object_conditioned_instruction_manifest: ???
+  data__train__text_embedding_fallback_cache_dirs__0: ???
+  data__train__text_embedding_fallback_cache_dirs__1: ???
+  data__train__text_embedding_fallback_cache_dirs__2: ???
+  data__train__text_embedding_fallback_cache_dirs__3: ???
+  model__action_dit_pretrained_path: ???
+  robotwin_dataset_dirs: ???
+batch_size: 64
+gradient_accumulation_steps: 1
+max_steps: 12000
+save_every: 1000
+checkpoint_steps:
+- 9000
+- 10000
+- 11000
+- 12000
+model:
+  action_dit_config:
+    separate_ego_action_tokenizer: true
+experiment:
+  stage: posttrain
+  reference_world_size: 8
+  global_batch_size: 512
+  demonstrations_per_task: 50
+  task_count: 50
+  augmentation: none
+# Work in progress: Checkpoint and matching normalization-statistics downloads
+# Work in progress: Exploration evaluation integration, including scene-ood

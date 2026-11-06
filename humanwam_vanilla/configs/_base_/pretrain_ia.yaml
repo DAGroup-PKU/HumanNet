@@ -1,0 +1,33 @@
+# Recipe in preparation. The public pretraining loader/processor are intentionally unbound.
+_base_: runtime.yaml
+resume: null
+max_steps: 100000
+save_every: 10000
+checkpoint_steps: []
+warmup_ratio: 0.05
+batch_size: 64
+model:
+  action_dit_config:
+    separate_ego_action_tokenizer: false
+data:
+  train:
+    _target_: ???
+    dataset_dirs: ${paths.corpus_dataset_dirs}
+    processor: ???
+    val_set_proportion: 0.0
+    is_training_set: true
+    num_frames: 33
+    action_video_freq_ratio: 4
+    pretrained_norm_stats: ${paths.corpus_norm_stats}
+paths:
+  resume: null
+  corpus_dataset_dirs: ???
+  corpus_norm_stats: ???
+experiment:
+  stage: pretrain
+  reference_world_size: 8
+  global_batch_size: 512
+  action_representation: relative_camera_frame
+  attention: isolated
+# Work in progress: Public LeRobot v3 pretraining loader and action processor
+# Work in progress: Subset mapping, normalization statistics and text embeddings

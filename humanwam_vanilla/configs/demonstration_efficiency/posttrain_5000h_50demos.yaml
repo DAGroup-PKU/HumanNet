@@ -1,0 +1,5 @@
+_base_: ../_base_/posttrain_ia.yaml
+experiment:
+  name: demonstration_efficiency/posttrain_5000h_50demos
+  initializer: 5000h
+  demonstrations_per_task: 50

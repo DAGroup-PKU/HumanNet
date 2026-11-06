@@ -40,6 +40,19 @@ def test_episode_timestamps_keep_video_offset_and_frame_order(tmp_path, monkeypa
     assert result[0].mean().item() == pytest.approx(80 / 255, abs=0.03)
     assert result[1].mean().item() == pytest.approx(160 / 255, abs=0.03)
 
+    from humanwam.datasets.lerobot.merged_video_cache import TShapeMp4FrameCache
+
+    cache = object.__new__(TShapeMp4FrameCache)
+    cache.dir, cache.Ho, cache.Wo, cache.fps = tmp_path, 16, 16, 10
+    cache.episodes, cache.ep_lengths = [0], {0: 3}
+    path.rename(tmp_path / 'episode_000000.mp4')
+    assert cache.is_complete()
+    cache.ep_lengths[0] = 4
+    assert cache.missing_episodes() == [0]
+    cache.ep_lengths[0] = 3
+    (tmp_path / 'episode_000000.mp4').write_bytes(b'truncated')
+    assert cache.missing_episodes() == [0]
+
 
 
 

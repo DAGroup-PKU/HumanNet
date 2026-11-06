@@ -1,0 +1,14 @@
+_base_:
+- ../_base_/pretrain_idm.yaml
+- ../corpus_indices.yaml
+gradient_accumulation_steps: 4
+corpus: ${corpus_indices.aligned_1000h}
+experiment:
+  name: action_initialization/pretrain_interpolated
+  global_batch_size: 2048
+  hours: 1000
+  action_initialization: interpolated
+  pretrain_checkpoints:
+  - 20000
+model:
+  action_dit_pretrained_path: ${paths.model__action_dit_pretrained_path}

@@ -1,0 +1,7 @@
+_base_: ../_base_/posttrain_ia.yaml
+experiment:
+  name: scaling_ia/posttrain_no_ego
+  initializer: Wan video backbone; no human pretraining
+resume: null
+paths:
+  resume: null

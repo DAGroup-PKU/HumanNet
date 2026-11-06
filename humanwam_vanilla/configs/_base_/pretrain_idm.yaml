@@ -1,0 +1,10 @@
+_base_:
+- pretrain_ia.yaml
+- model_idm.yaml
+lr_floor: 1.0e-06
+experiment:
+  attention: idm
+  action_representation: absolute_camera_frame
+model:
+  action_dit_config:
+    separate_ego_action_tokenizer: false

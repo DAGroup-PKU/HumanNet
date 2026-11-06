@@ -1,0 +1,4 @@
+_base_: model_ia.yaml
+model:
+  model_class: humanwam.models.wan22.fastwam_idm.FastWAMIDM
+  action_dit_pretrained_path: null

@@ -1,0 +1,35 @@
+status: Recipes are being organized; not all stages are executable yet.
+series:
+  scaling_ia: Isolated attention, relative actions; 100–10000h and No-Ego
+  scaling_idm: IDM, absolute actions; 100–50000h and No-Ego
+  diversity: Scaled vs matched task/scene diversity
+  demonstration_efficiency: No-Ego/500h/5000h; 5/10/25/50 demos per task
+  action_supervision: 0%/50%/100% human action supervision
+  multiview: Single view, wrist conditioning, wrist prediction; optional EgoPro mid-training
+  attention: IA, Mutual, IDM, Optional-IDM with relative/absolute actions
+  action_initialization: Interpolated vs random action expert
+excluded:
+- source_mix_alignment
+- real_robot_pretraining
+evaluation:
+  settings:
+  - clean
+  - scene-ood
+  - random
+  tasks: 50
+  episodes_per_task: 50
+  posttrain_checkpoints:
+  - 9000
+  - 10000
+  - 11000
+  - 12000
+  checkpoint_selection: Best checkpoint independently for each evaluation setting
+  seeds: Reuse the same expert-validated seeds across experiments
+  scene_ood: Background and tabletop textures only; all other conditions match clean
+  status: Exploration evaluator and seed release in preparation
+launch:
+  reference_world_size: 8
+  per_device_batch_size: 64
+  batch_rule: global batch = world size * batch_size * gradient_accumulation_steps
+  note: Preserve global batch when changing hardware. max_steps is the scheduler horizon; evaluate saved
+    checkpoints without shortening it.
