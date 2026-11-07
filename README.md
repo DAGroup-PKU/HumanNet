@@ -50,6 +50,7 @@ https://github.com/user-attachments/assets/469f1f1b-cbe2-4f89-aaaf-6cbdb3a2e50e
 - [License](#license)
 - [Citation](#citation)
 - [Acknowledgements](#acknowledgements)
+- [WeChat Community](#wechat-community)
 
 ## Open-HumanWAM-50K Corpus
 
@@ -289,3 +290,12 @@ Citation details are coming soon.
 
 We thank [FastWAM](https://github.com/yuantianyuan01/FastWAM) and
 [ViGAR](https://github.com/DAGroup-PKU/ViGAR) for their open-source contributions.
+
+## WeChat Community
+
+Join the HumanWAM WeChat group to discuss Open-HumanWAM usage, training, and reproduction.
+If the QR code expires, please open an issue so we can update it.
+
+<p align="center">
+  <img src="assets/wechat_group_qr.jpg" width="300" alt="HumanWAM WeChat technical community QR code">
+</p>
