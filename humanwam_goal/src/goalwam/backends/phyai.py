@@ -1,5 +1,7 @@
 """GoalWAM entrypoint for the optional PhyAI engine."""
 
+import torch
+
 
 class PhyAIBackend:
     def __init__(self, checkpoint, *, tp=1, cuda_graph=True, device="cuda:0"):
@@ -13,28 +15,34 @@ class PhyAIBackend:
                 ParallelConfig,
                 RuntimeConfig,
             )
-            from phyai.models.goalwam.main_goalwam import GoalWAMArgs
-            from phyai.models.goalwam.requests_goalwam import (
-                GoalWAMObservationRequest,
-                GoalWAMTextRequest,
+            from phyai.models.humanwam_goal.main_humanwam_goal import HumanWAMGoalArgs
+            from phyai.models.humanwam_goal.requests_humanwam_goal import (
+                HumanWAMGoalObservationRequest,
+                HumanWAMGoalTextRequest,
             )
         except ImportError as error:
             raise ImportError(
-                "Install the GoalWAM phyai extra with PhyAI 0.2.0rc2 to use this backend"
+                "Create and activate a PhyAI environment with "
+                "scripts/setup_environment.sh /path/to/new/environment --phyai"
             ) from error
-        self.observation_type = GoalWAMObservationRequest
-        self.text_type = GoalWAMTextRequest
+        self.observation_type = HumanWAMGoalObservationRequest
+        self.text_type = HumanWAMGoalTextRequest
         self.engine = Engine(
             EngineArgs(
-                plugin="goalwam",
-                plugin_args=GoalWAMArgs(checkpoint_dir=checkpoint),
+                plugin="humanwam_goal",
+                plugin_args=HumanWAMGoalArgs(checkpoint_dir=checkpoint),
                 config=EngineConfig(
                     device=DeviceConfig(target=device),
                     parallel=ParallelConfig(
                         dense=DenseParallelConfig(tp_size=tp),
                         attention=AttentionParallelConfig(tp_size=tp),
                     ),
-                    runtime=RuntimeConfig(use_cuda_graph=cuda_graph, allow_cudnn_tf32=False),
+                    runtime=RuntimeConfig(
+                        use_cuda_graph=cuda_graph,
+                        allow_cudnn_tf32=False,
+                        # CPU image resizing must retain the native thread configuration.
+                        num_threads=torch.get_num_threads(),
+                    ),
                 ),
             )
         )

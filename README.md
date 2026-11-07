@@ -251,6 +251,7 @@ zero-shot success on RoboTwin** and **30.5% across 20 real-world tasks**.
 ```bash
 cd humanwam_goal
 bash scripts/setup_environment.sh /path/to/new/environment   # Python 3.13, PyTorch 2.10, CUDA 12.8
+source /path/to/new/environment/bin/activate
 python examples/make_sample.py
 goalwam infer --checkpoint "$GOALWAM_CHECKPOINT" --sample examples/sample/observation.json
 ```
