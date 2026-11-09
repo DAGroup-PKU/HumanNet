@@ -6,9 +6,9 @@
 
 [![arXiv](https://img.shields.io/badge/arXiv-2611.06817-B31B1B?style=flat&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2611.06817)
 [![Project Page](https://img.shields.io/badge/%F0%9F%8C%90-Project_Page-4285F4?style=flat)](https://dagroup-pku.github.io/open-humanwam/)
-[![Hugging Face Open-HumanWAM-50K](https://img.shields.io/badge/Hugging_Face-Open--HumanWAM--50K_%C2%B7_Coming_soon-FFD21E?style=flat&logo=huggingface)](https://huggingface.co/datasets/DAGroup-PKU/Open-HumanWAM-50K)
+[![Hugging Face Open-HumanWAM-50K](https://img.shields.io/badge/Hugging_Face-Open--HumanWAM--50K-FFD21E?style=flat&logo=huggingface)](https://huggingface.co/datasets/DAGroup-PKU/Open-HumanWAM-50K)
 [![Hugging Face Models](https://img.shields.io/badge/Hugging_Face-Model_Collection-FFD21E?style=flat&logo=huggingface)](https://huggingface.co/collections/DAGroup-PKU/open-humanwam)
-[![ModelScope Corpus](https://img.shields.io/badge/ModelScope-Corpus_%C2%B7_Coming_soon-624AFF?style=flat&logo=modelscope&logoColor=white)](https://modelscope.cn/datasets/DAGroup-PKU/EgoCorpus-50kH-LeRobot-v3)
+[![ModelScope Corpus](https://img.shields.io/badge/ModelScope-Corpus-624AFF?style=flat&logo=modelscope&logoColor=white)](https://modelscope.cn/datasets/DAGroup-PKU/EgoCorpus-50kH-LeRobot-v3)
 
 </div>
 
@@ -63,7 +63,7 @@ cross-source alignment to a unified bimanual action representation.
 ![Construction of Open-HumanWAM-50K: five data sources, data curation, and cross-source action alignment](assets/data_overview.png)
 
 - **Hugging Face:** [Open-HumanWAM-50K](https://huggingface.co/datasets/DAGroup-PKU/Open-HumanWAM-50K) — uploading.
-- **ModelScope:** [Open-HumanWAM-50K](https://modelscope.cn/datasets/DAGroup-PKU/EgoCorpus-50kH-LeRobot-v3) — coming soon.
+- **ModelScope:** [Open-HumanWAM-50K](https://modelscope.cn/datasets/DAGroup-PKU/EgoCorpus-50kH-LeRobot-v3).
 
 The corpus uses LeRobot v3, with compressed MP4 video and language annotations.
 Download instructions are being prepared.
