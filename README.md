@@ -102,7 +102,7 @@ from **49.1% to 73.2%** in the controlled IDM study:
 Clone the repository and install the training and RoboTwin simulation environments.
 
 ```bash
-git clone --branch open-humanscale https://github.com/DAGroup-PKU/HumanNet.git
+git clone --branch Open-HumanWAM https://github.com/DAGroup-PKU/HumanNet.git
 cd HumanNet/humanwam_vanilla
 bash scripts/setup_environment.sh train
 bash scripts/setup_environment.sh sim
@@ -162,7 +162,7 @@ bash scripts/train.sh --config configs/robotwin.yaml \
   --init-checkpoint ../checkpoints/vanilla-base/midtrained/step_010000.pt
 ```
 
-**RoboDojo — W0 multi-view + augmentation.
+**RoboDojo — W0 multi-view + augmentation.**
 
 ```bash
 bash scripts/train.sh --config configs/robodojo.yaml \
@@ -219,7 +219,6 @@ For the exploration studies, see the per-series
 and [published corpus subsets](https://huggingface.co/datasets/DAGroup-PKU/Open-HumanWAM-50K/tree/main/subsets).
 Pretraining and ablation integration are in progress.
 
-
 ## HumanWAM-Goal
 
 <a id="goal-weight-download"></a>
@@ -248,10 +247,17 @@ zero-shot success on RoboTwin** and **30.5% across 20 real-world tasks**.
 <a id="goal-quick-start"></a>
 ### Environment Setup & Quick Start
 
+Choose a native environment (PyTorch 2.10, bit-exact reproduction) or a
+[PhyAI](https://github.com/mingti-org/phyai)-accelerated one (PyTorch 2.11). Both use
+the same checkpoint, observation format, CLI and Python API.
+
 ```bash
 cd humanwam_goal
-bash scripts/setup_environment.sh /path/to/new/environment   # Python 3.13, PyTorch 2.10, CUDA 12.8
-source /path/to/new/environment/bin/activate
+# Option 1: Native inference
+bash scripts/setup_environment.sh /path/to/native-env           # Python 3.13, PyTorch 2.10, CUDA 12.8
+# Option 2: PhyAI inference
+bash scripts/setup_environment.sh /path/to/phyai-env --phyai    # Python 3.13, PyTorch 2.11, CUDA 12.8
+source /path/to/<chosen-env>/bin/activate
 python examples/make_sample.py
 goalwam infer --checkpoint "$GOALWAM_CHECKPOINT" --sample examples/sample/observation.json
 ```
@@ -266,6 +272,19 @@ The Python API, HTTP server and observation format are documented in
 [HumanWAM-Goal inference](humanwam_goal/README.md#inference). RoboTwin 2.0 evaluation
 with the released goal cache, and bit-exact reproduction of the published actions, are in
 [RoboTwin 2.0 Evaluation](humanwam_goal/README.md#robotwin-20-evaluation).
+
+**PhyAI acceleration.** In the PhyAI environment, add `--backend phyai` to run inference
+with [PhyAI](https://github.com/mingti-org/phyai) on one GPU, or with tensor parallelism
+across 2 or 4 NVLink-connected GPUs:
+
+```bash
+CUDA_VISIBLE_DEVICES=0,1 goalwam infer \
+  --checkpoint "$GOALWAM_CHECKPOINT" --backend phyai --tp 2 \
+  --sample examples/sample/observation.json --output outputs/actions.npz
+```
+
+The same options work with `goalwam serve` and the Python API. See
+[PhyAI acceleration](humanwam_goal/README.md#phyai-acceleration) for the requirements.
 
 ## Release Plan
 
@@ -290,7 +309,9 @@ Citation details are coming soon.
 ## Acknowledgements
 
 We thank [FastWAM](https://github.com/yuantianyuan01/FastWAM) and
-[ViGAR](https://github.com/DAGroup-PKU/ViGAR) for their open-source contributions.
+[ViGAR](https://github.com/DAGroup-PKU/ViGAR) for their open-source contributions,
+and Mingti Technology and [PhyAI](https://github.com/mingti-org/phyai) for supporting
+accelerated HumanWAM-Goal inference.
 
 ## WeChat Community
 
