@@ -21,7 +21,7 @@
           "path": ".",
           "group": "main_result",
           "contents": "Inference export: transformer/, vae/, text_tokenizer/, processor.json, sampling.json, robot.json, export.json (SHA-256 of every file)",
-          "export_sha256": "903619c7687a1cc01a4396d465638e8938639bbc8686189f8c6c10ad841482d6"
+          "export_sha256": "3591a4264a7665a73e0960ed7d0d2134bfd94c828705b889c039f1bd2e28e246"
         },
         {
           "path": "goal_cache.tar",

@@ -196,8 +196,8 @@ all 50 tasks, and 70 queries of full evaluation sessions.
 - [src/goalwam](src/goalwam/) — model, preprocessing and backends.
 - [src/goalwam/robotwin](src/goalwam/robotwin/) — RoboTwin 2.0 evaluation layer.
 - [configs](configs/) — RoboTwin evaluation profile.
-- [scripts](scripts/) — environment setup and release checks.
-- [release](release/) — Hugging Face layout and the provenance of the published result.
+- [scripts](scripts/) — environment setup and checks.
+- [release](release/) — Hugging Face layout and file digests.
 - [docs/inputs.md](docs/inputs.md) — observation format.
 
 ## License
