@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="188" height="26" viewBox="0 0 188 26" role="img" aria-label="HumanNet Ego: 200K hours">
+<title>HumanNet Ego: 200K hours</title>
+<clipPath id="r"><rect width="188" height="26" rx="4"/></clipPath>
+<g clip-path="url(#r)"><rect width="102" height="26" fill="#4b5563"/><rect x="102" width="86" height="26" fill="#A1262F"/></g>
+<g fill="white" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="12"><text x="51.0" y="17">HumanNet Ego</text><text x="145.0" y="17">200K hours</text></g></svg>
