@@ -24,8 +24,8 @@ DAGroup & SimpleSilicon Innovation Team
 <a href="https://arxiv.org/abs/2601.15282">RoVid-X Paper</a> |
 <a href="https://huggingface.co/datasets/DAGroup-PKU/RoVid-X">RoVid-X Dataset</a> |
 <a href="https://dagroup-pku.github.io/StableVLA/">StableVLA</a> |
-<a href="#-demo">Demo</a> |
-<a href="#-citation">Citation</a>
+<a href="#demo">Demo</a> |
+<a href="#citation">Citation</a>
 </h3>
 
 [![HumanNet Ego](./assets/badges/humannet-ego.svg)](https://huggingface.co/datasets/DAGroup-PKU/HumanNet)
@@ -78,6 +78,8 @@ The HumanNet report describes a **one-million-hour** corpus spanning first-perso
 | **HumanNet Ego** | Approximately 200K-hour egocentric subset of the 1M-hour HumanNet corpus | [Hugging Face](https://huggingface.co/datasets/DAGroup-PKU/HumanNet) · [ModelScope](https://www.modelscope.cn/datasets/DAGroup-PKU/HumanNet) |
 | **Open-HumanWAM-50K** | 50K hours of curated, aligned data from five sources | [Hugging Face](https://huggingface.co/datasets/DAGroup-PKU/Open-HumanWAM-50K) · [ModelScope](https://modelscope.cn/datasets/DAGroup-PKU/EgoCorpus-50kH-LeRobot-v3) |
 | **Open-HumanWAM** | Model weights, pretraining, post-training, and evaluation | [Project](https://dagroup-pku.github.io/open-humanwam/) · [Code](https://github.com/DAGroup-PKU/HumanNet/tree/Open-HumanWAM) · [Models](https://huggingface.co/collections/DAGroup-PKU/open-humanwam) |
+
+<a id="demo"></a>
 
 ## 🎥 Demo
 https://github.com/user-attachments/assets/52eaa410-0ec4-4f89-81e8-d2ecf9bb351c
@@ -154,6 +156,8 @@ We gratefully acknowledge **SimpleSilicon Innovation** for providing funding and
 The videos referenced in this repository are sourced from public domains and intended solely to showcase the capabilities of this research. Human-centric video raises non-trivial privacy, consent, and dual-use concerns; any release will follow license review, redaction, restricted-content filtering, access controls where necessary, and clear documentation of what is included or excluded.
 
 * The service is a research preview. Please contact us if you find any potential violations.
+
+<a id="citation"></a>
 
 ## ✏️ Citation
 
