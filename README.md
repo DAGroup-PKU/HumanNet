@@ -11,20 +11,8 @@ DAGroup & SimpleSilicon Innovation Team
 <h3>
 <a href="./docs/humandata.md">📚 Docs</a> |
 <a href="https://dagroup-pku.github.io/HumanNet/">Project</a> |
-<a href="https://arxiv.org/abs/2605.06747">HumanNet Paper</a> |
-<a href="https://huggingface.co/DAGroup-PKU">🤗 Hugging Face</a> |
-<a href="https://www.modelscope.cn/organization/DAGroup-PKU">ModelScope</a>
-<br>
 <a href="https://github.com/DAGroup-PKU/HumanNet/tree/Open-HumanWAM">Open-HumanWAM</a> |
-<a href="https://dagroup-pku.github.io/open-humanwam/">WAM Project</a> |
-<a href="https://arxiv.org/abs/2611.06817">Open-HumanWAM Paper</a> |
-<a href="https://huggingface.co/datasets/DAGroup-PKU/Open-HumanWAM-50K">50K Corpus</a> |
-<a href="https://huggingface.co/collections/DAGroup-PKU/open-humanwam">Model Weights</a>
-<br>
-<a href="https://arxiv.org/abs/2601.15282">RoVid-X Paper</a> |
-<a href="https://huggingface.co/datasets/DAGroup-PKU/RoVid-X">RoVid-X Dataset</a> |
 <a href="https://dagroup-pku.github.io/StableVLA/">StableVLA</a> |
-<a href="#demo">Demo</a> |
 <a href="#citation">Citation</a>
 </h3>
 
@@ -163,6 +151,9 @@ The videos referenced in this repository are sourced from public domains and int
 
 If you find our work useful in your research, please consider giving a star :star: and citation :pencil:.
 
+Open-HumanWAM was originally released as **Open-HumanScale** in
+[arXiv v1](https://arxiv.org/abs/2611.06817v1). Both versions are listed below.
+
 ### BibTeX
 ```bibtex
 @misc{ma2026openhumanwam,
@@ -173,6 +164,16 @@ If you find our work useful in your research, please consider giving a star :sta
   archivePrefix={arXiv},
   primaryClass={cs.CV},
   url={https://arxiv.org/abs/2611.06817}
+}
+
+@misc{ma2026openhumanscaleopenrecipescaling,
+  title={Open-HumanScale: An Open Recipe for Scaling Human and Robot Experience for Embodied Foundation Models},
+  author={Juncheng Ma and Jiaxin Li and Jiankai Tu and Bo Liang and Guodong Lv and Yufan Deng and Junzhe Tang and Liangzhu Yang and Chen Bian and Zicong Cao and Baohao Zhu and Jianxin Bi and Tengfei Yan and Yinyuan Zhang and Kewei Zhang and Xinglong Chen and Kaiqi Chen and Duomin Wang and Xiaotian Tang and Liang Tan and Li Li and Yuan Xu and Haosen Yang and Yuqi Wang and Jingfei Xia and Songyan Huang and Zhiyang Dou and Zhen Dong and Enze Xie and Tat-Seng Chua and Daquan Zhou},
+  year={2026},
+  eprint={2611.06817v1},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV},
+  url={https://arxiv.org/abs/2611.06817v1}
 }
 
 @article{deng2026humannet,
