@@ -151,9 +151,6 @@ The videos referenced in this repository are sourced from public domains and int
 
 If you find our work useful in your research, please consider giving a star :star: and citation :pencil:.
 
-Open-HumanWAM was originally released as **Open-HumanScale** in
-[arXiv v1](https://arxiv.org/abs/2611.06817v1). Both versions are listed below.
-
 ### BibTeX
 ```bibtex
 @misc{ma2026openhumanwam,
@@ -166,14 +163,14 @@ Open-HumanWAM was originally released as **Open-HumanScale** in
   url={https://arxiv.org/abs/2611.06817}
 }
 
-@misc{ma2026openhumanscaleopenrecipescaling,
-  title={Open-HumanScale: An Open Recipe for Scaling Human and Robot Experience for Embodied Foundation Models},
-  author={Juncheng Ma and Jiaxin Li and Jiankai Tu and Bo Liang and Guodong Lv and Yufan Deng and Junzhe Tang and Liangzhu Yang and Chen Bian and Zicong Cao and Baohao Zhu and Jianxin Bi and Tengfei Yan and Yinyuan Zhang and Kewei Zhang and Xinglong Chen and Kaiqi Chen and Duomin Wang and Xiaotian Tang and Liang Tan and Li Li and Yuan Xu and Haosen Yang and Yuqi Wang and Jingfei Xia and Songyan Huang and Zhiyang Dou and Zhen Dong and Enze Xie and Tat-Seng Chua and Daquan Zhou},
+@misc{ma2026humanscaleegocentrichumanvideo,
+  title={HumanScale: Egocentric Human Video Can Outperform Real-Robot Data for Embodied Pretraining},
+  author={Juncheng Ma and Jianxin Bi and Yufan Deng and Xuanran Zhai and Kewei Zhang and Ye Huang and Bo Liang and Shukai Gong and Jiankai Tu and Xiaotian Tang and Jiaxin Li and Kaiqi Chen and Duomin Wang and Yuqi Wang and Bingyi Kang and Eric Huang and Zhiyang Dou and Zhen Dong and Enze Xie and Wojciech Matusik and Tat-Seng Chua and Daquan Zhou},
   year={2026},
-  eprint={2611.06817v1},
+  eprint={2606.20521},
   archivePrefix={arXiv},
   primaryClass={cs.CV},
-  url={https://arxiv.org/abs/2611.06817v1}
+  url={https://arxiv.org/abs/2606.20521}
 }
 
 @article{deng2026humannet,
