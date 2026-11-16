@@ -1,38 +1,63 @@
 {
   "namespace": "DAGroup-PKU",
   "structure": "One model repository per released checkpoint, linked from the Open-HumanWAM collection",
-  "repository_count": 1,
+  "repository_count": 2,
   "collections": [
     {
       "title": "Open-HumanWAM",
-      "repo_ids": ["DAGroup-PKU/HumanWAM-Goal-RoboTwin"],
+      "repo_ids": [
+        "DAGroup-PKU/HumanWAM-Goal-Base",
+        "DAGroup-PKU/HumanWAM-Goal-RoboTwin"
+      ],
       "url": "https://huggingface.co/collections/DAGroup-PKU/open-humanwam"
     }
   ],
   "repositories": [
     {
+      "repo_id": "DAGroup-PKU/HumanWAM-Goal-Base",
+      "repo_type": "model",
+      "url": "https://huggingface.co/DAGroup-PKU/HumanWAM-Goal-Base",
+      "state": "published",
+      "revision": "29c2a0f974cacb5acd9ec040f24d04a38e5d3444",
+      "contents": [
+        {
+          "path": ".",
+          "group": "pretrained_base",
+          "contents": "Inference & post-training export: transformer/, vae/, text_tokenizer/, processor.json, sampling.json, robot.json, export.json (SHA-256 of every file)",
+          "export_sha256": "c17dc6e933a8ec58cb43f8fe2b7dd69f667afd599bc4b90133448f085a59577c"
+        }
+      ]
+    },
+    {
       "repo_id": "DAGroup-PKU/HumanWAM-Goal-RoboTwin",
       "repo_type": "model",
       "url": "https://huggingface.co/DAGroup-PKU/HumanWAM-Goal-RoboTwin",
       "state": "published",
-      "revision": "287594ac122d601ff4f326cb7f5a96758280fb93",
+      "revision": "aba630f926a8aaab994ac7a7b232b54036b7a3c0",
       "contents": [
         {
           "path": ".",
           "group": "main_result",
-          "contents": "Inference export: transformer/, vae/, text_tokenizer/, processor.json, sampling.json, robot.json, export.json (SHA-256 of every file)",
-          "export_sha256": "3591a4264a7665a73e0960ed7d0d2134bfd94c828705b889c039f1bd2e28e246"
+          "contents": "Inference & post-training export: transformer/, vae/, text_tokenizer/, processor.json, sampling.json, robot.json, export.json (SHA-256 of every file)",
+          "export_sha256": "84d5a3bede00090dbbaec6902ebe66c180e392b3e9a90fd7d4be9ace4feb2c6d"
         },
         {
           "path": "goal_cache.tar",
           "group": "robotwin_goal_cache",
-          "contents": "robotwin_official_goal_cache_v1 (extracts to goal_cache/)",
+          "contents": "robotwin_official_goal_cache_v1 (10,000 official evaluation goals; extracts to goal_cache/)",
           "sha256": "ebc60f793c3357b8e4673917f22a6646ab740cb150a9c9887d4ffe3a15c7a6e2",
           "manifest_sha256": "a80be2cec8fa6f42879ec9d27a113b6b3475e69ae0e9af25cd75f70dfe5cf6ad"
+        },
+        {
+          "path": "train_goal_cache.tar",
+          "group": "robotwin_train_goal_cache",
+          "contents": "robotwin_train_goal_cache_v1 (2,500 head-camera training goals for clean_50; extracts to train_goal_cache/)",
+          "sha256": "820166c32083357800d908e96460e9612b0f6603beadccf7be16d6de5289305e",
+          "manifest_sha256": "dd61e73b8950f28b4ba67d5be375b2489b05a14d9967edf44d9878bca5560ceb"
         }
       ]
     }
   ],
   "weights_published": true,
-  "scope": "HumanWAM-Goal RoboTwin post-trained checkpoint and its released goal cache"
+  "scope": "HumanWAM-Goal pretrained base and RoboTwin post-trained safetensors checkpoints with goal caches"
 }

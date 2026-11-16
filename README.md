@@ -22,7 +22,7 @@ improves zero-shot success from **11.48% to 13.94% on RoboTwin** and from
 **20.0% to 30.5% across 20 real-world tasks**.
 
 > 🏆 **[RoboTwin 2.0 Benchmark — Rank #1](https://robotwin-platform.github.io/leaderboard).**
-> **HumanWAM-Goal** achieves **88.65% average success**, with **92.70% Clean / 84.60% Random**.
+> **HumanWAM-Goal** achieves **89.58% average success**, with **92.66% Clean / 86.50% Random**.
 
 [https://github.com/user-attachments/assets/469f1f1b-cbe2-4f89-aaaf-6cbdb3a2e50e](https://github.com/user-attachments/assets/325e62b9-c650-48c5-a218-17274a9ecf67)
 
@@ -46,6 +46,7 @@ improves zero-shot success from **11.48% to 13.94% on RoboTwin** and from
   - [Weight Download](#goal-weight-download)
   - [Environment Setup & Quick Start](#goal-quick-start)
   - [Inference](#goal-inference)
+  - [Post-Training](#goal-post-training)
 - [Release Plan](#release-plan)
 - [License](#license)
 - [Citation](#citation)
@@ -224,17 +225,16 @@ Pretraining and ablation integration are in progress.
 <a id="goal-weight-download"></a>
 ### Weight Download
 
-The RoboTwin post-trained checkpoint and its goal cache are released as
-[DAGroup-PKU/HumanWAM-Goal-RoboTwin](https://huggingface.co/DAGroup-PKU/HumanWAM-Goal-RoboTwin);
-hybrid pretrained / zero-shot checkpoints are being prepared. All are linked from the
+The pretrained base checkpoint and the RoboTwin post-trained checkpoint use a unified
+safetensors layout and are linked from the
 [Open-HumanWAM Collection](https://huggingface.co/collections/DAGroup-PKU/open-humanwam).
 
 | Checkpoint | Clean2Clean | Clean2Random | Average | Status |
 | --- | ---: | ---: | ---: | --- |
-| HumanWAM-Goal · RoboTwin post-trained | **92.70%** | **84.60%** | **88.65%** | [HumanWAM-Goal-RoboTwin](https://huggingface.co/DAGroup-PKU/HumanWAM-Goal-RoboTwin) |
+| HumanWAM-Goal-Base · Pretrained weights | — | — | 13.94% (zero-shot) | [HumanWAM-Goal-Base](https://huggingface.co/DAGroup-PKU/HumanWAM-Goal-Base) |
+| HumanWAM-Goal · RoboTwin post-trained | **92.66%** | **86.50%** | **89.58%** | [HumanWAM-Goal-RoboTwin](https://huggingface.co/DAGroup-PKU/HumanWAM-Goal-RoboTwin) |
 
-Results are reported in the technical report under the official 10,000-episode
-protocol.
+Results are evaluated under the official 10,000-episode protocol.
 
 Without target-task parameter updates, HumanWAM-Goal achieves **13.94% mean
 zero-shot success on RoboTwin** and **30.5% across 20 real-world tasks**.
@@ -286,14 +286,22 @@ CUDA_VISIBLE_DEVICES=0,1 goalwam infer \
 The same options work with `goalwam serve` and the Python API. See
 [PhyAI acceleration](humanwam_goal/README.md#phyai-acceleration) for the requirements.
 
+<a id="goal-post-training"></a>
+### Post-Training
+
+RoboTwin 2.0 data conversion, `clean_50` normalization, and FSDP2 post-training from
+`HumanWAM-Goal-Base` are documented in
+[HumanWAM-Goal post-training](humanwam_goal/posttrain/README.md); saved checkpoints use
+the same safetensors layout and load directly with the inference API above.
+
 ## Release Plan
 
 - [ ] Open-HumanWAM-50K corpus — uploading to Hugging Face; ModelScope pending.
-- [x] HumanWAM-Goal RoboTwin post-trained weights.
+- [x] HumanWAM-Goal pretrained Base and RoboTwin post-trained weights.
 - [x] HumanWAM-Vanilla Base pre40k / W0 mid10k and RoboTwin post21k weights.
 - [ ] Exploration-series and RoboDojo weights, training resources, and remaining statistics.
 - [ ] HumanWAM-Vanilla code, training, inference, and reproduction guide — in progress.
-- [ ] HumanWAM-Goal code, environment setup, and inference — in progress.
+- [x] HumanWAM-Goal inference, RoboTwin evaluation, and post-training code.
 
 ## License
 

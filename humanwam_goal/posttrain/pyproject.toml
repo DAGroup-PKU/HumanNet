@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openhumanscale-humanwam-goal-posttrain"
+version = "0.1.0"
+description = "Open-HumanWAM HumanWAM-Goal: post-training on RoboTwin 2.0"
+readme = "README.md"
+requires-python = ">=3.12,<3.14"
+license = "Apache-2.0"
+dependencies = [
+    "openhumanscale-humanwam-goal",
+    "av==16.1.0",
+    "pyarrow==24.0.0",
+]
+
+[project.optional-dependencies]
+convert = [
+    "h5py==3.16.0",
+    "scipy==1.17.1",
+]
+dev = [
+    "h5py==3.16.0",
+    "pytest==9.2.0",
+    "ruff==0.17.3",
+    "scipy==1.17.1",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
