@@ -5,20 +5,21 @@ supporting zero-shot robot execution through hybrid human–robot training and v
 
 HumanWAM-Goal predicts a 48-step action chunk from a text instruction, a goal
 image, camera observations with a short visual history, and robot state. On the
-RoboTwin 2.0 benchmark it reaches **88.65% average success** (92.70% Clean /
-84.60% Random) under the official 10,000-episode protocol.
+RoboTwin 2.0 benchmark it reaches **89.58% average success** (92.66% Clean /
+86.50% Random) under the official 10,000-episode protocol.
 
-🚧 This release covers inference and RoboTwin 2.0 evaluation. The post-training
-code will be released separately.
+This release covers inference, RoboTwin 2.0 evaluation and
+[post-training](posttrain/README.md).
 
 ## Getting Started
 
-- [Weight Download](#weight-download) — RoboTwin post-trained checkpoint.
+- [Weight Download](#weight-download) — pretrained and RoboTwin post-trained checkpoints.
 - [Environment Setup](#environment-setup) — native or PhyAI environment installation.
 - [Quick Start](#quick-start) — run the model on a sample observation.
 - [Inference](#inference) — Python API, HTTP server and [input format](docs/inputs.md).
 - [RoboTwin 2.0 Evaluation](#robotwin-20-evaluation) — released goals and the evaluation session.
 - [Reproducing Published Results](#reproducing-published-results)
+- [Post-Training](posttrain/README.md) — RoboTwin 2.0 post-training from the pretrained checkpoint.
 
 See the project README for the [release plan](../README.md#release-plan),
 [license](../README.md#license), and [citation](../README.md#citation).
@@ -27,18 +28,19 @@ See the project README for the [release plan](../README.md#release-plan),
 
 | Checkpoint | Clean2Clean | Clean2Random | Average | Status |
 | --- | ---: | ---: | ---: | --- |
-| HumanWAM-Goal · RoboTwin post-trained | **92.70%** | **84.60%** | **88.65%** | [HumanWAM-Goal-RoboTwin](https://huggingface.co/DAGroup-PKU/HumanWAM-Goal-RoboTwin) |
+| HumanWAM-Goal-Base · Pretrained weights | — | — | 13.94% (zero-shot) | [HumanWAM-Goal-Base](https://huggingface.co/DAGroup-PKU/HumanWAM-Goal-Base) |
+| HumanWAM-Goal · RoboTwin post-trained | **92.66%** | **86.50%** | **89.58%** | [HumanWAM-Goal-RoboTwin](https://huggingface.co/DAGroup-PKU/HumanWAM-Goal-RoboTwin) |
 
-[DAGroup-PKU/HumanWAM-Goal-RoboTwin](https://huggingface.co/DAGroup-PKU/HumanWAM-Goal-RoboTwin),
-part of the [Open-HumanWAM Collection](https://huggingface.co/collections/DAGroup-PKU/open-humanwam),
-holds the checkpoint at its root (`transformer/`, `vae/`, `text_tokenizer/`,
-`processor.json`, `sampling.json`, `robot.json` and `export.json`, which records
-provenance and the SHA-256 of every file) and the RoboTwin goal cache as
-`goal_cache.tar`. See [release/huggingface.json](release/huggingface.json) for the
-digests.
+Both repositories use the same safetensors checkpoint layout (`transformer/`, `vae/`,
+`text_tokenizer/`, `processor.json`, `sampling.json`, `robot.json` and `export.json`,
+which records provenance and the SHA-256 of every file) and are part of the
+[Open-HumanWAM Collection](https://huggingface.co/collections/DAGroup-PKU/open-humanwam).
+`HumanWAM-Goal-RoboTwin` also ships the 10,000-case evaluation cache `goal_cache.tar` and
+the 2,500-episode `clean_50` training goal cache `train_goal_cache.tar`. See
+[release/huggingface.json](release/huggingface.json) for the digests.
 
 ```bash
-hf download DAGroup-PKU/HumanWAM-Goal-RoboTwin --exclude goal_cache.tar \
+hf download DAGroup-PKU/HumanWAM-Goal-RoboTwin --exclude "*goal_cache.tar" \
   --local-dir checkpoints/HumanWAM-Goal-RoboTwin
 export GOALWAM_CHECKPOINT=$PWD/checkpoints/HumanWAM-Goal-RoboTwin
 ```
@@ -171,8 +173,8 @@ python -m goalwam.robotwin.goal_cache --root "$GOAL_CACHE" \
 ```
 
 The XPolicyLab adapter (`policy/HumanWAM_Goal`) runs RoboTwin's own evaluator
-unchanged and serves this session. The training data converter and post-training
-scripts are not part of this release.
+unchanged and serves this session. Data conversion, `clean_50` normalization and
+post-training are documented in [posttrain/README.md](posttrain/README.md).
 
 ## Reproducing Published Results
 
@@ -199,6 +201,7 @@ all 50 tasks, and 70 queries of full evaluation sessions.
 - [scripts](scripts/) — environment setup and checks.
 - [release](release/) — Hugging Face layout and file digests.
 - [docs/inputs.md](docs/inputs.md) — observation format.
+- [posttrain](posttrain/) — RoboTwin 2.0 post-training.
 
 ## License
 
