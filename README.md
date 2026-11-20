@@ -338,5 +338,5 @@ Join the HumanWAM WeChat group to discuss Open-HumanWAM usage, training, and rep
 If the QR code expires, please open an issue so we can update it.
 
 <p align="center">
-  <img src="assets/wechat_group_qr.jpg" width="300" alt="HumanWAM WeChat technical community QR code">
+  <img src="assets/wechat_group_qr.png" width="300" alt="HumanWAM WeChat technical community QR code">
 </p>
